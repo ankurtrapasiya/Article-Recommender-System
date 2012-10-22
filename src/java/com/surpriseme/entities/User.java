@@ -97,10 +97,19 @@ public class User implements Serializable {
         @JoinColumn(name = "articleid", referencedColumnName = "articleid", nullable = false)})
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Article> articleList;
+    @JoinTable(name = "usergraph", joinColumns = {
+        @JoinColumn(name = "friendid", referencedColumnName = "userid", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)})
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<User> userList;
+    @ManyToMany(mappedBy = "userList", fetch = FetchType.EAGER)
+    private List<User> userList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Userrole> userroleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid", fetch = FetchType.EAGER)
     private List<Usersuggestions> usersuggestionsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "friendid", fetch = FetchType.EAGER)
+    private List<Usersuggestions> usersuggestionsList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Blockedusers> blockedusersList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user1", fetch = FetchType.EAGER)
@@ -109,10 +118,6 @@ public class User implements Serializable {
     private List<Useractivation> useractivationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Userhistory> userhistoryList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Usergraph> usergraphList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user1", fetch = FetchType.EAGER)
-    private List<Usergraph> usergraphList1;
 
     public User() {
     }
@@ -251,6 +256,24 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    @XmlTransient
+    public List<User> getUserList1() {
+        return userList1;
+    }
+
+    public void setUserList1(List<User> userList1) {
+        this.userList1 = userList1;
+    }
+
+    @XmlTransient
     public List<Userrole> getUserroleList() {
         return userroleList;
     }
@@ -266,6 +289,15 @@ public class User implements Serializable {
 
     public void setUsersuggestionsList(List<Usersuggestions> usersuggestionsList) {
         this.usersuggestionsList = usersuggestionsList;
+    }
+
+    @XmlTransient
+    public List<Usersuggestions> getUsersuggestionsList1() {
+        return usersuggestionsList1;
+    }
+
+    public void setUsersuggestionsList1(List<Usersuggestions> usersuggestionsList1) {
+        this.usersuggestionsList1 = usersuggestionsList1;
     }
 
     @XmlTransient
@@ -302,24 +334,6 @@ public class User implements Serializable {
 
     public void setUserhistoryList(List<Userhistory> userhistoryList) {
         this.userhistoryList = userhistoryList;
-    }
-
-    @XmlTransient
-    public List<Usergraph> getUsergraphList() {
-        return usergraphList;
-    }
-
-    public void setUsergraphList(List<Usergraph> usergraphList) {
-        this.usergraphList = usergraphList;
-    }
-
-    @XmlTransient
-    public List<Usergraph> getUsergraphList1() {
-        return usergraphList1;
-    }
-
-    public void setUsergraphList1(List<Usergraph> usergraphList1) {
-        this.usergraphList1 = usergraphList1;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 //First parameter is type of the entity and second parameter specifies the type of the primary key
 public interface GenericDAO<T,ID extends Serializable> {
     
-    boolean add(T entity);
+    boolean add(T entity) throws Exception;
 
     boolean saveOrUpdate(T entity);
     

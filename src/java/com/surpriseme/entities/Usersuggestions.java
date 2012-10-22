@@ -48,15 +48,15 @@ public class Usersuggestions implements Serializable {
     @Column(name = "timestamp", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    @JoinColumn(name = "articleid", referencedColumnName = "articleid", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Article articleid;
-    @JoinColumn(name = "friendid", referencedColumnName = "friendid", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Usergraph friendid;
     @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User userid;
+    @JoinColumn(name = "friendid", referencedColumnName = "userid", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private User friendid;
+    @JoinColumn(name = "articleid", referencedColumnName = "articleid", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Article articleid;
 
     public Usersuggestions() {
     }
@@ -95,28 +95,28 @@ public class Usersuggestions implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Article getArticleid() {
-        return articleid;
-    }
-
-    public void setArticleid(Article articleid) {
-        this.articleid = articleid;
-    }
-
-    public Usergraph getFriendid() {
-        return friendid;
-    }
-
-    public void setFriendid(Usergraph friendid) {
-        this.friendid = friendid;
-    }
-
     public User getUserid() {
         return userid;
     }
 
     public void setUserid(User userid) {
         this.userid = userid;
+    }
+
+    public User getFriendid() {
+        return friendid;
+    }
+
+    public void setFriendid(User friendid) {
+        this.friendid = friendid;
+    }
+
+    public Article getArticleid() {
+        return articleid;
+    }
+
+    public void setArticleid(Article articleid) {
+        this.articleid = articleid;
     }
 
     @Override
