@@ -5,6 +5,7 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.User;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,14 +14,14 @@ import java.util.List;
  */
 public interface UserDAO extends GenericDAO<User, Integer> {
 
-    boolean blockUser(Integer userid);
+    boolean blockUser(Integer userid) throws SQLException;
     
-    boolean unblockUser(Integer userid);      
+    boolean unblockUser(Integer userid) throws SQLException;      
     
-    List<User> searchUser(String firstName,String lastName, String email);
+    List<User> searchUser(String firstName,String lastName, String email) throws SQLException;
     
-    boolean addToCircle(Integer userId);
+    boolean addToCircle(Integer userId) throws SQLException;
     
-    boolean removeFromCircle(Integer userId);
+    boolean removeFromCircle(Integer userId) throws SQLException;
         
 }

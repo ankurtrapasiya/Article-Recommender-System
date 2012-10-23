@@ -5,6 +5,7 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.Tag;
+import java.sql.SQLException;
 
 /**
  *
@@ -12,5 +13,5 @@ import com.surpriseme.entities.Tag;
  */
 public interface TagDAO extends GenericDAO<Tag, Integer>{
     
-    boolean addTagToArticle(Integer tagId,Integer ArticleId);
+    boolean addTagToArticle(Integer tagId,Integer ArticleId) throws SQLException;
 }

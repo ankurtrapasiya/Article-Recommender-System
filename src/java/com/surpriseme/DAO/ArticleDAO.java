@@ -5,6 +5,7 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.Article;
+import java.sql.SQLException;
 
 /**
  *
@@ -12,7 +13,7 @@ import com.surpriseme.entities.Article;
  */
 public interface ArticleDAO extends GenericDAO<Article, Integer> {
     
-    boolean updateViews(Integer articleId);
+    boolean updateViews(Integer articleId) throws SQLException;
     
-    boolean vote(Integer articleId,boolean up);
+    boolean vote(Integer articleId,boolean up) throws SQLException;
 }

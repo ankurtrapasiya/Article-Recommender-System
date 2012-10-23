@@ -5,6 +5,7 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.Role;
+import java.sql.SQLException;
 
 /**
  *
@@ -12,5 +13,5 @@ import com.surpriseme.entities.Role;
  */
 public interface RoleDAO extends GenericDAO<Role, String> {
 
-    boolean assignRole(String rolename, Integer userid);
+    boolean assignRole(String rolename, Integer userid) throws SQLException;
 }

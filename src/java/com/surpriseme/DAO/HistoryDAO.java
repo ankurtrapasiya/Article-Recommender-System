@@ -4,8 +4,9 @@
  */
 package com.surpriseme.DAO;
 
-import com.surpriseme.entities.Userhistory;
+import com.surpriseme.entities.UserHistory;
 import com.surpriseme.utils.Duration;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +14,12 @@ import java.util.List;
  *
  * @author ankur
  */
-public interface HistoryDAO extends GenericDAO<Userhistory, Integer>{
+public interface HistoryDAO extends GenericDAO<UserHistory, Integer>{
     
-    List<Userhistory> getAllHistory(Integer userid);
+    List<UserHistory> getAllHistory(Integer userid) throws SQLException;
     
-    List<Userhistory> getAllHistory(Integer userid,Date from,Date to);
+    List<UserHistory> getAllHistory(Integer userid,Date from,Date to) throws SQLException;
     
-    List<Userhistory> getAllHistory(Integer userid,Duration duration);
+    List<UserHistory> getAllHistory(Integer userid,Duration duration) throws SQLException;
     
 }

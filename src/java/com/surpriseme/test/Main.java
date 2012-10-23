@@ -33,7 +33,7 @@ public class Main {
         u.setIsactive(false);
         u.setTimeofregistration(new Date());
         try {
-            user.add(u);
+            user.saveOrUpdate(u);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

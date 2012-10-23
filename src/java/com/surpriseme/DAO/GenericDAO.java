@@ -5,6 +5,8 @@
 package com.surpriseme.DAO;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,19 +17,17 @@ import java.util.List;
 
 //First parameter is type of the entity and second parameter specifies the type of the primary key
 public interface GenericDAO<T,ID extends Serializable> {
-    
-    boolean add(T entity) throws Exception;
-
-    boolean saveOrUpdate(T entity);
-    
-    boolean saveOrUpdateAll(List<T> entities);
         
-    T findById(ID key);
+    ResultSet saveOrUpdate(T entity) throws SQLException;
     
-    List<T> getAll();
+    ResultSet saveOrUpdateAll(List<T> entities) throws SQLException;
+        
+    T findById(ID key) throws SQLException;
     
-    boolean delete(ID key);
+    List<T> getAll() throws SQLException;
     
-    boolean deleteAll(List<T> entities);
+    boolean delete(ID key) throws SQLException;
+    
+    boolean deleteAll(List<T> entities) throws SQLException;
     
 }
