@@ -5,9 +5,10 @@
 package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.UserDAO;
+import com.surpriseme.entities.BlockedUsers;
 import com.surpriseme.entities.User;
 import com.surpriseme.utils.DBConnection;
-import com.surpriseme.utils.UtilityMethods;
+import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,14 +23,14 @@ import org.apache.log4j.Priority;
  */
 public class UserDAOImpl implements UserDAO {
 
-    CallableStatement cstmt;    
+    CallableStatement cstmt;
     DBConnection con;
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public boolean blockUser(Integer userid) throws SQLException {
-        boolean retval = false;
+    public ResultSet blockUser(BlockedUsers entity) throws SQLException {
 
+        ResultSet rs = null;
 
         try {
 
@@ -37,24 +38,72 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                con.executeQuery("update ");
-                
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_blockedusers(?,?,?,?,?)}");
+
+                cstmt.setInt("p_userid", entity.getUserid());
+                cstmt.setInt("p_blockerid", entity.getBlockerid());
+                cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
+                cstmt.setString("p_reason", entity.getReason());
+
+                // has to be true
+                cstmt.setBoolean("p_isactive", entity.isIsActive());
+
+                rs = con.saveOrUpdate(cstmt);
+
             }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
             throw ex;
-        } finally {            
+        } finally {
             con.disconnect();
         }
 
-        return retval;
+        return rs;
     }
 
+    /**
+     * Assumes that at a time only one isActive record will be there for any
+     * specific friend.
+     *
+     * @param userid
+     * @return
+     * @throws SQLException
+     */
     @Override
-    public boolean unblockUser(Integer userid) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ResultSet unblockUser(BlockedUsers entity) throws SQLException {
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
+
+                cstmt.setInt("p_userid", entity.getUserid());
+                cstmt.setInt("p_blockerid", entity.getBlockerid());
+                cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
+                cstmt.setString("p_reason", entity.getReason());
+
+                // has to be false
+                cstmt.setBoolean("p_isactive", entity.isIsActive());
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return rs;
     }
 
     @Override
@@ -90,12 +139,12 @@ public class UserDAOImpl implements UserDAO {
                 cstmt.setString("p_email", entity.getEmail());
                 cstmt.setString("p_firstname", entity.getFirstname());
                 cstmt.setString("p_lastname", entity.getLastname());
-                cstmt.setDate("p_dob", UtilityMethods.getSqlDate(entity.getDob()));
+                cstmt.setDate("p_dob", Utilities.getSqlDate(entity.getDob()));
                 cstmt.setString("p_state", entity.getState());
                 cstmt.setString("p_city", entity.getCity());
                 cstmt.setString("p_country", entity.getCountry());
                 cstmt.setBoolean("p_isactive", entity.getIsactive());
-                cstmt.setDate("p_timeofregistration", UtilityMethods.getSqlDate(entity.getTimeofregistration()));
+                cstmt.setDate("p_timeofregistration", Utilities.getSqlDate(entity.getTimeofregistration()));
                 rs = con.saveOrUpdate(cstmt);
 
             }
