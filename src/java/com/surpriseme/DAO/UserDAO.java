@@ -16,14 +16,14 @@ import java.util.List;
  */
 public interface UserDAO extends GenericDAO<User, Integer> {
 
-    ResultSet blockUser(BlockedUsers entity) throws SQLException;
+    boolean blockUser(BlockedUsers entity) throws SQLException;
     
-    ResultSet unblockUser(BlockedUsers userid) throws SQLException;      
+    boolean unblockUser(BlockedUsers userid) throws SQLException;      
     
     List<User> searchUser(String firstName,String lastName, String email) throws SQLException;
     
-    ResultSet addToCircle(Integer friendId,Integer userId) throws SQLException;
+    boolean addToCircle(Integer friendId,Integer userId) throws SQLException;
     
-    ResultSet removeFromCircle(Integer friendId,Integer userId) throws SQLException;
+    boolean removeFromCircle(Integer friendId,Integer userId) throws SQLException;
         
 }

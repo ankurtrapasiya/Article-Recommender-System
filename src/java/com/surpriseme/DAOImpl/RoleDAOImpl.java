@@ -22,7 +22,7 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public ResultSet saveOrUpdate(Role entity) throws SQLException {
+    public boolean saveOrUpdate(Role entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -50,6 +50,8 @@ public class RoleDAOImpl implements RoleDAO {
     public boolean deleteAll(List<Role> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+   
 
   
 }

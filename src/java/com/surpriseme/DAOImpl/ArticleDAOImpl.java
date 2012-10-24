@@ -27,7 +27,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public ResultSet saveOrUpdate(Article entity) throws SQLException {
+    public boolean saveOrUpdate(Article entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -55,5 +55,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     public boolean deleteAll(List<Article> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+   
 
 }

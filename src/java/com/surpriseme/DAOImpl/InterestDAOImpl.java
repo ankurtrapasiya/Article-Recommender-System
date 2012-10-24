@@ -17,7 +17,7 @@ import java.util.List;
 public class InterestDAOImpl implements InterestDAO {
 
     @Override
-    public ResultSet saveOrUpdate(Interest entity) throws SQLException {
+    public boolean saveOrUpdate(Interest entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -46,5 +46,6 @@ public class InterestDAOImpl implements InterestDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+  
    
 }

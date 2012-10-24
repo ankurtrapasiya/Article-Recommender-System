@@ -17,7 +17,7 @@ import java.util.List;
 public class SourceDAOImpl  implements SourceDAO{
 
     @Override
-    public ResultSet saveOrUpdate(Source entity) throws SQLException {
+    public boolean saveOrUpdate(Source entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

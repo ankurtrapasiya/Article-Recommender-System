@@ -22,7 +22,7 @@ public class TagDAOImpl implements TagDAO {
     }
 
     @Override
-    public ResultSet saveOrUpdate(Tag entity) throws SQLException {
+    public boolean saveOrUpdate(Tag entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -50,7 +50,4 @@ public class TagDAOImpl implements TagDAO {
     public boolean deleteAll(List<Tag> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-
-   
 }

@@ -30,7 +30,9 @@ public class UserDAOImpl implements UserDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public ResultSet blockUser(BlockedUsers entity) throws SQLException {
+    public boolean blockUser(BlockedUsers entity) throws SQLException {
+
+        boolean retval = false;
 
         ResultSet rs = null;
 
@@ -53,6 +55,7 @@ public class UserDAOImpl implements UserDAO {
                 rs = con.saveOrUpdate(cstmt);
 
             }
+            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -62,19 +65,13 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
 
-        return rs;
+        return retval;
     }
 
-    /**
-     * Assumes that at a time only one isActive record will be there for any
-     * specific friend.
-     *
-     * @param userid
-     * @return
-     * @throws SQLException
-     */
     @Override
-    public ResultSet unblockUser(BlockedUsers entity) throws SQLException {
+    public boolean unblockUser(BlockedUsers entity) throws SQLException {
+
+        boolean retval = false;
         ResultSet rs = null;
 
         try {
@@ -83,19 +80,16 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_blockedusers(?,?)}");
 
                 cstmt.setInt("p_userid", entity.getUserid());
                 cstmt.setInt("p_blockerid", entity.getBlockerid());
-                cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
-                cstmt.setString("p_reason", entity.getReason());
-
-                // has to be false
-                cstmt.setBoolean("p_isactive", entity.isIsActive());
 
                 rs = con.saveOrUpdate(cstmt);
 
             }
+
+            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -105,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
 
-        return rs;
+        return retval;
     }
 
     @Override
@@ -130,6 +124,7 @@ public class UserDAOImpl implements UserDAO {
 
                     User user = new User();
 
+                    user.setUsername(rs.getString("userid"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                     user.setEmail(rs.getString("email"));
@@ -159,7 +154,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public ResultSet addToCircle(Integer friendId, Integer userId) throws SQLException {
+    public boolean addToCircle(Integer friendId, Integer userId) throws SQLException {
+
+        boolean retval = false;
         ResultSet rs = null;
 
         try {
@@ -177,6 +174,8 @@ public class UserDAOImpl implements UserDAO {
 
             }
 
+            retval = true;
+
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException e) {
@@ -186,12 +185,13 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
 
-        return rs;
+        return retval;
     }
 
     @Override
-    public ResultSet removeFromCircle(Integer friendId, Integer userId) throws SQLException {
+    public boolean removeFromCircle(Integer friendId, Integer userId) throws SQLException {
         ResultSet rs = null;
+        boolean retval = false;
 
         try {
 
@@ -207,6 +207,7 @@ public class UserDAOImpl implements UserDAO {
                 rs = con.saveOrUpdate(cstmt);
 
             }
+            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -217,20 +218,28 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
 
-        return rs;
+        return retval;
     }
 
     @Override
-    public ResultSet saveOrUpdate(User entity) throws SQLException {
+    public boolean saveOrUpdate(User entity) throws SQLException {
 
         ResultSet rs = null;
+        boolean retval = false;
 
         try {
 
             con = new DBConnection();
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                if (entity.getUserid() != null) {
+
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
+                    cstmt.setInt("p_userid", entity.getUserid());
+
+                } else {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                }
 
 
                 cstmt.setString("p_username", entity.getUsername());
@@ -244,9 +253,12 @@ public class UserDAOImpl implements UserDAO {
                 cstmt.setString("p_country", entity.getCountry());
                 cstmt.setBoolean("p_isactive", entity.getIsactive());
                 cstmt.setDate("p_timeofregistration", Utilities.getSqlDate(entity.getTimeofregistration()));
+
                 rs = con.saveOrUpdate(cstmt);
 
             }
+
+            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -257,7 +269,7 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
 
-        return rs;
+        return retval;
 
     }
 
@@ -276,7 +288,14 @@ public class UserDAOImpl implements UserDAO {
 
                     User entity = iterator.next();
 
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                    if (entity.getUserid() != null) {
+
+                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
+                        cstmt.setInt("p_userid", entity.getUserid());
+
+                    } else {
+                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                    }
 
                     cstmt.setString("p_username", entity.getUsername());
                     cstmt.setString("p_password", entity.getPassword());
@@ -369,14 +388,15 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String sql = "select * from user";
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_sel_user()}");
 
-                rs = con.customQuery(sql);
+                rs = con.customQuery(cstmt);
 
                 while (rs.next()) {
 
                     User user = new User();
 
+                    user.setUsername(rs.getString("userid"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                     user.setEmail(rs.getString("email"));
@@ -407,11 +427,73 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean retval = false;
+        ResultSet rs = null;
+
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_user(?)}");
+
+                cstmt.setInt(1, key);
+
+                rs = con.customQuery(cstmt);
+
+            }
+
+            retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
     }
 
     @Override
     public boolean deleteAll(List<User> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        boolean retval = false;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+
+                Iterator<User> iterator = entities.iterator();
+
+                while (iterator.hasNext()) {
+
+                    User entity = iterator.next();
+
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_user(?)}");
+                    cstmt.setInt(1, entity.getUserid());
+
+                    con.customQuery(cstmt);
+
+                }
+
+            }
+
+            retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        return retval;
     }
 }
