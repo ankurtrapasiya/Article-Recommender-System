@@ -10,9 +10,10 @@ import com.surpriseme.entities.User;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
@@ -22,24 +23,24 @@ import org.apache.log4j.Priority;
  * @author ankur
  */
 public class UserDAOImpl implements UserDAO {
-
+    
     CallableStatement cstmt;
     DBConnection con;
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
-
+    
     @Override
     public ResultSet blockUser(BlockedUsers entity) throws SQLException {
-
+        
         ResultSet rs = null;
-
+        
         try {
-
+            
             con = new DBConnection();
-
+            
             if (con.connect()) {
-
+                
                 cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_blockedusers(?,?,?,?,?)}");
-
+                
                 cstmt.setInt("p_userid", entity.getUserid());
                 cstmt.setInt("p_blockerid", entity.getBlockerid());
                 cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
@@ -47,11 +48,11 @@ public class UserDAOImpl implements UserDAO {
 
                 // has to be true
                 cstmt.setBoolean("p_isactive", entity.isIsActive());
-
+                
                 rs = con.saveOrUpdate(cstmt);
-
+                
             }
-
+            
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
@@ -59,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
         } finally {
             con.disconnect();
         }
-
+        
         return rs;
     }
 
@@ -74,15 +75,15 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public ResultSet unblockUser(BlockedUsers entity) throws SQLException {
         ResultSet rs = null;
-
+        
         try {
-
+            
             con = new DBConnection();
-
+            
             if (con.connect()) {
-
+                
                 cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
-
+                
                 cstmt.setInt("p_userid", entity.getUserid());
                 cstmt.setInt("p_blockerid", entity.getBlockerid());
                 cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
@@ -90,11 +91,11 @@ public class UserDAOImpl implements UserDAO {
 
                 // has to be false
                 cstmt.setBoolean("p_isactive", entity.isIsActive());
-
+                
                 rs = con.saveOrUpdate(cstmt);
-
+                
             }
-
+            
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
@@ -102,38 +103,83 @@ public class UserDAOImpl implements UserDAO {
         } finally {
             con.disconnect();
         }
-
+        
         return rs;
     }
-
+    
     @Override
     public List<User> searchUser(String firstName, String lastName, String email) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<User> retval = new ArrayList<User>();
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+            
+            con = new DBConnection();
+            
+            if (con.connect()) {
+                
+                String sql = "select * from user where firstname like ? and lastname like ?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, "%" + firstName + "%");
+                pstmt.setString(2, "%" + lastName + "%");
+                rs = con.customQuery(pstmt);
+                
+                while (rs.next()) {
+                    
+                    User user = new User();
+                    
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setFirstname(rs.getString("firstname"));
+                    user.setLastname(rs.getString("lastname"));
+                    user.setDob(rs.getDate("dob"));
+                    user.setState(rs.getString("state"));
+                    user.setCity(rs.getString("city"));
+                    user.setCountry(rs.getString("country"));
+                    user.setIsactive(rs.getBoolean("isactive"));
+                    user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    
+                    retval.add(user);
+                }
+                
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        
+        return retval;
     }
-
+    
     @Override
     public boolean addToCircle(Integer userId) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+       throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public boolean removeFromCircle(Integer userId) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public ResultSet saveOrUpdate(User entity) throws SQLException {
-
+        
         ResultSet rs = null;
-
+        
         try {
-
+            
             con = new DBConnection();
             if (con.connect()) {
-
+                
                 cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
-
-
+                
+                
                 cstmt.setString("p_username", entity.getUsername());
                 cstmt.setString("p_password", entity.getPassword());
                 cstmt.setString("p_email", entity.getEmail());
@@ -146,9 +192,9 @@ public class UserDAOImpl implements UserDAO {
                 cstmt.setBoolean("p_isactive", entity.getIsactive());
                 cstmt.setDate("p_timeofregistration", Utilities.getSqlDate(entity.getTimeofregistration()));
                 rs = con.saveOrUpdate(cstmt);
-
+                
             }
-
+            
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException e) {
@@ -157,31 +203,31 @@ public class UserDAOImpl implements UserDAO {
             cstmt.close();
             con.disconnect();
         }
-
+        
         return rs;
-
+        
     }
-
+    
     @Override
     public ResultSet saveOrUpdateAll(List<User> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public User findById(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public List<User> getAll() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public boolean delete(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public boolean deleteAll(List<User> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");

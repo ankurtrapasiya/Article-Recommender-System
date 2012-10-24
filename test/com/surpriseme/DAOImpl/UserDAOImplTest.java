@@ -49,8 +49,8 @@ public class UserDAOImplTest {
         Integer userid = null;
         UserDAOImpl instance = new UserDAOImpl();
         boolean expResult = false;
-        boolean result = instance.blockUser(userid);
-        assertEquals(expResult, result);
+//        boolean result = instance.blockUser(userid);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -64,8 +64,8 @@ public class UserDAOImplTest {
         Integer userid = null;
         UserDAOImpl instance = new UserDAOImpl();
         boolean expResult = false;
-        boolean result = instance.unblockUser(userid);
-        assertEquals(expResult, result);
+//        boolean result = instance.unblockUser(userid);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

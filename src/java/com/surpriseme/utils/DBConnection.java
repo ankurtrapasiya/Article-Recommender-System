@@ -3,6 +3,7 @@ package com.surpriseme.utils;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -127,6 +128,24 @@ public class DBConnection {
         try {
             dbStatement = connection.createStatement();
             dbResultSet = dbStatement.executeQuery(sqlQuery);
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return dbResultSet;
+    }
+
+    /**
+     *
+     * Method can be used to obtain certain datasets based on the query given
+     *
+     * @param sqlQuery
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet customQuery(PreparedStatement pstmt) throws SQLException {
+        ResultSet dbResultSet = null;
+        try {
+            dbResultSet = pstmt.executeQuery();
         } catch (SQLException ex) {
             throw ex;
         }
