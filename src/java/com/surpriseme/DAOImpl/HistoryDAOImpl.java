@@ -32,7 +32,17 @@ public class HistoryDAOImpl implements HistoryDAO {
     public List<UserHistory> getAllHistory(Integer userid, Duration duration) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
+    @Override
+    public ResultSet saveOrUpdate(UserHistory entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<UserHistory> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public UserHistory findById(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -53,15 +63,6 @@ public class HistoryDAOImpl implements HistoryDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(UserHistory entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<UserHistory> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+   
   
 }

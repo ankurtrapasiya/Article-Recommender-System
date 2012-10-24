@@ -22,6 +22,16 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
+    public ResultSet saveOrUpdate(Role entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<Role> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Role findById(String key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -41,13 +51,5 @@ public class RoleDAOImpl implements RoleDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(Role entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<Role> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  
 }

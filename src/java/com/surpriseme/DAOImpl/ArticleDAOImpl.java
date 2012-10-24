@@ -27,6 +27,16 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
+    public ResultSet saveOrUpdate(Article entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<Article> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Article findById(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -46,13 +56,4 @@ public class ArticleDAOImpl implements ArticleDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(Article entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<Article> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

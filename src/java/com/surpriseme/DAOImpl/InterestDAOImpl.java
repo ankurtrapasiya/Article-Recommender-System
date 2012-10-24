@@ -17,6 +17,16 @@ import java.util.List;
 public class InterestDAOImpl implements InterestDAO {
 
     @Override
+    public ResultSet saveOrUpdate(Interest entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<Interest> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public Interest findById(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -36,13 +46,5 @@ public class InterestDAOImpl implements InterestDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(Interest entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<Interest> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+   
 }

@@ -20,7 +20,7 @@ public interface GenericDAO<T,ID extends Serializable> {
         
     ResultSet saveOrUpdate(T entity) throws SQLException;
     
-    ResultSet saveOrUpdateAll(List<T> entities) throws SQLException;
+    void saveOrUpdateAll(List<T> entities) throws SQLException;
         
     T findById(ID key) throws SQLException;
     

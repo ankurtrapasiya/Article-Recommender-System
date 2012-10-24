@@ -16,7 +16,16 @@ import java.util.List;
  */
 public class SourceDAOImpl  implements SourceDAO{
 
-  
+    @Override
+    public ResultSet saveOrUpdate(Source entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<Source> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public Source findById(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -37,18 +46,5 @@ public class SourceDAOImpl  implements SourceDAO{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(Source entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<Source> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-  
-
    
-    
 }

@@ -19,7 +19,17 @@ public class TagDAOImpl implements TagDAO {
     @Override
     public boolean addTagToArticle(Integer tagId, Integer ArticleId) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
-    }    
+    }
+
+    @Override
+    public ResultSet saveOrUpdate(Tag entity) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<Tag> entities) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public Tag findById(Integer key) throws SQLException {
@@ -41,15 +51,6 @@ public class TagDAOImpl implements TagDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public ResultSet saveOrUpdate(Tag entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ResultSet saveOrUpdateAll(List<Tag> entities) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
    
 }

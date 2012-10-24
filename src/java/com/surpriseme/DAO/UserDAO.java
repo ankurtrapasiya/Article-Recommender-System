@@ -22,8 +22,8 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     
     List<User> searchUser(String firstName,String lastName, String email) throws SQLException;
     
-    boolean addToCircle(Integer userId) throws SQLException;
+    ResultSet addToCircle(Integer friendId,Integer userId) throws SQLException;
     
-    boolean removeFromCircle(Integer userId) throws SQLException;
+    ResultSet removeFromCircle(Integer friendId,Integer userId) throws SQLException;
         
 }
