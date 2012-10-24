@@ -159,7 +159,7 @@ public class UserDAOImpl implements UserDAO {
     
     @Override
     public boolean addToCircle(Integer userId) throws SQLException {
-       throw new UnsupportedOperationException("Not supported yet.");
+       
     }
     
     @Override
