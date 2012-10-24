@@ -28,7 +28,7 @@ public class TagDAOImpl implements TagDAO {
 
     CallableStatement cstmt;
     DBConnection con;
-    private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
+    private static final Logger logger = Logger.getLogger(TagDAOImpl.class);
 
     @Override
     public boolean addTagToArticle(Integer tagId, Integer ArticleId) throws SQLException {
