@@ -5,6 +5,8 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.Interest;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -12,6 +14,6 @@ import com.surpriseme.entities.Interest;
  */
 public interface InterestDAO extends GenericDAO<Interest, Integer>{
     
-    
+    List<Integer> getUsersOfInterest(Integer interestid) throws SQLException;
     
 }
