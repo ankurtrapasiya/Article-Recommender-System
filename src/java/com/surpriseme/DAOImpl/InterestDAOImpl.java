@@ -277,4 +277,42 @@ public class InterestDAOImpl implements InterestDAO {
         }
         return retval;
     }
+
+    @Override
+    public List<Integer> getUsersOfInterest(Integer interestid) throws SQLException {
+        List<Integer> retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select userid from userinterest where interestid=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setInt(1, interestid);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    Integer userid = rs.getInt("userid");
+
+                    retval.add(userid);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
 }
