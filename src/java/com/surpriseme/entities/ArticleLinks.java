@@ -1,8 +1,5 @@
 package com.surpriseme.entities;
 
-import java.sql.*;
-import java.util.*;
-
 public class ArticleLinks {
 
     private Integer articleid;

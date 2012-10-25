@@ -22,6 +22,13 @@ public class UserActivation {
         return userid;
     }
 
+    public UserActivation(Integer userid, String token, Timestamp timestamp, Boolean isactive) {
+        this.userid = userid;
+        this.token = token;
+        this.timestamp = timestamp;
+        this.isactive = isactive;
+    }
+
     public void setUserid(Integer userid) {
         this.userid = userid;
     }

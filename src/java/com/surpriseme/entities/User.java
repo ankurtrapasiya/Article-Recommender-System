@@ -33,6 +33,21 @@ public class User {
         this.username = username;
     }
 
+    public User(String username, String password, String email, String firstname, String lastname, Date dob, String country, Boolean isactive, Date timeofregistration) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dob = dob;
+        this.country = country;
+        this.isactive = isactive;
+        this.timeofregistration = timeofregistration;
+    }
+
+    public User() {
+    }
+
     public String getPassword() {
         return password;
     }

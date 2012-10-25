@@ -142,7 +142,7 @@ public class UserDAOImplTest {
 
         User u = new User();
 
-        u.setUserid(3);
+        //u.setUserid(3);
         u.setUsername("ankur");
         u.setPassword("abc");
         u.setEmail("abc@abc.com");

@@ -7,6 +7,7 @@ package com.surpriseme.DAOImpl;
 import com.surpriseme.DAO.UserDAO;
 import com.surpriseme.entities.BlockedUsers;
 import com.surpriseme.entities.User;
+import com.surpriseme.entities.UserActivation;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
@@ -494,6 +495,93 @@ public class UserDAOImpl implements UserDAO {
         } finally {
             con.disconnect();
         }
+        return retval;
+    }
+
+    @Override
+    public User findByUsername(String username) throws SQLException {
+        User retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from user where username=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, username);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    User user = new User();
+
+                    user.setUserid(rs.getInt("userid"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setFirstname(rs.getString("firstname"));
+                    user.setLastname(rs.getString("lastname"));
+                    user.setDob(rs.getDate("dob"));
+                    user.setState(rs.getString("state"));
+                    user.setCity(rs.getString("city"));
+                    user.setCountry(rs.getString("country"));
+                    user.setIsactive(rs.getBoolean("isactive"));
+                    user.setTimeofregistration(rs.getDate("timeofregistration"));
+
+                    retval = user;
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public boolean sendActivationMail(UserActivation ua) throws SQLException {
+
+        boolean retval = false;
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_useractivation(?,?,?,?)}");
+
+                cstmt.setInt("p_userid", ua.getUserid());
+                cstmt.setString("p_token", ua.getToken());
+                cstmt.setTimestamp("p_timestamp", ua.getTimestamp());
+                cstmt.setBoolean("p_isactive", ua.getIsactive());
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+            retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
+            con.disconnect();
+        }
+
         return retval;
     }
 }
