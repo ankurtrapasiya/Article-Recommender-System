@@ -6,9 +6,7 @@ package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.entities.Article;
-import com.surpriseme.entities.User;
 import com.surpriseme.utils.DBConnection;
-import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
