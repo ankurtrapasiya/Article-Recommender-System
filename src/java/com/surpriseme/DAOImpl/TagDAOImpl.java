@@ -326,11 +326,48 @@ public class TagDAOImpl implements TagDAO {
 
                 cstmt.setInt("p_articleid", ArticleId);
                 cstmt.setInt("p_tagid", tagId);
-              
+
                 rs = con.saveOrUpdate(cstmt);
 
             }
             retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public Integer checkIfTagExist(String tagname) throws SQLException {
+        Integer retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select tagid from tag where lower(tagname)=lower(?)";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, tagname);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    retval = rs.getInt("tagid");
+
+                }
+
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
