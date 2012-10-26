@@ -6,6 +6,7 @@ package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.InterestDAO;
 import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.Source;
 import com.surpriseme.entities.User;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
@@ -301,6 +302,50 @@ public class InterestDAOImpl implements InterestDAO {
                     Integer userid = rs.getInt("userid");
 
                     retval.add(userid);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public List<Source> getSourcesOfIntereset(Integer interestid) throws SQLException {
+        List<Source> retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select sourceid from interestsources where interestid=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setInt(1, interestid);
+
+                rs = con.customQuery(pstmt);
+
+                SourceDAOImpl sourceDao = new SourceDAOImpl();
+
+                while (rs.next()) {
+
+                    Source source=null;
+                    
+                    Integer sourceid = rs.getInt("sourceid");
+
+                    source=sourceDao.findById(sourceid);
+                    
+                    retval.add(source);
                 }
 
             }

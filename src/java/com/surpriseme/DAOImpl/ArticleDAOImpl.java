@@ -7,6 +7,8 @@ package com.surpriseme.DAOImpl;
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.UserHistory;
+import com.surpriseme.helper.TagHelper;
+import com.surpriseme.helper.TagSorter;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.DBConnection;
 import java.sql.CallableStatement;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
@@ -400,6 +403,8 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         ArticleDAOImpl articleDAO = null;
 
+        TreeSet<TagHelper> tags = new TreeSet<TagHelper>(new TagSorter());
+
         //Relevancy
 
         interestDAO = new InterestDAOImpl();
@@ -531,6 +536,48 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
 
+        //browsing
+
+        sql = "select t.name as tagname,count(*) as counts"
+                + " from tag t"
+                + " inner join articletag a"
+                + " on a.tagid=t.tagid"
+                + " inner join article art"
+                + " on a.articleid=art.articleid"
+                + " inner join userhistory uh"
+                + " on uh.articleid=art.articleid"
+                + " inner join articleinterest ai"
+                + " on ai.articleid=art.articleid"
+                + " and ai.interestid=" + interestid
+                + " and uh.userid=" + userid
+                + " group by t.name"
+                + " order by t.name";
+
+
+        con = new DBConnection();
+        try {
+
+            if (con.connect()) {
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+
+                    String key = rs.getString("tagname");
+                    Integer value = rs.getInt("counts");
+
+                    TagHelper th = new TagHelper(key, value);
+
+                    tags.add(th);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.disconnect();
+        }
+
+
         //randomization                 
 
         it = usersHistory.iterator();
@@ -587,27 +634,6 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
 
-
-        //browsing
-
-        sql = "select t.name as tagname,count(*) as counts"
-                + " from tag t"
-                + " inner join articletag a"
-                + " on a.tagid=t.tagid"
-                + " inner join article art"
-                + " on a.articleid=art.articleid"
-                + " inner join userhistory uh"
-                + " on uh.articleid=art.articleid"
-                + " inner join articleinterest ai"
-                + " on ai.articleid=art.articleid"
-                + " and ai.interestid=" + interestid
-                + " and uh.userid=" + userid
-                + " group by t.name"
-                + " order by t.name";
-
-
-
-        //code remaining
 
         return retval;
     }
@@ -667,6 +693,41 @@ public class ArticleDAOImpl implements ArticleDAO {
         } catch (SQLException ex) {
             throw ex;
         } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public boolean addSourceToArticle(Integer articleid, String articleurl,Integer sourceid) throws SQLException {
+        boolean retval = false;
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_articlelinks(?,?,?)}");
+
+
+                cstmt.setInt("p_articleid", articleid);
+                cstmt.setString("p_articleurl", articleurl);
+                cstmt.setInt("p_sourceid", sourceid);
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+            retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
             con.disconnect();
         }
 
