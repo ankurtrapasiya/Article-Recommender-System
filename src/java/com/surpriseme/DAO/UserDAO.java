@@ -5,9 +5,9 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.BlockedUsers;
+import com.surpriseme.entities.Interest;
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserActivation;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,7 +28,12 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     boolean removeFromCircle(Integer friendId, Integer userId) throws SQLException;
 
     User findByUsername(String username) throws SQLException;
-    
+
     boolean sendActivationMail(UserActivation ua) throws SQLException;
-        
+
+    boolean addInterestToUser(Integer interestid, Integer userid) throws SQLException;
+
+    boolean removeInterestFromUser(Integer interestid, Integer userid) throws SQLException;
+
+    List<Interest> getAllUserInterests(Integer userid) throws SQLException;
 }
