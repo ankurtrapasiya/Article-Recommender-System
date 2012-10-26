@@ -706,4 +706,48 @@ public class UserDAOImpl implements UserDAO {
 
         return retval;
     }
+
+    @Override
+    public List<User> getAllFriends(Integer userid) throws SQLException {
+
+        List<User> retval = new ArrayList<User>();
+        ResultSet rs = null;
+        String sql;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                sql="select * from usergraph where userid=" + userid;
+
+                rs = con.customQuery(sql);
+                
+                UserDAOImpl userDao=new UserDAOImpl();
+
+                while (rs.next()) {
+
+                    User user = new User();
+
+                    Integer friendId=rs.getInt("friendId");                    
+
+                    user=userDao.findById(friendId);
+                    
+                    retval.add(user);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
 }
