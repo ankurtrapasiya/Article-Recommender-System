@@ -2,8 +2,8 @@ package com.surpriseme.entities;
 
 import java.sql.*;
 
-public class Article{
-    
+public class Article {
+
     private Integer articleid;
     private String title;
     private String body;
@@ -12,9 +12,18 @@ public class Article{
     private Integer viewed;
     private Timestamp timestamp;
     private Float popularityscore;
+    private Timestamp publicationdate;
 
     public Float getPopularityscore() {
         return popularityscore;
+    }
+
+    public Timestamp getPublicationdate() {
+        return publicationdate;
+    }
+
+    public void setPublicationdate(Timestamp publicationdate) {
+        this.publicationdate = publicationdate;
     }
 
     public void setPopularityscore(Float popularityscore) {
@@ -76,6 +85,4 @@ public class Article{
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-
-
 }

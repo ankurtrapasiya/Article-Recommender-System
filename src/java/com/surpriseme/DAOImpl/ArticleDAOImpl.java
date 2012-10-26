@@ -122,11 +122,11 @@ public class ArticleDAOImpl implements ArticleDAO {
 
                 if (entity.getArticleid() != null) {
 
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_article(?,?,?,?,?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_article(?,?,?,?,?,?,?,?,?)}");
                     cstmt.setInt("p_articleid", entity.getArticleid());
 
                 } else {
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_article(?,?,?,?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_article(?,?,?,?,?,?,?,?)}");
                 }
 
                 cstmt.setString("p_title", entity.getTitle());
@@ -136,6 +136,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                 cstmt.setInt("p_viewed", entity.getViewed());
                 cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
                 cstmt.setFloat("p_popularityscore", entity.getPopularityscore());
+                cstmt.setTimestamp("p_publicationdate", entity.getPublicationdate());
 
                 rs = con.saveOrUpdate(cstmt);
 
@@ -186,6 +187,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     cstmt.setInt("p_viewed", entity.getViewed());
                     cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
                     cstmt.setFloat("p_popularityscore", entity.getPopularityscore());
+                    cstmt.setTimestamp("p_publicationdate", entity.getPublicationdate());
 
                     rs = con.saveOrUpdate(cstmt);
 
@@ -235,6 +237,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     article.setViewed(rs.getInt("viewed"));
                     article.setTimestamp(rs.getTimestamp("timestamp"));
                     article.setPopularityscore(rs.getFloat("popularityscore"));
+                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
 
                     retval = article;
                 }
@@ -279,6 +282,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     article.setViewed(rs.getInt("viewed"));
                     article.setTimestamp(rs.getTimestamp("timestamp"));
                     article.setPopularityscore(rs.getFloat("popularityscore"));
+                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
 
                     retval.add(article);
                 }
@@ -513,6 +517,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     article.setViewed(rs.getInt("viewed"));
                     article.setTimestamp(rs.getTimestamp("timestamp"));
                     article.setPopularityscore(rs.getFloat("popularityscore"));
+                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
 
                     articleList.add(article);
 
@@ -568,6 +573,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     article.setViewed(rs.getInt("viewed"));
                     article.setTimestamp(rs.getTimestamp("timestamp"));
                     article.setPopularityscore(rs.getFloat("popularityscore"));
+                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
 
                     articleList.add(article);
 
