@@ -6,14 +6,19 @@ package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.UserHistory;
+import com.surpriseme.utils.Category;
 import com.surpriseme.utils.DBConnection;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
@@ -360,5 +365,276 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
         return retval;
+    }
+
+    @Override
+    public HashMap<Category, List<Article>> suggestArticle(int userid, int interestid) throws SQLException {
+
+        HashMap<Category, List<Article>> retval = new HashMap<Category, List<Article>>();
+
+        List<Article> articleList = null;
+
+        ResultSet rs = null;
+
+        HistoryDAOImpl historyDAO = null;
+
+        StringBuilder sb = null;
+
+        Iterator<Integer> iterator = null;
+
+        Iterator<UserHistory> it = null;
+
+        List<Integer> users = null;
+
+        InterestDAOImpl interestDAO = null;
+
+        String sql = null;
+
+        List<UserHistory> otherUsersHistory = null;
+
+        List<UserHistory> usersHistory = null;
+
+        ArticleDAOImpl articleDAO = null;
+
+        //Relevancy
+
+        interestDAO = new InterestDAOImpl();
+
+        users = interestDAO.getUsersOfInterest(interestid);
+
+        iterator = users.iterator();
+        sb = new StringBuilder("(");
+
+        while (iterator.hasNext()) {
+            Integer id = iterator.next();
+            sb.append(id).append(",");
+        }
+
+        sb = sb.deleteCharAt(sb.length() - 1);
+        sb.append(")");
+
+        sql = "select *"
+                + " from userhistory uh "
+                + " inner join article a"
+                + " on uh.articleid=a.articleid"
+                + " inner join articleinterest ai"
+                + " on ai.interestid=" + interestid
+                + " and uh.userid in" + sb.toString()
+                + " order by a.popularityscore desc";
+
+        con = new DBConnection();
+        try {
+
+            if (con.connect()) {
+
+                rs = con.customQuery(sql);
+
+                otherUsersHistory = new ArrayList<UserHistory>();
+
+                while (rs.next()) {
+                    UserHistory history = new UserHistory();
+
+                    history.setUserid(rs.getInt("userid"));
+                    history.setArticleid(rs.getInt("articleid"));
+                    history.setUpvote(rs.getBoolean("upvote"));
+                    history.setDownvote(rs.getBoolean("downvote"));
+                    history.setTimestamp(rs.getTimestamp("timestamp"));
+
+                    otherUsersHistory.add(history);
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.disconnect();
+        }
+
+        historyDAO = new HistoryDAOImpl();
+
+        usersHistory = historyDAO.getAllHistory(userid);
+
+        otherUsersHistory = removeViewedArticles(usersHistory, otherUsersHistory);
+
+        it = otherUsersHistory.iterator();
+
+        articleDAO = new ArticleDAOImpl();
+
+        articleList = new ArrayList<Article>();
+
+        while (it.hasNext()) {
+            Integer articleId = it.next().getArticleid();
+
+            articleList.add(articleDAO.findById(articleId));
+
+        }
+
+        retval.put(Category.RELEVANCY, articleList);
+
+
+        //Popularity            
+
+        it = usersHistory.iterator();
+        sb = new StringBuilder("(");
+
+        while (it.hasNext()) {
+            Integer id = it.next().getArticleid();
+            sb.append(id).append(",");
+        }
+
+        sb = sb.deleteCharAt(sb.length() - 1);
+        sb.append(")");
+
+        sql = "select *"
+                + " from article a"
+                + " inner join articleinterest ai"
+                + " on ai.articleid=a.articleid"
+                + " where a.articleid not in" + sb.toString()
+                + " and ai.interestid=" + interestid
+                + " order by a.popularityscore desc";
+
+        con = new DBConnection();
+        try {
+            if (con.connect()) {
+
+                rs = con.customQuery(sql);
+
+                articleList = new ArrayList<Article>();
+
+                while (rs.next()) {
+
+                    Article article = new Article();
+
+                    article.setArticleid(rs.getInt("articleid"));
+                    article.setTitle(rs.getString("title"));
+                    article.setBody(rs.getString("body"));
+                    article.setUpvote(rs.getInt("upvote"));
+                    article.setDownvote(rs.getInt("downvote"));
+                    article.setViewed(rs.getInt("viewed"));
+                    article.setTimestamp(rs.getTimestamp("timestamp"));
+                    article.setPopularityscore(rs.getFloat("popularityscore"));
+
+                    articleList.add(article);
+
+                }
+
+                retval.put(Category.POPULARITY, articleList);
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.disconnect();
+        }
+
+        //randomization                 
+
+        it = usersHistory.iterator();
+        sb = new StringBuilder("(");
+
+        while (it.hasNext()) {
+            Integer id = it.next().getArticleid();
+            sb.append(id).append(",");
+        }
+
+        sb = sb.deleteCharAt(sb.length() - 1);
+        sb.append(")");
+
+        sql = "select *"
+                + " from article a"
+                + " inner join articleinterest ai"
+                + " on ai.articleid=a.articleid"
+                + " where articleid not in" + sb.toString()
+                + " and ai.interestid=" + interestid
+                + " and viewed < 100"
+                + " order by popularityscore desc";
+
+        con = new DBConnection();
+        try {
+            if (con.connect()) {
+
+                rs = con.customQuery(sql);
+
+                articleList = new ArrayList<Article>();
+
+                while (rs.next()) {
+
+                    Article article = new Article();
+
+                    article.setArticleid(rs.getInt("articleid"));
+                    article.setTitle(rs.getString("title"));
+                    article.setBody(rs.getString("body"));
+                    article.setUpvote(rs.getInt("upvote"));
+                    article.setDownvote(rs.getInt("downvote"));
+                    article.setViewed(rs.getInt("viewed"));
+                    article.setTimestamp(rs.getTimestamp("timestamp"));
+                    article.setPopularityscore(rs.getFloat("popularityscore"));
+
+                    articleList.add(article);
+
+                }
+
+                retval.put(Category.RANDOMIZATION, articleList);
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.disconnect();
+        }
+
+
+        //browsing
+
+        sql = "select t.name as tagname,count(*) as counts"
+                + " from tag t"
+                + " inner join articletag a"
+                + " on a.tagid=t.tagid"
+                + " inner join article art"
+                + " on a.articleid=art.articleid"
+                + " inner join userhistory uh"
+                + " on uh.articleid=art.articleid"
+                + " inner join articleinterest ai"
+                + " on ai.articleid=art.articleid"
+                + " and ai.interestid=" + interestid
+                + " and uh.userid=" + userid
+                + " group by t.name"
+                + " order by t.name";
+
+
+
+        //code remaining
+
+        return retval;
+    }
+
+    private List<UserHistory> removeViewedArticles(List<UserHistory> usersHistory, List<UserHistory> otherUsersHistory) {
+        List<UserHistory> retval = null;
+
+        Map<Integer, UserHistory> map = new HashMap<Integer, UserHistory>();
+
+        Iterator<UserHistory> users = usersHistory.iterator();
+
+        while (users.hasNext()) {
+
+            UserHistory uh = users.next();
+            map.put(uh.getArticleid(), uh);
+
+        }
+
+        Iterator<UserHistory> others = otherUsersHistory.iterator();
+
+        while (others.hasNext()) {
+
+            UserHistory uh = others.next();
+
+            if (map.containsKey(uh.getArticleid())) {
+                others.remove();
+            }
+
+        }
+
+        retval = otherUsersHistory;
+
+        return retval;
+
     }
 }

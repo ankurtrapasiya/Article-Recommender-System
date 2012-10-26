@@ -42,7 +42,13 @@ public class HistoryDAOImpl implements HistoryDAO {
 
             if (con.connect()) {
 
-                String sql = "select * from userhistory where userid=?";
+                String sql = "select *"
+                        + " from userhistory uh"
+                        + " inner join article a"
+                        + " on a.articleid = uh.articleid"
+                        + " where userid=? "
+                        + " order by a.popularityscore desc";
+                
                 pstmt = con.getConnection().prepareStatement(sql);
                 pstmt.setInt(1, userid);
 

@@ -11,6 +11,15 @@ public class Article{
     private Integer downvote;
     private Integer viewed;
     private Timestamp timestamp;
+    private Float popularityscore;
+
+    public Float getPopularityscore() {
+        return popularityscore;
+    }
+
+    public void setPopularityscore(Float popularityscore) {
+        this.popularityscore = popularityscore;
+    }
 
     public Integer getArticleid() {
         return articleid;
