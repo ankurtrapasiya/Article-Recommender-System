@@ -637,4 +637,33 @@ public class ArticleDAOImpl implements ArticleDAO {
         return retval;
 
     }
+
+    @Override
+    public boolean checkIfArticleExist(String guid) throws SQLException {
+        boolean retval = false;
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String sql = "select * from articlelinks where articleurl='" + guid + "'";
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = true;
+                }
+
+            }
+            retval = true;
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
 }
