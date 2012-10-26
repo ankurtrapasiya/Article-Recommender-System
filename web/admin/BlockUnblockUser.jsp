@@ -4,6 +4,9 @@
     Author     : Nomaan
 --%>
 
+<%@page import="com.surpriseme.entities.BlockedUsers"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -50,6 +53,7 @@
         </script>
     </head>
     <body>
+     
          <header id="header">
             <hgroup>
                 <h1 class="site_title"><a href="index.html">Website Admin</a></h1>
@@ -116,55 +120,37 @@
                         <li><a href="#tab2">Blocked</a></li>
                     </ul>
                 </header>
-
+    <% List<BlockedUsers> user=(ArrayList<BlockedUsers>)request.getAttribute("data"); %>
                 <div class="tab_container">
+                   
                     <div id="tab1" class="tab_content">
                         <table class="tablesorter" cellspacing="0"> 
                             <thead> 
                                 <tr> 
-                                    <th></th> 
-                                    <th>Entry Name</th> 
-                                    <th>Category</th> 
-                                    <th>Created On</th> 
-                                    <th>Actions</th> 
+                                    
+                                    <th>User Name</th> 
+                                    <th>Blocker Name</th> 
+                                    <th>Requested On</th> 
+                                    <th>Reason</th>
+                                    <th>Action</th>
                                 </tr> 
                             </thead> 
-                            <tbody> 
+                            
+                            <tbody>
+                                 <% for(int i=0;i<user.size();i++){
+                            BlockedUsers bu=new BlockedUsers();
+                            bu=user.get(i);
+                                    if(bu.isIsActive()){  %>
                                 <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Lorem Ipsum Dolor Sit Amet</td> 
-                                    <td>Articles</td> 
-                                    <td>5th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
+                                   
+                                    <td><%=bu.getUsername()%></td> 
+                                    <td><%=bu.getBlockername()%> </td> 
+                                    <td><%=bu.getTimestamp()%></td> 
+                                    <td><%=bu.getReason()%> </td>
+                                    <td><form action="#" method="post"><input type="submit" src="../../images/Lock.png" title="Block"></form></td> 
                                 </tr> 
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Ipsum Lorem Dolor Sit Amet</td> 
-                                    <td>Freebies</td> 
-                                    <td>6th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr>
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Sit Amet Dolor Ipsum</td> 
-                                    <td>Tutorials</td> 
-                                    <td>10th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr> 
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Dolor Lorem Amet</td> 
-                                    <td>Articles</td> 
-                                    <td>16th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr>
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Dolor Lorem Amet</td> 
-                                    <td>Articles</td> 
-                                    <td>16th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr>  
+                            
+                                <% } }%>
                             </tbody> 
                         </table>
                     </div><!-- end of #tab1 -->
@@ -173,54 +159,33 @@
                         <table class="tablesorter" cellspacing="0"> 
                             <thead> 
                                 <tr> 
-                                    <th></th> 
-                                    <th>Comment</th> 
-                                    <th>Posted by</th> 
-                                    <th>Posted On</th> 
-                                    <th>Actions</th> 
+                                     <th>User Name</th> 
+                                    <th>Blocker Name</th> 
+                                    <th>Blocked On</th> 
+                                    <th>Reason</th>
+                                    <th>Action</th>
                                 </tr> 
                             </thead> 
                             <tbody> 
+                                 <% for(int i=0;i<user.size();i++){
+                            BlockedUsers bu=new BlockedUsers();
+                            bu=user.get(i);
+                                    if(!bu.isIsActive()){  %>
                                 <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Lorem Ipsum Dolor Sit Amet</td> 
-                                    <td>Mark Corrigan</td> 
-                                    <td>5th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
+                                   
+                                    <td><%=bu.getUsername()%></td> 
+                                    <td><%=bu.getBlockername()%> </td> 
+                                    <td><%=bu.getTimestamp()%></td> 
+                                    <td><%=bu.getReason()%> </td>
+                                    <td><form action="#" method="post"><input type="submit" src="../../images/Lock.png" title="Block"></form></td> 
                                 </tr> 
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Ipsum Lorem Dolor Sit Amet</td> 
-                                    <td>Jeremy Usbourne</td> 
-                                    <td>6th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr>
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Sit Amet Dolor Ipsum</td> 
-                                    <td>Super Hans</td> 
-                                    <td>10th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr> 
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Dolor Lorem Amet</td> 
-                                    <td>Alan Johnson</td> 
-                                    <td>16th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr> 
-                                <tr> 
-                                    <td><input type="checkbox"></td> 
-                                    <td>Dolor Lorem Amet</td> 
-                                    <td>Dobby</td> 
-                                    <td>16th April 2011</td> 
-                                    <td><input type="image" src="../images/icn_edit.png" title="Edit"><input type="image" src="../images/icn_trash.png" title="Trash"></td> 
-                                </tr> 
+                            
+                                <% } }%>
                             </tbody> 
                         </table>
 
                     </div><!-- end of #tab2 -->
-
+                   
                 </div><!-- end of .tab_container -->
             
             </article><!-- end of article -->

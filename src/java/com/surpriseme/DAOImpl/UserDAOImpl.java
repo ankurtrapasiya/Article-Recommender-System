@@ -101,7 +101,51 @@ public class UserDAOImpl implements UserDAO {
 
         return retval;
     }
+   
+    @Override
+    public List<BlockedUsers> getAllBlocked() throws SQLException {
+        List<BlockedUsers> retval = new ArrayList<BlockedUsers>();
+        ResultSet rs = null;
+        
 
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+             
+
+                rs = con.selectRecords("blockedusers");
+
+                while (rs.next()) {
+
+                    BlockedUsers user = new BlockedUsers();
+                    User temp = new User();
+                    temp=findById(rs.getInt("userid"));
+                    user.setUsername(temp.getUsername());
+                    temp=findById(rs.getInt("blockerid"));
+                    user.setBlockername(temp.getUsername());
+                    user.setTimestamp(rs.getTimestamp("timestamp"));
+                    user.setReason(rs.getString("reason"));
+                    user.setIsActive(rs.getBoolean("isactive"));
+                    user.setBlockerid(rs.getInt("blockerid"));
+                    user.setUserid(rs.getInt("userid"));
+                    retval.add(user);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
     @Override
     public List<User> searchUser(String firstName, String lastName, String email) throws SQLException {
         List<User> retval = new ArrayList<User>();
@@ -396,7 +440,7 @@ public class UserDAOImpl implements UserDAO {
 
                     User user = new User();
 
-                    user.setUsername(rs.getString("userid"));
+                    user.setUserid(rs.getInt("userid"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                     user.setEmail(rs.getString("email"));

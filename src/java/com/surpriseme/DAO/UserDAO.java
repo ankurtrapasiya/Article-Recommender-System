@@ -18,7 +18,9 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     boolean blockUser(BlockedUsers entity) throws SQLException;
     
-    boolean unblockUser(BlockedUsers userid) throws SQLException;      
+    boolean unblockUser(BlockedUsers userid) throws SQLException;   
+    
+     List<BlockedUsers> getAllBlocked() throws SQLException;
     
     List<User> searchUser(String firstName,String lastName, String email) throws SQLException;
     
