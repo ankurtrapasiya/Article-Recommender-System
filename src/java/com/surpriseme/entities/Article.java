@@ -7,11 +7,11 @@ public class Article {
     private Integer articleid;
     private String title;
     private String body;
-    private Integer upvote;
-    private Integer downvote;
-    private Integer viewed;
+    private Integer upvote=0;
+    private Integer downvote=0;
+    private Integer viewed=0;
     private Timestamp timestamp;
-    private Float popularityscore;
+    private Float popularityscore=0.0f;
     private Timestamp publicationdate;
 
     public Float getPopularityscore() {
