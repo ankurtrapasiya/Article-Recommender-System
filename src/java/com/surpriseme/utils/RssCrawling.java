@@ -56,9 +56,9 @@ public class RssCrawling {
         ArticleDAOImpl articleDAOImpl=null;
         TagDAOImpl tagDAOImpl=null;
         DAOMiscImpl daoMiscImpl=null;
-        int articleid = 0;
-        int tagid = 0;
-        Boolean articleUpdated = false;
+        Integer articleid = 0;
+        Integer tagid = 0;
+        Boolean articleSaved = false;
         Boolean articleExists = false;
         Boolean tagAdded = false;
         Boolean tagAddedToArticle = false;
@@ -76,6 +76,7 @@ public class RssCrawling {
 
                 article.setTitle(entry.getTitle());
                 articleLinks.setArticleurl(entry.getUri());
+                //parseDate is the local method to format the PubDate into required format.
                 article.setPublicationdate(new Timestamp(parseDate(entry.getPublishedDate().toString())));
                 article.setBody(Jsoup.clean(entry.getDescription().getValue(), Whitelist.simpleText()));
                 article.setTimestamp(new Timestamp(new Date().getTime()));
@@ -87,16 +88,14 @@ public class RssCrawling {
                 }
                 articleExists = articleDAOImpl.checkIfArticleExist(articleLinks.getArticleurl());
                 if (articleExists == false) {
-                    articleUpdated = articleDAOImpl.saveOrUpdate(article);
-                    if (articleUpdated) {//if success
-                        articleid = daoMiscImpl.getLastInsertedId();
+                    articleid = articleDAOImpl.saveOrUpdate(article);
+                    if (articleid!=null) {//if success
                         articleurlAdded = articleDAOImpl.addSourceToArticle(articleid, articleLinks.getArticleurl(), articleid);
                         if (articleurlAdded) {
                             for (int i = 0; i < tags.size(); i++) {
                                 //checkIftagExists function.
-                                tagAdded = tagDAOImpl.saveOrUpdate(tags.get(i));
-                                if (tagAdded) {
-                                    tagid = daoMiscImpl.getLastInsertedId();
+                                tagid = tagDAOImpl.saveOrUpdate(tags.get(i));
+                                if (tagid!=null) {
                                     tagAddedToArticle = tagDAOImpl.addTagToArticle(tagid, articleid);
                                 }//end if(tagAdded)
                             }//end of for
