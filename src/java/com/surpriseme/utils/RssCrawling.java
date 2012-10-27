@@ -15,10 +15,12 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.DAOMiscImpl;
+import com.surpriseme.DAOImpl.SourceDAOImpl;
 import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.ArticleLinks;
+import com.surpriseme.entities.Source;
 import com.surpriseme.entities.Tag;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -56,8 +58,11 @@ public class RssCrawling {
         ArticleDAOImpl articleDAOImpl=null;
         TagDAOImpl tagDAOImpl=null;
         DAOMiscImpl daoMiscImpl=null;
+        SourceDAOImpl sourceDAOImpl=null;
+        Source source=null;
         Integer articleid = 0;
         Integer tagid = 0;
+        Integer sourceid=0;
         Boolean articleSaved = false;
         Boolean articleExists = false;
         Boolean tagAdded = false;
@@ -67,34 +72,47 @@ public class RssCrawling {
             URL feedUrl = new URL(rssurl);
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(feedUrl));
-            tags = new ArrayList<Tag>();
+            
             article = new Article();
             articleDAOImpl = new ArticleDAOImpl();
             articleLinks=new ArticleLinks();
             daoMiscImpl=new DAOMiscImpl();
+            sourceDAOImpl=new SourceDAOImpl();
+            source=new Source();
+            tagDAOImpl=new TagDAOImpl();
             for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
 
                 article.setTitle(entry.getTitle());
+                System.out.println(entry.getTitle());
                 articleLinks.setArticleurl(entry.getUri());
                 //parseDate is the local method to format the PubDate into required format.
                 article.setPublicationdate(new Timestamp(parseDate(entry.getPublishedDate().toString())));
                 article.setBody(Jsoup.clean(entry.getDescription().getValue(), Whitelist.simpleText()));
                 article.setTimestamp(new Timestamp(new Date().getTime()));
                 //category is tag in our system.
+                tags = new ArrayList<Tag>();
                 for (SyndCategoryImpl category : (List<SyndCategoryImpl>) entry.getCategories()) {
                     tag = new Tag();
-                    tag.setName(category.getName());
+                    tag.setName(category.getName().toLowerCase());
+                    tag.setIcon("");
+                    tag.setDescription("");
                     tags.add(tag);
+                    System.out.println(category.getName());
+                    
                 }
+                
                 articleExists = articleDAOImpl.checkIfArticleExist(articleLinks.getArticleurl());
                 if (articleExists == false) {
                     articleid = articleDAOImpl.saveOrUpdate(article);
                     if (articleid!=null) {//if success
-                        articleurlAdded = articleDAOImpl.addSourceToArticle(articleid, articleLinks.getArticleurl(), articleid);
+                        source=sourceDAOImpl.getSoureFromFeedUrl(rssurl);
+                        articleurlAdded = articleDAOImpl.addSourceToArticle(articleid, articleLinks.getArticleurl(), source.getSourceid());
                         if (articleurlAdded) {
                             for (int i = 0; i < tags.size(); i++) {
-                                //checkIftagExists function.
+                                tagid=tagDAOImpl.checkIfTagExist(tags.get(i).getName());
+                                if(tagid==null){
                                 tagid = tagDAOImpl.saveOrUpdate(tags.get(i));
+                                }
                                 if (tagid!=null) {
                                     tagAddedToArticle = tagDAOImpl.addTagToArticle(tagid, articleid);
                                 }//end if(tagAdded)
