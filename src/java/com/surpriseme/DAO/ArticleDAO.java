@@ -25,4 +25,5 @@ public interface ArticleDAO extends GenericDAO<Article, Integer> {
     boolean checkIfArticleExist(String guid) throws SQLException;
 
     boolean addSourceToArticle(Integer articleid, String articleurl, Integer sourceid) throws SQLException;
+        
 }
