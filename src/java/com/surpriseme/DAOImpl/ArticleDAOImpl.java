@@ -114,9 +114,9 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(Article entity) throws SQLException {
+    public Integer saveOrUpdate(Article entity) throws SQLException {
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -143,9 +143,17 @@ public class ArticleDAOImpl implements ArticleDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
+
+                String sql = "select last_insert_id()";
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
             }
 
-            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -645,7 +653,7 @@ public class ArticleDAOImpl implements ArticleDAO {
             }
 
             retval.put(Category.BROWSING, articleList);
-            
+
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

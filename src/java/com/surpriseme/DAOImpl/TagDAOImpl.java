@@ -66,9 +66,9 @@ public class TagDAOImpl implements TagDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(Tag entity) throws SQLException {
+    public Integer saveOrUpdate(Tag entity) throws SQLException {
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -91,9 +91,15 @@ public class TagDAOImpl implements TagDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
-            }
+                String sql = "select last_insert_id()";
 
-            retval = true;
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
+            }            
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());

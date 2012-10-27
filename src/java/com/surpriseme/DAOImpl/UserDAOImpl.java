@@ -225,10 +225,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(User entity) throws SQLException {
+    public Integer saveOrUpdate(User entity) throws SQLException {
 
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -259,9 +259,15 @@ public class UserDAOImpl implements UserDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
-            }
+                String sql = "select last_insert_id()";
 
-            retval = true;
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -730,7 +736,7 @@ public class UserDAOImpl implements UserDAO {
 
                     User user = new User();
 
-                    Integer friendId = rs.getInt("friendId");
+                    Integer friendId = rs.getInt("friendid");
 
                     user = userDao.findById(friendId);
 
@@ -752,7 +758,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<BlockedUsers> getBlockedUsers() throws SQLException{
+    public List<BlockedUsers> getBlockedUsers() throws SQLException {
         List<BlockedUsers> retval = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;

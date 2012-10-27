@@ -28,10 +28,10 @@ public class SourceDAOImpl implements SourceDAO {
     private static final Logger logger = Logger.getLogger(SourceDAOImpl.class);
 
     @Override
-    public boolean saveOrUpdate(Source entity) throws SQLException {
+    public Integer saveOrUpdate(Source entity) throws SQLException {
 
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -55,9 +55,15 @@ public class SourceDAOImpl implements SourceDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
-            }
+                String sql = "select last_insert_id()";
 
-            retval = true;
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
