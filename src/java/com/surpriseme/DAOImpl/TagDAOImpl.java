@@ -361,7 +361,7 @@ public class TagDAOImpl implements TagDAO {
 
             if (con.connect()) {
 
-                String sql = "select tagid from tag where lower(tagname)=lower(?)";
+                String sql = "select tagid from tag where lower(name)=lower(?)";
                 pstmt = con.getConnection().prepareStatement(sql);
                 pstmt.setString(1, tagname);
 
