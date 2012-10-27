@@ -283,4 +283,51 @@ public class SourceDAOImpl implements SourceDAO {
         }
         return retval;
     }
+
+    @Override
+    public Source getSoureFromFeedUrl(String feedUrl) throws SQLException {
+
+
+        Source retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from source where feedurl=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, feedUrl);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    Source source = new Source();
+                    source.setSourceid(rs.getInt("sourceid"));
+                    source.setName(rs.getString("name"));
+                    source.setUrl(rs.getString("url"));
+                    source.setFeedurl(rs.getString("feedurl"));
+                    source.setIcon(rs.getString("icon"));
+                    source.setIsactive(rs.getBoolean("isactive"));
+
+                    retval = source;
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
 }
