@@ -54,15 +54,15 @@ public class RssCrawling {
     public void crawlArticles(String rssurl) {
         Tag tag;
         Article article;
-        ArticleLinks articleLinks=null;
-        ArticleDAOImpl articleDAOImpl=null;
-        TagDAOImpl tagDAOImpl=null;
-        DAOMiscImpl daoMiscImpl=null;
-        SourceDAOImpl sourceDAOImpl=null;
-        Source source=null;
+        ArticleLinks articleLinks = null;
+        ArticleDAOImpl articleDAOImpl = null;
+        TagDAOImpl tagDAOImpl = null;
+        DAOMiscImpl daoMiscImpl = null;
+        SourceDAOImpl sourceDAOImpl = null;
+        Source source = null;
         Integer articleid = 0;
         Integer tagid = 0;
-        Integer sourceid=0;
+        Integer sourceid = 0;
         Boolean articleSaved = false;
         Boolean articleExists = false;
         Boolean tagAdded = false;
@@ -72,14 +72,14 @@ public class RssCrawling {
             URL feedUrl = new URL(rssurl);
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(feedUrl));
-            
+
             article = new Article();
             articleDAOImpl = new ArticleDAOImpl();
-            articleLinks=new ArticleLinks();
-            daoMiscImpl=new DAOMiscImpl();
-            sourceDAOImpl=new SourceDAOImpl();
-            source=new Source();
-            tagDAOImpl=new TagDAOImpl();
+            articleLinks = new ArticleLinks();
+            daoMiscImpl = new DAOMiscImpl();
+            sourceDAOImpl = new SourceDAOImpl();
+            source = new Source();
+            tagDAOImpl = new TagDAOImpl();
             for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
 
                 article.setTitle(entry.getTitle());
@@ -97,26 +97,27 @@ public class RssCrawling {
                     tag.setIcon("");
                     tag.setDescription("");
                     tags.add(tag);
-                    System.out.println(category.getName());
-                    
+
                 }
-                
+
                 articleExists = articleDAOImpl.checkIfArticleExist(articleLinks.getArticleurl());
                 if (articleExists == false) {
                     articleid = articleDAOImpl.saveOrUpdate(article);
-                    if (articleid!=null) {//if success
-                        source=sourceDAOImpl.getSoureFromFeedUrl(rssurl);
+                    if (articleid != null) {//if success
+                        source = sourceDAOImpl.getSoureFromFeedUrl(rssurl);
                         articleurlAdded = articleDAOImpl.addSourceToArticle(articleid, articleLinks.getArticleurl(), source.getSourceid());
                         if (articleurlAdded) {
-                            for (int i = 0; i < tags.size(); i++) {
-                                tagid=tagDAOImpl.checkIfTagExist(tags.get(i).getName());
-                                if(tagid==null){
-                                tagid = tagDAOImpl.saveOrUpdate(tags.get(i));
-                                }
-                                if (tagid!=null) {
-                                    tagAddedToArticle = tagDAOImpl.addTagToArticle(tagid, articleid);
-                                }//end if(tagAdded)
-                            }//end of for
+                            if (tags.size() >= 1) {
+                                for (int i = 0; i < tags.size(); i++) {
+                                    tagid = tagDAOImpl.checkIfTagExist(tags.get(i).getName());
+                                    if (tagid == null) {
+                                        tagid = tagDAOImpl.saveOrUpdate(tags.get(i));
+                                    }
+                                    if (tagid != null) {
+                                        tagAddedToArticle = tagDAOImpl.addTagToArticle(tagid, articleid);
+                                    }//end if(tagAdded)
+                                }//end of for
+                            }
                         }
                     }//end if(articleupdated
                 } else {

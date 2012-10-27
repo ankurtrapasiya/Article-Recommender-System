@@ -48,7 +48,7 @@ public class RssCrawlingTest {
     @Test
     public void testCrawlArticles() {
         System.out.println("crawlArticles");
-        String rssurl = "http://feeds.feedburner.com/Mobilecrunch";
+        String rssurl = "http://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms";
         RssCrawling instance = new RssCrawling();
         instance.crawlArticles(rssurl);
         // TODO review the generated test code and remove the default call to fail.
