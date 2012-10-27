@@ -63,7 +63,7 @@ public class SignUpController extends HttpServlet {
             UserDAOImpl userDao = new UserDAOImpl();
             boolean retval = false;
             try {
-                retval = userDao.saveOrUpdate(u);
+                userDao.saveOrUpdate(u);
             } catch (SQLException ex) {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
             }
