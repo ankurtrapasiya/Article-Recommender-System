@@ -66,9 +66,9 @@ public class TagDAOImpl implements TagDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(Tag entity) throws SQLException {
+    public Integer saveOrUpdate(Tag entity) throws SQLException {
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -91,9 +91,15 @@ public class TagDAOImpl implements TagDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
-            }
+                String sql = "select last_insert_id()";
 
-            retval = true;
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
+            }            
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -326,11 +332,48 @@ public class TagDAOImpl implements TagDAO {
 
                 cstmt.setInt("p_articleid", ArticleId);
                 cstmt.setInt("p_tagid", tagId);
-              
+
                 rs = con.saveOrUpdate(cstmt);
 
             }
             retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public Integer checkIfTagExist(String tagname) throws SQLException {
+        Integer retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select tagid from tag where lower(tagname)=lower(?)";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, tagname);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    retval = rs.getInt("tagid");
+
+                }
+
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());

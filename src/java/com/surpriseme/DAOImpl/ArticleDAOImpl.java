@@ -114,9 +114,9 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(Article entity) throws SQLException {
+    public Integer saveOrUpdate(Article entity) throws SQLException {
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -143,9 +143,17 @@ public class ArticleDAOImpl implements ArticleDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
+
+                String sql = "select last_insert_id()";
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
             }
 
-            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -403,7 +411,6 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         ArticleDAOImpl articleDAO = null;
 
-        TreeSet<TagHelper> tags = new TreeSet<TagHelper>(new TagSorter());
 
         //Relevancy
 
@@ -536,48 +543,6 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
 
-        //browsing
-
-        sql = "select t.name as tagname,count(*) as counts"
-                + " from tag t"
-                + " inner join articletag a"
-                + " on a.tagid=t.tagid"
-                + " inner join article art"
-                + " on a.articleid=art.articleid"
-                + " inner join userhistory uh"
-                + " on uh.articleid=art.articleid"
-                + " inner join articleinterest ai"
-                + " on ai.articleid=art.articleid"
-                + " and ai.interestid=" + interestid
-                + " and uh.userid=" + userid
-                + " group by t.name"
-                + " order by t.name";
-
-
-        con = new DBConnection();
-        try {
-
-            if (con.connect()) {
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-
-                    String key = rs.getString("tagname");
-                    Integer value = rs.getInt("counts");
-
-                    TagHelper th = new TagHelper(key, value);
-
-                    tags.add(th);
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            con.disconnect();
-        }
-
-
         //randomization                 
 
         it = usersHistory.iterator();
@@ -628,6 +593,67 @@ public class ArticleDAOImpl implements ArticleDAO {
 
                 retval.put(Category.RANDOMIZATION, articleList);
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.disconnect();
+        }
+
+        //browsing
+
+        sql = "select a.articleid as articleid,t.tagid as tagid,t.name as name"
+                + "from article a,userhistory uh,tag t,articletag at,articleinterest ai"
+                + "where uh.articleid=at.articleid"
+                + "and at.articleid=a.articleid"
+                + "and at.tagid=t.tagid"
+                + "and ai.articleid=a.articleid"
+                + "and at.tagid in("
+                + "select at.tagid"
+                + "from articletag at,userhistory uh,articleinterest ai,article a"
+                + "where uh.articleid=at.articleid"
+                + "and at.articleid=a.articleid"
+                + "and ai.articleid=a.articleid"
+                + "and ai.interestid=?"
+                + "and uh.userid=?"
+                + "group by at.tagid"
+                + "order by count(*) desc)"
+                + "and a.articleid not in("
+                + "select a.articleid"
+                + "from article a,userhistory uh,articleinterest ai"
+                + "where a.articleid=uh.articleid"
+                + "and ai.articleid=a.articleid"
+                + "and ai.interestid=?"
+                + "and uh.userid=?)"
+                + "and ai.interestid=?"
+                + "and uh.userid=?"
+                + "group by t.tagid,t.name"
+                + "order by count(*) desc , a.popularityscore desc";
+
+
+        con = new DBConnection();
+        articleList = new ArrayList<Article>();
+        try {
+
+            if (con.connect()) {
+
+                rs = con.customQuery(sql);
+
+                ArticleDAOImpl articleDao = new ArticleDAOImpl();
+
+                while (rs.next()) {
+
+                    Integer key = rs.getInt("articleid");
+
+                    Article article = articleDao.findById(key);
+
+                    articleList.add(article);
+
+                }
+
+            }
+
+            retval.put(Category.BROWSING, articleList);
+
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ArticleDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -699,7 +725,7 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public boolean addSourceToArticle(Integer articleid, String articleurl,Integer sourceid) throws SQLException {
+    public boolean addSourceToArticle(Integer articleid, String articleurl, Integer sourceid) throws SQLException {
         boolean retval = false;
         ResultSet rs = null;
 

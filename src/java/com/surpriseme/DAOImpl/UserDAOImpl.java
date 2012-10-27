@@ -225,10 +225,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(User entity) throws SQLException {
+    public Integer saveOrUpdate(User entity) throws SQLException {
 
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -259,9 +259,15 @@ public class UserDAOImpl implements UserDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
-            }
+                String sql = "select last_insert_id()";
 
-            retval = true;
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
+
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -720,20 +726,20 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                sql="select * from usergraph where userid=" + userid;
+                sql = "select * from usergraph where userid=" + userid;
 
                 rs = con.customQuery(sql);
-                
-                UserDAOImpl userDao=new UserDAOImpl();
+
+                UserDAOImpl userDao = new UserDAOImpl();
 
                 while (rs.next()) {
 
                     User user = new User();
 
-                    Integer friendId=rs.getInt("friendId");                    
+                    Integer friendId = rs.getInt("friendid");
 
-                    user=userDao.findById(friendId);
-                    
+                    user = userDao.findById(friendId);
+
                     retval.add(user);
                 }
 
@@ -749,5 +755,48 @@ public class UserDAOImpl implements UserDAO {
 
         return retval;
 
+    }
+
+    @Override
+    public List<BlockedUsers> getBlockedUsers() throws SQLException {
+        List<BlockedUsers> retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from blockeduser where isactive=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setBoolean(1, true);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    BlockedUsers user = new BlockedUsers();
+
+                    user.setUserid(rs.getInt("userid"));
+                    user.setBlockerid(rs.getInt("blockerid"));
+                    user.setTimestamp(rs.getTimestamp("timestamp"));
+                    user.setReason(rs.getString("reason"));
+                    user.setIsActive(rs.getBoolean("isactive"));
+
+                    retval.add(user);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        return retval;
     }
 }

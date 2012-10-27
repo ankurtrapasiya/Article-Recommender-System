@@ -11,7 +11,6 @@ import java.sql.SQLException;
  * @author ankur
  */
 public interface DAOMisc {
-    
-    Integer getLastInsertedId() throws SQLException;
+        
     
 }

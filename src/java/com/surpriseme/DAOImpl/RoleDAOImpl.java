@@ -68,10 +68,10 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public boolean saveOrUpdate(Role entity) throws SQLException {
+    public Integer saveOrUpdate(Role entity) throws SQLException {
 
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -90,10 +90,15 @@ public class RoleDAOImpl implements RoleDAO {
                 cstmt.setString("p_description", entity.getDescription());
 
                 rs = con.saveOrUpdate(cstmt);
+                String sql = "select last_insert_id()";
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
 
             }
-
-            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());

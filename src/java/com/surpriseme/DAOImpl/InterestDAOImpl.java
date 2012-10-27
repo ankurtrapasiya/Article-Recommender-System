@@ -31,10 +31,10 @@ public class InterestDAOImpl implements InterestDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public boolean saveOrUpdate(Interest entity) throws SQLException {
+    public Integer saveOrUpdate(Interest entity) throws SQLException {
 
         ResultSet rs = null;
-        boolean retval = false;
+        Integer retval = null;
 
         try {
 
@@ -58,9 +58,15 @@ public class InterestDAOImpl implements InterestDAO {
 
                 rs = con.saveOrUpdate(cstmt);
 
+                String sql = "select last_insert_id()";
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt(1);
+                }
             }
 
-            retval = true;
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -339,12 +345,12 @@ public class InterestDAOImpl implements InterestDAO {
 
                 while (rs.next()) {
 
-                    Source source=null;
-                    
+                    Source source = null;
+
                     Integer sourceid = rs.getInt("sourceid");
 
-                    source=sourceDao.findById(sourceid);
-                    
+                    source = sourceDao.findById(sourceid);
+
                     retval.add(source);
                 }
 
