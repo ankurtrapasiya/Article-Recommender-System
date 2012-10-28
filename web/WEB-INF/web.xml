@@ -86,6 +86,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>ClientIndex</welcome-file>
+        <welcome-file>Client</welcome-file>
     </welcome-file-list>
 </web-app>
