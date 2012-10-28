@@ -712,8 +712,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     retval = true;
                 }
 
-            }
-            retval = true;
+            }            
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
