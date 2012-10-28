@@ -1,93 +1,111 @@
-<%-- 
-    Document   : index
-    Created on : 27 Oct, 2012, 7:03:13 AM
-    Author     : ankur
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>surprise.me</title>
-        <link media="all" rel="stylesheet" type="text/css" href="client/css/style.css" />        
-        <script src="js/jquery.main.js" type="text/javascript"></script>
-        <link rel="shortcut icon" href="images/webico.ico">
+<head>
+    <meta charset="utf-8">
+    <title>AdminPanel</title>
+    <link media="all" rel="stylesheet" type="text/css" href="client/css/style.css" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js/jquery-1.8.2.min.js"><\/script>');</script>
+    <script type="text/javascript" src="js/jquery.main.js"></script>
+    <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.8.2.min.js"><\/script>')</script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $("#main").load("client/workarea.jsp");
+            
+            $("#home").click(function(){                
+                $.get("client/workarea.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
+            $("#profile").click(function(){                
+                $.get("client/profile.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });       
 
-    </head>
-    <body>
-        <div id="wrapper">
-            <div id="content">
-                <div class="c1">
-                    <div class="controls">
-                        <nav class="links">
-                            <ul>
-                                <li><a href="client/suggestions.jsp" class="ico1">Suggestions <span class="num">26</span></a></li>
-                                <li><a href="client/notifications.jsp" class="ico2">Notifications <span class="num">5</span></a></li>
-                                <li><a href="client/popular.jsp" class="ico3">Popular <span class="num">3</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="profile-box">
-                            <span class="profile">
-                                <a href="Logout" class="section">
-                                    <img class="image" src="images/user.png" width="26" height="26" />
-                                    <span class="text-box">
-                                        Welcome
-                                        <strong class="name">Ankur</strong>
-                                    </span>
-                                </a>
-                                <a href="#" class="opener">opener</a>
-                            </span>
-                            <a href="#" class="btn-on">On</a>
-                        </div>
+            $("#interest").click(function(){                
+                $.get("client/interest.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
+            $("#favourite").click(function(){                
+                $.get("client/favourite.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
+            $("#history").click(function(){                
+                $.get("client/history.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
+        });
+    </script>
+
+</head>
+<body>
+    <div id="wrapper">
+        <div id="content">
+            <div class="c1">
+                <div class="controls">
+                    <nav class="links">
+                        <ul>
+                            <li><a href="#" class="ico1">Suggestions <span class="num">26</span></a></li>
+                            <li><a href="#" class="ico2">Notifications <span class="num">5</span></a></li>
+                            <li><a href="#" class="ico3">Popular <span class="num">3</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="profile-box">
+                        <span class="profile">
+                            <a href="#" class="section">
+                                <img class="image" src="images/user.png" alt="image description" width="26" height="26" />
+                                <span class="text-box">
+                                    Welcome
+                                    <strong class="name">Ankur</strong>
+                                </span>
+                            </a>
+                            <a href="#" class="opener">opener</a>
+                        </span>
+                        <a href="#" class="btn-on">On</a>
                     </div>
-                    <div class="tabs">
-                        <div id="tab-1" class="tab">
-                            <article>
-                                <div class="text-section">
-                                    <h1>Dashboard</h1>
-                                    <p>This is a quick overview of some features</p>                                                                       
-                                    
-                                </div>
-                                <ul class="states">
-                                    <li class="error">Error : This is an error placed text message.</li>
-                                    <li class="warning">Warning: This is a warning placed text message.</li>
-                                    <li class="succes">Succes : This is a succes placed text message.</li>
-                                </ul>
-                            </article>
-                        </div>                   
+                </div>
+                <div class="workarea">
+                    <div id="main" class="main">	                        
+
                     </div>
                 </div>
             </div>
-            <aside id="sidebar">
-                <strong class="logo"><a href="#">lg</a></strong>
-                <ul class="tabset buttons">
-                    <li class="active">
-                        <a href="client/index.jsp" class="ico1"><span>Home</span><em></em></a>
-                        <span class="tooltip"><span>Home</span></span>
-                    </li>
-                    <li>
-                        <a href="client/profile.jsp" class="ico2"><span>Profile</span><em></em></a>
-                        <span class="tooltip"><span>Profile</span></span>
-                    </li>                
-                    <li>
-                        <a href="client/interests.jsp" class="ico3"><span>Interests</span><em></em></a>
-                        <span class="tooltip"><span>Interests</span></span>
-                    </li>   
-                    <li>
-                        <a href="client/favourites.jsp" class="ico4"><span>Favourites</span><em></em></a>
-                        <span class="tooltip"><span>Favourites</span></span>
-                    </li>  
-                    <li>
-                        <a href="client/history.jsp" class="ico5"><span>History</span><em></em></a>
-                        <span class="tooltip"><span>History</span></span>
-                    </li>  
-                </ul>
-                <span class="shadow"></span>
-            </aside>
         </div>
-    </body>
+        <aside id="sidebar">
+            <strong class="logo"><a href="#">lg</a></strong>
+            <ul class="tabset buttons">
+                <li class="active">
+                    <a href="#tab-1" class="ico1" id="home"><span>Home</span><em></em></a>
+                    <span class="tooltip"><span>Home</span></span>
+                </li>
+                <li>
+                    <a href="#tab-1" class="ico2" id="profile"><span>Profile</span><em></em></a>
+                    <span class="tooltip"><span>Profile</span></span>
+                </li>                 
+                <li>
+                    <a href="#tab-1" class="ico3" id="interest"><span>Interests</span><em></em></a>
+                    <span class="tooltip"><span>Interests</span></span>
+                </li>
+                <li>
+                    <a href="#tab-1" class="ico4" id="favourite"><span>Favourites</span><em></em></a>
+                    <span class="tooltip"><span>Favourites</span></span>
+                </li>
+                <li>
+                    <a href="#tab-1" class="ico5" id="history"><span>History</span><em></em></a>
+                    <span class="tooltip"><span>History</span></span>
+                </li>               
+            </ul>
+            <span class="shadow"></span>
+        </aside>
+    </div>
+</body>
 </html>
