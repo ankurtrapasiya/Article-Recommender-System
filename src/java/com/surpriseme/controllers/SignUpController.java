@@ -1,4 +1,4 @@
-package com.web;
+package com.surpriseme.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
