@@ -6,7 +6,7 @@ package com.surpriseme.utils;
 
 /**
  *
- * @author ankur
+ * @author ankur trapasiya
  */
 public enum Category {
 
