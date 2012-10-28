@@ -75,13 +75,5 @@ public class Utilities {
         }
         return null;
     }
-
-    public void saaymehi() {
-    }
     
-    public void saaymehiagain() {
-    }
-    
-    public void saaymehiagain1() {
-    }
 }
