@@ -1,6 +1,6 @@
 <%-- 
-    Document   : interests
-    Created on : 27 Oct, 2012, 7:09:29 AM
+    Document   : interest
+    Created on : 28 Oct, 2012, 6:23:59 AM
     Author     : ankur
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Interests</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Interest</h1>
     </body>
 </html>

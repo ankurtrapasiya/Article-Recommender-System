@@ -12,6 +12,6 @@
         <title>Favourites</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Favourite</h1>
     </body>
 </html>

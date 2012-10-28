@@ -8,6 +8,38 @@
         <servlet-name>UserInterestsControllers</servlet-name>
         <servlet-class>com.surpriseme.controllers.UserInterestsControllers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Client</servlet-name>
+        <jsp-file>/client/index.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Interest</servlet-name>
+        <jsp-file>/client/interests.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Profile</servlet-name>
+        <jsp-file>/client/profile.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Favourites</servlet-name>
+        <jsp-file>/client/favourites.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>History</servlet-name>
+        <jsp-file>/client/history.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Suggestions</servlet-name>
+        <jsp-file>/client/suggestions.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Popular</servlet-name>
+        <jsp-file>/client/popular.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Notifications</servlet-name>
+        <jsp-file>/client/notifications.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/SignUpController</url-pattern>
@@ -16,12 +48,44 @@
         <servlet-name>UserInterestsControllers</servlet-name>
         <url-pattern>/UserInterestsControllers</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Client</servlet-name>
+        <url-pattern>/Client</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Interest</servlet-name>
+        <url-pattern>/Interest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Favourites</servlet-name>
+        <url-pattern>/Favourites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>History</servlet-name>
+        <url-pattern>/History</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Suggestions</servlet-name>
+        <url-pattern>/Suggestions</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Popular</servlet-name>
+        <url-pattern>/Popular</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Notifications</servlet-name>
+        <url-pattern>/Notifications</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>client/index.jsp</welcome-file>
+        <welcome-file>ClientIndex</welcome-file>
     </welcome-file-list>
 </web-app>
