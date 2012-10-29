@@ -168,11 +168,12 @@ public class UserDAOImpl implements UserDAO {
             con = new DBConnection();
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_usergraph(?,?)}");
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_usergraph(?,?,?)}");
 
 
                 cstmt.setInt("p_friendid", friendId);
                 cstmt.setInt("p_userid", userId);
+                cstmt.setBoolean("p_isnotifitied", false);
 
                 rs = con.saveOrUpdate(cstmt);
 
@@ -843,5 +844,34 @@ public class UserDAOImpl implements UserDAO {
             con.disconnect();
         }
         return retval;
+    }
+
+    @Override
+    public void updateUserGraph(Integer userid, Integer friendid, boolean value) throws SQLException {
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?)}");
+
+                cstmt.setInt("p_friendid", friendid);
+                cstmt.setInt("p_userid", userid);
+                cstmt.setBoolean("p_isnotifitied", value);
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
+            con.disconnect();
+        }
     }
 }
