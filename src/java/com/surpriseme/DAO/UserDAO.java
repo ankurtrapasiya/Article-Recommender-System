@@ -8,6 +8,7 @@ import com.surpriseme.entities.BlockedUsers;
 import com.surpriseme.entities.Interest;
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserActivation;
+import com.surpriseme.entities.UserSuggestions;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -40,4 +41,8 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     List<User> getAllFriends(Integer userid) throws SQLException;
 
     List<BlockedUsers> getBlockedUsers() throws SQLException;
+
+    List<UserSuggestions> getUserSuggestions(Integer userid) throws SQLException;
+    
+    
 }

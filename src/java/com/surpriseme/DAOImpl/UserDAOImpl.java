@@ -10,6 +10,7 @@ import com.surpriseme.entities.Interest;
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserActivation;
 import com.surpriseme.entities.UserInterest;
+import com.surpriseme.entities.UserSuggestions;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
@@ -786,6 +787,50 @@ public class UserDAOImpl implements UserDAO {
                     user.setIsActive(rs.getBoolean("isactive"));
 
                     retval.add(user);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        return retval;
+    }
+
+    @Override
+    public List<UserSuggestions> getUserSuggestions(Integer userid) throws SQLException {
+        List<UserSuggestions> retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from usersuggestions where userid=? and isviewed=false";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setInt(1, userid);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    UserSuggestions userSuggestions = new UserSuggestions();
+
+                    userSuggestions.setId(rs.getInt("id"));
+                    userSuggestions.setUserid(rs.getInt("userid"));
+                    userSuggestions.setFriendid(rs.getInt("friendid"));
+                    userSuggestions.setArticleid(rs.getInt("articleid"));
+                    userSuggestions.setIsviewed(rs.getBoolean("isviewed"));
+                    userSuggestions.setTimestamp(rs.getTimestamp("timestamp"));
+
+                    retval.add(userSuggestions);
                 }
 
             }
