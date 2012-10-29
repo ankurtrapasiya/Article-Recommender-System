@@ -40,6 +40,18 @@
         <servlet-name>Notifications</servlet-name>
         <jsp-file>/client/notifications.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.tagAddUpdateDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertUpdateTagServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.InsertUpdateTagServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserImage</servlet-name>
+        <servlet-class>com.surpriseme.controllers.InsertImage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/SignUpController</url-pattern>
@@ -80,6 +92,18 @@
         <servlet-name>Notifications</servlet-name>
         <url-pattern>/Notifications</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
+        <url-pattern>/tagAddUpdateDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertUpdateTagServlet</servlet-name>
+        <url-pattern>/InsertUpdateTagServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserImage</servlet-name>
+        <url-pattern>/InserImage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -88,4 +112,11 @@
     <welcome-file-list>
         <welcome-file>Client</welcome-file>
     </welcome-file-list>
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>file-upload</param-name>
+        <param-value>
+        /home/peace/gthub/surprise/surpriseme/web/images/Tag/
+     </param-value>
+    </context-param>
 </web-app>
