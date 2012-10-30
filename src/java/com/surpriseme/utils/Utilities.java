@@ -4,7 +4,11 @@
  */
 package com.surpriseme.utils;
 
+import com.surpriseme.entities.Article;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -15,6 +19,8 @@ import javax.mail.internet.MimeMessage;
  * @author ankur
  */
 public class Utilities {
+
+    public static int articleDisplayThreshold = 10;
 
     public static java.sql.Date getSqlDate(java.util.Date date) {
         java.sql.Date sdate = new java.sql.Date(date.getTime());
@@ -75,5 +81,84 @@ public class Utilities {
         }
         return null;
     }
-    
+
+    public static List<Article> processArticles(Map<Category, List<Article>> map) {
+
+        List<Article> retval = new ArrayList<Article>();
+
+        List<Article> browsingList = map.get(Category.BROWSING); //3
+        int b = 3;
+
+        List<Article> randomizedList = map.get(Category.RANDOMIZATION); //2
+        int r = 2;
+
+        List<Article> popularList = map.get(Category.POPULARITY); //3
+        int p = 3;
+
+        List<Article> relevancyList = map.get(Category.RELEVANCY); //2
+        int rl = 2;
+
+        int factor = articleDisplayThreshold / 10;
+        b += factor;
+        r *= factor;
+        p *= factor;
+        rl *= factor;
+
+
+        //list indexes
+        int bi = 0;
+        int ri = 0;
+        int pi = 0;
+        int rli = 0;
+
+        while (true) {
+
+            int bb = b;
+            int rr = r;
+            int pp = p;
+            int rrll = rl;
+
+            List<Article> temp = new ArrayList<Article>();
+
+            while (pp > 0) {
+                if (!popularList.isEmpty()) {
+                    temp.add(popularList.get(pi));
+                    popularList.remove(pi);
+                    pi++;
+                }
+                pp--;
+            }
+            while (bb > 0) {
+                if (!browsingList.isEmpty()) {
+                    temp.add(browsingList.get(bi));
+                    browsingList.remove(pi);
+                    bi++;
+                }
+                bb--;
+            }
+            while (rrll > 0) {
+                if (!relevancyList.isEmpty()) {
+                    temp.add(relevancyList.get(rli));
+                    browsingList.remove(rrll);
+                    rli++;
+                }
+                rrll--;
+            }
+            while (rr > 0) {
+                if (!randomizedList.isEmpty()) {
+                    temp.add(randomizedList.get(ri));
+                    randomizedList.remove(ri);
+                    ri++;
+                }
+                rr--;
+            }
+            retval.addAll(temp);
+
+            if (popularList.isEmpty() && browsingList.isEmpty() && relevancyList.isEmpty() && randomizedList.isEmpty()) {
+                break;
+            }
+        }
+
+        return retval;
+    }
 }
