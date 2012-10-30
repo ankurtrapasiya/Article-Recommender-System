@@ -56,9 +56,10 @@
            function frmSubmit(t){
              
                 if(t == "ins"){
-                    var k=document.getElementById("frm");
+                    var k=document.getElementById("frmup");
                       k.method="post";
-                k.action='InsertUpdateTagServlet';                
+                      k.enctype="multipart/form-data";
+                k.action='InserImage';                 
                 k.submit();
                 }
                 else{
@@ -132,13 +133,14 @@
         <section id="main" class="column">
 
             <article class="module width_full">    
-                <header><center><h3> Fill The Form</h3> </center>
+                <header><center><h3><c:if test="${entity != null}">Update Tag</c:if>
+                            <c:if test="${entity eq null}">Insert Tag</c:if></h3> </center>
                     
                 </header>
                 <c:if test="${entity != null}">
-                    <form method="post" action="InsertUpdateTagServlet">
+                    <form method="post" action="InsertUpdateTagServlet" id="frmup">
                     <table cellpadding="10" cellspacing="">
-                    
+                        
                         <tr>
                             <td>Name :</td>
                             <td><input type="text" value="<c:out value="${entity.name}"/>" name="txtName">
@@ -146,13 +148,33 @@
                         </tr>
                         <tr>
                             <td>Icon :</td>
-                            <td><img src="images/<c:out value="${entity.icon}"/>" height="25" width="25" >
-                                <input type="hidden" value="<c:out value="${entity.icon}"/>" name="icn" id="icn">
-                            </td>
+                           <td><table align="center" cellspacing="2" cellpadding="2"> 
+                                        <tr>
+                                            <td rowspan="2">
+                                                <c:if test="${name eq null}">
+                                                    <img src="images/Tag/<c:out value="${entity.icon}"/>" width="45" height="45">
+                                                    <input type="hidden" value="<c:out value="${entity.icon}"/>" name="icn" id="icn" >
+                                                </c:if>
+                                                <c:if test="${name != null}">
+                                                    <img src="images/Tag/<c:out value="${name}"/>" width="45" height="45">
+                                                    <input type="hidden" value="<c:out value="${name}"/>" name="icn" id="icn" >
+                                                    <input type="hidden" value="<c:out value="${entity.icon}"/>" name="prev" id="prev" >
+                                                </c:if>
+                                            </td>
+                                            <td><input type="file" name="file" size="50" id="file" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="button" value="Upload File" onClick="frmSubmit('ins');"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="color: red"><c:out value="${message}"></c:out></td>
+                                        </tr>
+                                    </table>
+                                </td>
                         </tr>
                         <tr>
                             <td>Description :</td>
-                            <td><input type="text" multiple="true" name="txtDes"></td>
+                            <td><input type="text" multiple="true" name="txtDes" value="<c:out value="${entity.description}"/>"></td>
                         <tr>
                         <tr>
                             <td colspan="2" align="center"><input type="hidden" name="tagid" value="<c:out value="${entity.tagid}"/>" id="tagid">
@@ -161,32 +183,50 @@
                     
                     </table>
                     </form>
+                            <c:set scope="session" value="${entity}" var="entity"></c:set>
                 </c:if>
                 <c:if test="${entity eq null}">
                     <form  id="frm" name="frm" method="post" action="InsertUpdateTagServlet">
-                          
-                            Name : <input type="text" name="txtName2" id="txtName2" value=""><br><br>
-                        Icon : <br>
-                        <c:if test="${name eq null}">
-                        <img src="images/Tag/icn_tags.png">
-                        <input type="hidden" value="icn_tags.png" name="icn2" id="icn2" >
-                        </c:if>
-                        <c:if test="${name != null}">
-                            <img src="images/Tag/<c:out value="${name}"/>">
-                            <input type="hidden" value="<c:out value="${name}"/>" name="icn2" id="icn2" >
-                        </c:if>
-                            <input type="file" name="file" size="50" id="file" /> <c:out value="${message}"></c:out>
-                            <br/>
-                            <input type="button" value="Upload File" onClick="frmSubmit('up');"/> 
+                        <table cellspacing="2" cellpadding="2">
+                           
+                            <tr>
+                                <td>Name :</td>
+                                <td><input type="text" name="txtName2" id="txtName2" value=""></td>
+                            </tr>
+                            <tr>
+                                <td>Icon :</td>
+                                <td><table align="center" cellspacing="2" cellpadding="2"> 
+                                        <tr>
+                                            <td rowspan="2">
+                                                <c:if test="${name eq null}">
+                                                    <img src="images/Tag/icn_tags.png" width="45" height="45">
+                                                    <input type="hidden" value="icn_tags.png" name="icn2" id="icn2" >
+                                                </c:if>
+                                                <c:if test="${name != null}">
+                                                    <img src="images/Tag/<c:out value="${name}"/>" width="45" height="45">
+                                                    <input type="hidden" value="<c:out value="${name}"/>" name="icn2" id="icn2" >
+                                                </c:if>
+                                            </td>
+                                            <td><input type="file" name="file" size="50" id="file" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="button" value="Upload File" onClick="frmSubmit('up');"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="color: red"><c:out value="${message}"></c:out></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Description :</td>
+                                <td><input type="text" multiple="true" name="txtDes2"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center"><input type="submit" value="Insert"/></td>
+                            </tr>
                        
-                            <br>
-                            <br>
-                          
-                        Description : <input type="text" multiple="true" name="txtDes2">
-                        
-                        
-                        <input type="submit" value="Insert"/>
-                       
+                        </table>
                     </form>
                 </c:if>
             

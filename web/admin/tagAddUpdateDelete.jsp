@@ -11,7 +11,7 @@
         <head>
     
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tag Manage</title>
+        <title>Tag Management</title>
          <link rel="stylesheet" href="admin/css/layout.css" type="text/css" media="screen" />
          <link rel="stylesheet" href="admin/css/datatable.css" type="text/css" media="screen" />
         <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
@@ -129,6 +129,8 @@
             <article class="module width_full">    
                 <header><center><h3> Tags</h3> </center>
                     
+                    <a href="InsertUpdateTagServlet"> <input type="button" value="Insert" style=" float: right;" title="Add New Tag"></a>
+                    
                 </header>
                 <table class="tablesorter" cellspacing="0" id="tags"> 
                             <thead> 
@@ -151,9 +153,9 @@
                                     <td><form id="from">
                                             <input type="hidden" id="clicked" value="" name="clicked">
                                             <input type="hidden" name="tagid" value="<c:out value="${tg.tagid}"/>" id="tagid">
-                                            <img src="images/add.jpg" height="15" width="15" onclick="tagSubmit('add',<c:out value="${tg.tagid}"/>);"/>
-                                            <img src="images/edit.jpg" height="15" width="15" onclick="tagSubmit('up',<c:out value="${tg.tagid}"/>);"/>
-                                            <img src="images/delete.jpg" height="15" width="15" onclick="tagSubmit('del',<c:out value="${tg.tagid}"/>);"/>
+                                            
+                                            <img src="images/icn_edit.png" height="15" width="15" onclick="tagSubmit('up',<c:out value="${tg.tagid}"/>);" title="Edit"/>
+                                            <img src="images/icn_trash.png" height="15" width="15" onclick="tagSubmit('del',<c:out value="${tg.tagid}"/>);" title="Delete"/>
                                         </form>
                                     </td> 
                                 

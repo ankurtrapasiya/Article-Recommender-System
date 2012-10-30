@@ -6,6 +6,7 @@ package com.surpriseme.controllers;
 
 import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.entities.Tag;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,10 +14,12 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -67,6 +70,7 @@ public class InsertUpdateTagServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        request.getRequestDispatcher("admin/InsertUpdateTag.jsp").forward(request, response);
     }
 
     /**
@@ -83,29 +87,46 @@ public class InsertUpdateTagServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         Map p=request.getParameterMap();
-        TagDAOImpl tg=new TagDAOImpl();
-        Tag entity = new Tag();
+        TagDAOImpl tgDAO=new TagDAOImpl();
+        Tag tg = new Tag();
+        HttpSession se=request.getSession(false);
+        if(se!=null){
+            se.removeAttribute("entity");
+        }
         if(p.containsKey("tagid")){
-            entity.setTagid(Integer.parseInt(request.getParameter("tagid")));
-            entity.setDescription(request.getParameter("txtDes"));
-            entity.setIcon(request.getParameter("icn"));
-            entity.setName(request.getParameter("txtName"));
+            if(p.containsKey("prev")){
+                   
+                    ServletContext context=this.getServletContext();
+                String filePath = context.getInitParameter("file-upload");
+                        String str=request.getParameter("prev");
+                        File f= new File(filePath+str);
+                        if(f.exists()){
+                            if(str.contentEquals("icn_tags.png")){
+                                
+                            }
+                            else{
+                                f.delete();
+                            }
+                        }
+            }
+           
+            tg.setTagid(Integer.parseInt(request.getParameter("tagid")));
+            tg.setDescription(request.getParameter("txtDes"));
+            tg.setIcon(request.getParameter("icn"));
+            tg.setName(request.getParameter("txtName"));
                     try {
-                        tg.saveOrUpdate(entity);
+                        tgDAO.saveOrUpdate(tg);
                     } catch (SQLException ex) {
                         Logger.getLogger(InsertUpdateTagServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
         }
         else{
            
-              entity.setDescription(request.getParameter("txtDes2"));
-            entity.setIcon(request.getParameter("icn2"));
-            entity.setName(request.getParameter("txtName2"));
-            System.out.println(entity.getName());
-            System.out.println(entity.getDescription());
-             System.out.println(entity.getIcon());
+             tg.setDescription(request.getParameter("txtDes2"));
+            tg.setIcon(request.getParameter("icn2"));
+            tg.setName(request.getParameter("txtName2"));
                     try {
-                        tg.saveOrUpdate(entity);
+                        tgDAO.saveOrUpdate(tg);
                     } catch (SQLException ex) {
                         Logger.getLogger(InsertUpdateTagServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
