@@ -40,6 +40,10 @@
         <servlet-name>Notifications</servlet-name>
         <jsp-file>/client/notifications.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.BlockUnblockUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/SignUpController</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>Notifications</servlet-name>
         <url-pattern>/Notifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
+        <url-pattern>/BlockUnblockUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
