@@ -6,6 +6,7 @@ package com.surpriseme.controllers;
 
 import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.entities.Tag;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -111,7 +113,23 @@ public class tagAddUpdateDeleteServlet extends HttpServlet {
             
         }
         else if(ck.contentEquals("del")){
+                ServletContext context=this.getServletContext();
+                String filePath = context.getInitParameter("file-upload");
                     try {
+                        entity=tsg.findById(tem);
+                        String str=entity.getIcon();
+                        File f= new File(filePath+str);
+                        if(f.exists()){
+                            if(str.contentEquals("icn_tags.png")){
+                                
+                            }
+                            else{
+                                f.delete();
+                            }
+                        }
+                        
+                            
+                  
                         tsg.delete(tem);
                     } catch (SQLException ex) {
                         Logger.getLogger(tagAddUpdateDeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
