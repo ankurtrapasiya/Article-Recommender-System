@@ -40,6 +40,10 @@
         <servlet-name>Notifications</servlet-name>
         <jsp-file>/client/notifications.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ArticleController_Client</servlet-name>
+        <servlet-class>com.surpriseme.controllers.ArticleController_Client</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/SignUpController</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>Notifications</servlet-name>
         <url-pattern>/Notifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArticleController_Client</servlet-name>
+        <url-pattern>/ArticleController_Client</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
