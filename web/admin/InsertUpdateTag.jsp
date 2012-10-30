@@ -53,14 +53,21 @@
             });
         </script>
         <script type="text/javascript">
-           function formSubmit(t){
-               var x=document.getElementById("te");
-               x.value("Inside");
+           function frmSubmit(t){
+             
                 if(t == "ins"){
-                    x.value=t;
+                    var k=document.getElementById("frm");
+                      k.method="post";
+                k.action='InsertUpdateTagServlet';                
+                k.submit();
                 }
                 else{
-                    x.value="else";
+                    
+                     var n=document.getElementById("frm");
+                      n.method="post";
+                      n.enctype="multipart/form-data";
+                n.action='InserImage';                
+                n.submit();
                 }
            
         } 
@@ -97,7 +104,7 @@
             <h3>Article</h3>
             <ul class="toggle">
                 <li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-                <li class="icn_tags"><a href="../tagAddUpdateDeleteServlet">Manage Tags</a></li>
+                <li class="icn_tags"><a href="tagAddUpdateDeleteServlet">Manage Tags</a></li>
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">
@@ -130,25 +137,56 @@
                 </header>
                 <c:if test="${entity != null}">
                     <form method="post" action="InsertUpdateTagServlet">
-                        Name : <input type="text" value="<c:out value="${entity.name}"/>" name="txtName"><br>
-                        <img name="icon" src="images/"+"<c:out value="${entity.name}"/>" > 
-                        Description : <textarea id="txtDes"><c:out value="${entity.description}"/></textarea>
-                        <input type="submit" value="Update">
+                    <table cellpadding="10" cellspacing="">
+                    
+                        <tr>
+                            <td>Name :</td>
+                            <td><input type="text" value="<c:out value="${entity.name}"/>" name="txtName">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Icon :</td>
+                            <td><img src="images/<c:out value="${entity.icon}"/>" height="25" width="25" >
+                                <input type="hidden" value="<c:out value="${entity.icon}"/>" name="icn" id="icn">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Description :</td>
+                            <td><input type="text" multiple="true" name="txtDes"></td>
+                        <tr>
+                        <tr>
+                            <td colspan="2" align="center"><input type="hidden" name="tagid" value="<c:out value="${entity.tagid}"/>" id="tagid">
+                                <input type="submit" value="Update"></td>
+                        </tr>
+                    
+                    </table>
                     </form>
                 </c:if>
                 <c:if test="${entity eq null}">
-                         <form method="post" action="InsertUpdateTagServlet" id="insert">
-                        Name : <input type="text" value="" name="txtName"><br>
+                    <form  id="frm" name="frm" method="post" action="InsertUpdateTagServlet">
+                          
+                            Name : <input type="text" name="txtName2" id="txtName2" value=""><br><br>
                         Icon : <br>
-                        <form action="InsertImage" method="post" enctype="multipart/form-data" id="upload">
+                        <c:if test="${name eq null}">
+                        <img src="images/Tag/icn_tags.png">
+                        <input type="hidden" value="icn_tags.png" name="icn2" id="icn2" >
+                        </c:if>
+                        <c:if test="${name != null}">
+                            <img src="images/Tag/<c:out value="${name}"/>">
+                            <input type="hidden" value="<c:out value="${name}"/>" name="icn2" id="icn2" >
+                        </c:if>
                             <input type="file" name="file" size="50" id="file" /> <c:out value="${message}"></c:out>
                             <br/>
-                            <input type="button" value="Upload File" onClick="formSubmit('up');"/> 
-                        </form>
-                        Description : <textarea id="txtDes"></textarea>
+                            <input type="button" value="Upload File" onClick="frmSubmit('up');"/> 
+                       
+                            <br>
+                            <br>
+                          
+                        Description : <input type="text" multiple="true" name="txtDes2">
                         
-                        <input type="button" value="Insert" onClick="formSubmit('ins');"/>
-                        <input type="text" value="" id="te" name="te ">
+                        
+                        <input type="submit" value="Insert"/>
+                       
                     </form>
                 </c:if>
             

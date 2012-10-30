@@ -82,7 +82,9 @@ public class InsertImage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        //processRequest(request, response);
+    
                 String message=null;
+                String name=null;
         File file ;
    int maxFileSize = 5000 * 1024;
    int maxMemSize = 5000 * 1024;
@@ -123,7 +125,7 @@ public class InsertImage extends HttpServlet {
             boolean isInMemory = fi.isInMemory();
             long sizeInBytes = fi.getSize();
             //restrict File type
- 
+             name=fileName;
             if(isExtension(allowedExtension,fileName)){
             // Write the file
                 
@@ -149,9 +151,9 @@ public class InsertImage extends HttpServlet {
    }else{
      message="File not Uploaded";
    }
-   
+     request.setAttribute("name", name);
    request.setAttribute("message", message);
-   request.getRequestDispatcher("InsertUpdateTag.jsp").forward(request, response);
+   request.getRequestDispatcher("admin/InsertUpdateTag.jsp").forward(request, response);
     }
 
     /**

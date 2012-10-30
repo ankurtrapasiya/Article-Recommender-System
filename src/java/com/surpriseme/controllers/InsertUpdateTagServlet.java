@@ -4,10 +4,15 @@
  */
 package com.surpriseme.controllers;
 
+import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.entities.Tag;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,12 +82,42 @@ public class InsertUpdateTagServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        Map p=request.getParameterMap();
+        TagDAOImpl tg=new TagDAOImpl();
+        Tag entity = new Tag();
+        if(p.containsKey("tagid")){
+            entity.setTagid(Integer.parseInt(request.getParameter("tagid")));
+            entity.setDescription(request.getParameter("txtDes"));
+            entity.setIcon(request.getParameter("icn"));
+            entity.setName(request.getParameter("txtName"));
+                    try {
+                        tg.saveOrUpdate(entity);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(InsertUpdateTagServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        }
+        else{
+           
+              entity.setDescription(request.getParameter("txtDes2"));
+            entity.setIcon(request.getParameter("icn2"));
+            entity.setName(request.getParameter("txtName2"));
+            System.out.println(entity.getName());
+            System.out.println(entity.getDescription());
+             System.out.println(entity.getIcon());
+                    try {
+                        tg.saveOrUpdate(entity);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(InsertUpdateTagServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        }
+       // request.getRequestDispatcher("tagAddUpdateDeleteServlet").forward(request, response);
+        response.sendRedirect("tagAddUpdateDeleteServlet");
     }
 
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @retturn a String containing servlet description
      */
     @Override
     public String getServletInfo() {

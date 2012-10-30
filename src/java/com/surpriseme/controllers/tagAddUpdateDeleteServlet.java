@@ -92,12 +92,12 @@ public class tagAddUpdateDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String ck=request.getParameter("clicked");
-        
-        if(ck.contentEquals("up")){
-            
-            Tag entity=new Tag();
+         Tag entity=new Tag();
             TagDAOImpl tsg=new TagDAOImpl();
             int tem=Integer.parseInt(request.getParameter("tagid"));
+        if(ck.contentEquals("up")){
+            
+           
            
                     try {
                         entity=tsg.findById(tem);
@@ -111,7 +111,12 @@ public class tagAddUpdateDeleteServlet extends HttpServlet {
             
         }
         else if(ck.contentEquals("del")){
-            System.out.println("Delete");
+                    try {
+                        tsg.delete(tem);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(tagAddUpdateDeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    doGet(request,response);
         }
         else if(ck.contentEquals("add")){
            

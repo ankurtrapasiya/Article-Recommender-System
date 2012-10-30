@@ -99,7 +99,7 @@
             <h3>Article</h3>
             <ul class="toggle">
                 <li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-                <li class="icn_tags"><a href="../tagAddUpdateDeleteServlet">Manage Tags</a></li>
+                <li class="icn_tags"><a href="tagAddUpdateDeleteServlet">Manage Tags</a></li>
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">
@@ -146,7 +146,7 @@
                                 <tr> 
                                    
                                     <td><c:out value="${tg.name}"/></td> 
-                                    <td><c:out value="${tg.icon}"/> </td> 
+                                    <td><img src="images/Tag/<c:out value="${tg.icon}"/>" width="16" height="16"> </td> 
                                    <td><c:out value="${tg.description}"/></td> 
                                     <td><form id="from">
                                             <input type="hidden" id="clicked" value="" name="clicked">
