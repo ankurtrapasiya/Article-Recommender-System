@@ -34,7 +34,7 @@ public class UserDAOImpl implements UserDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public boolean blockUser(BlockedUsers entity) throws SQLException {
+    public boolean blockUserRequest(BlockedUsers entity) throws SQLException {
 
         boolean retval = false;
 
@@ -73,7 +73,39 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean unblockUser(BlockedUsers entity) throws SQLException {
+    public boolean blockUser(Integer userid, Integer blockerid) throws SQLException {
+        boolean retval = false;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "update blockedusers set isactive=" + false + " where userid=" + userid + " and blockerid=" + blockerid;
+
+                if (con.executeQuery(sql)) {
+                    retval = true;
+                }
+
+
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public boolean unblockUser(Integer userid, Integer blockerid) throws SQLException {
 
         boolean retval = false;
         ResultSet rs = null;
@@ -86,8 +118,8 @@ public class UserDAOImpl implements UserDAO {
 
                 cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_blockedusers(?,?)}");
 
-                cstmt.setInt("p_userid", entity.getUserid());
-                cstmt.setInt("p_blockerid", entity.getBlockerid());
+                cstmt.setInt("p_userid", userid);
+                cstmt.setInt("p_blockerid", blockerid);
 
                 rs = con.saveOrUpdate(cstmt);
 

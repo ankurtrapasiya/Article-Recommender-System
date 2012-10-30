@@ -17,10 +17,12 @@ import java.util.List;
  * @author ankur
  */
 public interface UserDAO extends GenericDAO<User, Integer> {
+    
+    boolean blockUserRequest(BlockedUsers entity) throws SQLException;
 
-    boolean blockUser(BlockedUsers entity) throws SQLException;
+    boolean blockUser(Integer userid,Integer blockerid) throws SQLException;
 
-    boolean unblockUser(BlockedUsers userid) throws SQLException;
+    boolean unblockUser(Integer userid,Integer blockerid) throws SQLException;
 
     List<User> searchUser(String firstName, String lastName, String email) throws SQLException;
 
