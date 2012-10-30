@@ -391,72 +391,45 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         ResultSet rs = null;
 
-        HistoryDAOImpl historyDAO = null;
-
-        StringBuilder sb = null;
-
-        Iterator<Integer> iterator = null;
-
-        Iterator<UserHistory> it = null;
-
-        List<Integer> users = null;
-
-        InterestDAOImpl interestDAO = null;
-
-        String sql = null;
-
-        List<UserHistory> otherUsersHistory = null;
-
-        List<UserHistory> usersHistory = null;
+        StringBuilder sql = null;
 
         ArticleDAOImpl articleDAO = null;
 
 
         //Relevancy
 
-        interestDAO = new InterestDAOImpl();
+        sql = new StringBuilder();
+        sql.append("select articleid");
+        sql.append(" from article a,userinterest ui,articleinterest ai");
+        sql.append(" where articleid not in(");
+        sql.append(" select a.articleid");
+        sql.append(" from userhistory uh,article a,articleinterest ai");
+        sql.append(" where uh.articleid=a.articleid");
+        sql.append(" and a.articleid=ai.articleid");
+        sql.append(" ai.interestid=").append(interestid);
+        sql.append(" ui.userid=").append(userid).append(")");
+        sql.append(" and a.articleid=ai.articleid");
+        sql.append(" and ai.interestid=ui.interestid");
+        sql.append(" and ui.interestid=").append(interestid);
+        sql.append(" and ui.userid<>userid ");
+        sql.append(" order by a.popularityscore");
 
-        users = interestDAO.getUsersOfInterest(interestid);
 
-        iterator = users.iterator();
-        sb = new StringBuilder("(");
-
-        while (iterator.hasNext()) {
-            Integer id = iterator.next();
-            sb.append(id).append(",");
-        }
-
-        sb = sb.deleteCharAt(sb.length() - 1);
-        sb.append(")");
-
-        sql = "select *"
-                + " from userhistory uh "
-                + " inner join article a"
-                + " on uh.articleid=a.articleid"
-                + " inner join articleinterest ai"
-                + " on ai.interestid=" + interestid
-                + " and uh.userid in" + sb.toString()
-                + " order by a.popularityscore desc";
 
         con = new DBConnection();
         try {
 
             if (con.connect()) {
 
-                rs = con.customQuery(sql);
+                rs = con.customQuery(sql.toString());
 
-                otherUsersHistory = new ArrayList<UserHistory>();
+                articleList = new ArrayList<Article>();
 
                 while (rs.next()) {
-                    UserHistory history = new UserHistory();
 
-                    history.setUserid(rs.getInt("userid"));
-                    history.setArticleid(rs.getInt("articleid"));
-                    history.setUpvote(rs.getBoolean("upvote"));
-                    history.setDownvote(rs.getBoolean("downvote"));
-                    history.setTimestamp(rs.getTimestamp("timestamp"));
+                    Article a = articleDAO.findById(rs.getInt("articleid"));
 
-                    otherUsersHistory.add(history);
+                    articleList.add(a);
 
                 }
             }
@@ -466,70 +439,37 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
 
-        historyDAO = new HistoryDAOImpl();
-
-        usersHistory = historyDAO.getAllHistory(userid);
-
-        otherUsersHistory = removeViewedArticles(usersHistory, otherUsersHistory);
-
-        it = otherUsersHistory.iterator();
-
-        articleDAO = new ArticleDAOImpl();
-
-        articleList = new ArrayList<Article>();
-
-        while (it.hasNext()) {
-            Integer articleId = it.next().getArticleid();
-
-            articleList.add(articleDAO.findById(articleId));
-
-        }
-
         retval.put(Category.RELEVANCY, articleList);
 
 
         //Popularity            
 
-        it = usersHistory.iterator();
-        sb = new StringBuilder("(");
+        sql = new StringBuilder();
 
-        while (it.hasNext()) {
-            Integer id = it.next().getArticleid();
-            sb.append(id).append(",");
-        }
-
-        sb = sb.deleteCharAt(sb.length() - 1);
-        sb.append(")");
-
-        sql = "select *"
-                + " from article a"
-                + " inner join articleinterest ai"
-                + " on ai.articleid=a.articleid"
-                + " where a.articleid not in" + sb.toString()
-                + " and ai.interestid=" + interestid
-                + " order by a.popularityscore desc";
+        sql.append("select articleid");
+        sql.append(" from article a,articleinterest ai");
+        sql.append(" where a.articleid=ai.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and a.articleid not in(");
+        sql.append(" select a.articleid");
+        sql.append(" from article a,userhistory uh,articleinterest ui");
+        sql.append(" where a.articleid=uh.articleid");
+        sql.append(" and a.articleid=ai.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and uh.userid=").append(userid).append(")");
+        sql.append(" order by a.popularityscore");
 
         con = new DBConnection();
         try {
             if (con.connect()) {
 
-                rs = con.customQuery(sql);
+                rs = con.customQuery(sql.toString());
 
                 articleList = new ArrayList<Article>();
 
                 while (rs.next()) {
 
-                    Article article = new Article();
-
-                    article.setArticleid(rs.getInt("articleid"));
-                    article.setTitle(rs.getString("title"));
-                    article.setBody(rs.getString("body"));
-                    article.setUpvote(rs.getInt("upvote"));
-                    article.setDownvote(rs.getInt("downvote"));
-                    article.setViewed(rs.getInt("viewed"));
-                    article.setTimestamp(rs.getTimestamp("timestamp"));
-                    article.setPopularityscore(rs.getFloat("popularityscore"));
-                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
+                    Article article = articleDAO.findById(rs.getInt("articleid"));
 
                     articleList.add(article);
 
@@ -545,47 +485,34 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         //randomization                 
 
-        it = usersHistory.iterator();
-        sb = new StringBuilder("(");
+        sql = new StringBuilder();
 
-        while (it.hasNext()) {
-            Integer id = it.next().getArticleid();
-            sb.append(id).append(",");
-        }
+        sql.append("select articleid");
+        sql.append(" from article a,articleinterest ai");
+        sql.append(" where a.articleid=ai.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and a.articleid not in(");
+        sql.append(" select a.articleid");
+        sql.append(" from article a,userhistory uh,articleinterest ui");
+        sql.append(" where a.articleid=uh.articleid");
+        sql.append(" and a.articleid=ai.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and uh.userid=").append(userid).append(")");
+        sql.append(" and a.viewed<10");
+        sql.append(" order by a.popularityscore");
 
-        sb = sb.deleteCharAt(sb.length() - 1);
-        sb.append(")");
-
-        sql = "select *"
-                + " from article a"
-                + " inner join articleinterest ai"
-                + " on ai.articleid=a.articleid"
-                + " where articleid not in" + sb.toString()
-                + " and ai.interestid=" + interestid
-                + " and viewed < 100"
-                + " order by popularityscore desc";
 
         con = new DBConnection();
         try {
             if (con.connect()) {
 
-                rs = con.customQuery(sql);
+                rs = con.customQuery(sql.toString());
 
                 articleList = new ArrayList<Article>();
 
                 while (rs.next()) {
 
-                    Article article = new Article();
-
-                    article.setArticleid(rs.getInt("articleid"));
-                    article.setTitle(rs.getString("title"));
-                    article.setBody(rs.getString("body"));
-                    article.setUpvote(rs.getInt("upvote"));
-                    article.setDownvote(rs.getInt("downvote"));
-                    article.setViewed(rs.getInt("viewed"));
-                    article.setTimestamp(rs.getTimestamp("timestamp"));
-                    article.setPopularityscore(rs.getFloat("popularityscore"));
-                    article.setPublicationdate(rs.getTimestamp("publicationdate"));
+                    Article article = articleDAO.findById(rs.getInt("articleid"));
 
                     articleList.add(article);
 
@@ -599,35 +526,37 @@ public class ArticleDAOImpl implements ArticleDAO {
             con.disconnect();
         }
 
-        //browsing
+        //browsing ( upvotes in the userhistory has not been considered )
 
-        sql = "select a.articleid as articleid,t.tagid as tagid,t.name as name"
-                + "from article a,userhistory uh,tag t,articletag at,articleinterest ai"
-                + "where uh.articleid=at.articleid"
-                + "and at.articleid=a.articleid"
-                + "and at.tagid=t.tagid"
-                + "and ai.articleid=a.articleid"
-                + "and at.tagid in("
-                + "select at.tagid"
-                + "from articletag at,userhistory uh,articleinterest ai,article a"
-                + "where uh.articleid=at.articleid"
-                + "and at.articleid=a.articleid"
-                + "and ai.articleid=a.articleid"
-                + "and ai.interestid=?"
-                + "and uh.userid=?"
-                + "group by at.tagid"
-                + "order by count(*) desc)"
-                + "and a.articleid not in("
-                + "select a.articleid"
-                + "from article a,userhistory uh,articleinterest ai"
-                + "where a.articleid=uh.articleid"
-                + "and ai.articleid=a.articleid"
-                + "and ai.interestid=?"
-                + "and uh.userid=?)"
-                + "and ai.interestid=?"
-                + "and uh.userid=?"
-                + "group by t.tagid,t.name"
-                + "order by count(*) desc , a.popularityscore desc";
+        sql = new StringBuilder();
+
+        sql.append("select a.articleid as articleid,t.tagid as tagid,t.name as name");
+        sql.append(" from article a,userhistory uh,tag t,articletag at,articleinterest ai");
+        sql.append(" where uh.articleid=at.articleid");
+        sql.append(" and at.articleid=a.articleid");
+        sql.append(" and at.tagid=t.tagid");
+        sql.append(" and ai.articleid=a.articleid");
+        sql.append(" and at.tagid in(");                
+        sql.append(" select at.tagid");                
+        sql.append(" from articletag at,userhistory uh,articleinterest ai,article a");
+        sql.append(" where uh.articleid=at.articleid");
+        sql.append(" and at.articleid=a.articleid");
+        sql.append(" and ai.articleid=a.articleid");           
+        sql.append(" and ai.interestid=?");           
+        sql.append(" and uh.userid=?");           
+        sql.append(" group by at.tagid");           
+        sql.append(" order by count(*) desc)");           
+        sql.append(" and a.articleid not in(");           
+        sql.append(" select a.articleid");           
+        sql.append(" from article a,userhistory uh,articleinterest ai");           
+        sql.append(" where a.articleid=uh.articleid");           
+        sql.append(" and ai.articleid=a.articleid");           
+        sql.append(" and ai.interestid=?");           
+        sql.append(" and uh.userid=?)");           
+        sql.append(" and ai.interestid=?");           
+        sql.append(" and uh.userid=?");
+        sql.append(" group by t.tagid,t.name");
+        sql.append(" order by count(*) desc , a.popularityscore desc");
 
 
         con = new DBConnection();
@@ -636,7 +565,7 @@ public class ArticleDAOImpl implements ArticleDAO {
 
             if (con.connect()) {
 
-                rs = con.customQuery(sql);
+                rs = con.customQuery(sql.toString());
 
                 ArticleDAOImpl articleDao = new ArticleDAOImpl();
 
@@ -712,7 +641,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                     retval = true;
                 }
 
-            }            
+            }
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
