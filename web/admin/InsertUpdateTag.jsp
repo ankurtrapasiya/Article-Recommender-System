@@ -3,7 +3,7 @@
     Created on : 29 Oct, 2012, 2:27:28 PM
     Author     : Nomaan
 --%>
-
+<%@ taglib prefix="json" uri="http://www.atg.com/taglibs/json" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -186,13 +186,18 @@
                             <c:set scope="session" value="${entity}" var="entity"></c:set>
                 </c:if>
                 <c:if test="${entity eq null}">
+                 
                     <form  id="frm" name="frm" method="post" action="InsertUpdateTagServlet">
+                  
+                     
                         <table cellspacing="2" cellpadding="2">
                            
                             <tr>
                                 <td>Name :</td>
                                 <td><input type="text" name="txtName2" id="txtName2" value=""></td>
+                                
                             </tr>
+                           
                             <tr>
                                 <td>Icon :</td>
                                 <td><table align="center" cellspacing="2" cellpadding="2"> 
@@ -221,17 +226,32 @@
                             <tr>
                                 <td>Description :</td>
                                 <td><input type="text" multiple="true" name="txtDes2"></td>
+                                
                             </tr>
+                            
                             <tr>
                                 <td colspan="2" align="center"><input type="submit" value="Insert"/></td>
                             </tr>
                        
                         </table>
+
+                                        
                     </form>
                 </c:if>
             
             </article><!-- end of article -->
-           
+                                             
+                                             <c:set scope="session" var="validate">
+                                                 
+                                                 <json:object>
+                                                 <json:property name="page" value="InsertUpdateTag"/>
+                                                 <json:object name="frm">            
+                                                <json:property name="txtName2" value="name"/>
+                                                <json:property name="txtDes2" value="sentance"/>
+                                                </json:object>
+                                                
+                                            </json:object> 
+                                             </c:set>
         </section>
         
     </body>
