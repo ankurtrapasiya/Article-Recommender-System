@@ -591,39 +591,7 @@ public class ArticleDAOImpl implements ArticleDAO {
 
 
         return retval;
-    }
-
-    private List<UserHistory> removeViewedArticles(List<UserHistory> usersHistory, List<UserHistory> otherUsersHistory) {
-        List<UserHistory> retval = null;
-
-        Map<Integer, UserHistory> map = new HashMap<Integer, UserHistory>();
-
-        Iterator<UserHistory> users = usersHistory.iterator();
-
-        while (users.hasNext()) {
-
-            UserHistory uh = users.next();
-            map.put(uh.getArticleid(), uh);
-
-        }
-
-        Iterator<UserHistory> others = otherUsersHistory.iterator();
-
-        while (others.hasNext()) {
-
-            UserHistory uh = others.next();
-
-            if (map.containsKey(uh.getArticleid())) {
-                others.remove();
-            }
-
-        }
-
-        retval = otherUsersHistory;
-
-        return retval;
-
-    }
+    }    
 
     @Override
     public boolean checkIfArticleExist(String guid) throws SQLException {
