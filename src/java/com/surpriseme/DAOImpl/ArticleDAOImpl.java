@@ -396,18 +396,18 @@ public class ArticleDAOImpl implements ArticleDAO {
         ArticleDAOImpl articleDAO = null;
 
 
-        //Relevancy
+        //Relevancy (consider view count )
 
         sql = new StringBuilder();
-        sql.append("select articleid");
+        sql.append("select a.articleid");
         sql.append(" from article a,userinterest ui,articleinterest ai");
-        sql.append(" where articleid not in(");
+        sql.append(" where a.articleid not in(");
         sql.append(" select a.articleid");
         sql.append(" from userhistory uh,article a,articleinterest ai");
         sql.append(" where uh.articleid=a.articleid");
         sql.append(" and a.articleid=ai.articleid");
-        sql.append(" ai.interestid=").append(interestid);
-        sql.append(" ui.userid=").append(userid).append(")");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and ui.userid=").append(userid).append(")");
         sql.append(" and a.articleid=ai.articleid");
         sql.append(" and ai.interestid=ui.interestid");
         sql.append(" and ui.interestid=").append(interestid);
@@ -442,17 +442,17 @@ public class ArticleDAOImpl implements ArticleDAO {
         retval.put(Category.RELEVANCY, articleList);
 
 
-        //Popularity            
+        //Popularity            (consider view count )
 
         sql = new StringBuilder();
 
-        sql.append("select articleid");
+        sql.append("select a.articleid");
         sql.append(" from article a,articleinterest ai");
         sql.append(" where a.articleid=ai.articleid");
         sql.append(" and ai.interestid=").append(interestid);
         sql.append(" and a.articleid not in(");
         sql.append(" select a.articleid");
-        sql.append(" from article a,userhistory uh,articleinterest ui");
+        sql.append(" from article a,userhistory uh,articleinterest ai");
         sql.append(" where a.articleid=uh.articleid");
         sql.append(" and a.articleid=ai.articleid");
         sql.append(" and ai.interestid=").append(interestid);
@@ -467,9 +467,12 @@ public class ArticleDAOImpl implements ArticleDAO {
 
                 articleList = new ArrayList<Article>();
 
+                articleDAO = new ArticleDAOImpl();
+
                 while (rs.next()) {
 
-                    Article article = articleDAO.findById(rs.getInt("articleid"));
+                    Integer articleId = rs.getInt("articleid");
+                    Article article = articleDAO.findById(articleId);
 
                     articleList.add(article);
 
@@ -487,13 +490,13 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         sql = new StringBuilder();
 
-        sql.append("select articleid");
+        sql.append("select a.articleid");
         sql.append(" from article a,articleinterest ai");
         sql.append(" where a.articleid=ai.articleid");
         sql.append(" and ai.interestid=").append(interestid);
         sql.append(" and a.articleid not in(");
         sql.append(" select a.articleid");
-        sql.append(" from article a,userhistory uh,articleinterest ui");
+        sql.append(" from article a,userhistory uh,articleinterest ai");
         sql.append(" where a.articleid=uh.articleid");
         sql.append(" and a.articleid=ai.articleid");
         sql.append(" and ai.interestid=").append(interestid);
@@ -536,25 +539,23 @@ public class ArticleDAOImpl implements ArticleDAO {
         sql.append(" and at.articleid=a.articleid");
         sql.append(" and at.tagid=t.tagid");
         sql.append(" and ai.articleid=a.articleid");
-        sql.append(" and at.tagid in(");                
-        sql.append(" select at.tagid");                
+        sql.append(" and at.tagid in(");
+        sql.append(" select at.tagid");
         sql.append(" from articletag at,userhistory uh,articleinterest ai,article a");
         sql.append(" where uh.articleid=at.articleid");
         sql.append(" and at.articleid=a.articleid");
-        sql.append(" and ai.articleid=a.articleid");           
-        sql.append(" and ai.interestid=?");           
-        sql.append(" and uh.userid=?");           
-        sql.append(" group by at.tagid");           
-        sql.append(" order by count(*) desc)");           
-        sql.append(" and a.articleid not in(");           
-        sql.append(" select a.articleid");           
-        sql.append(" from article a,userhistory uh,articleinterest ai");           
-        sql.append(" where a.articleid=uh.articleid");           
-        sql.append(" and ai.articleid=a.articleid");           
-        sql.append(" and ai.interestid=?");           
-        sql.append(" and uh.userid=?)");           
-        sql.append(" and ai.interestid=?");           
-        sql.append(" and uh.userid=?");
+        sql.append(" and ai.articleid=a.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and uh.userid=").append(userid);
+        sql.append(" group by at.tagid");
+        sql.append(" order by count(*) desc)");
+        sql.append(" and a.articleid not in(");
+        sql.append(" select a.articleid");
+        sql.append(" from article a,userhistory uh,articleinterest ai");
+        sql.append(" where a.articleid=uh.articleid");
+        sql.append(" and ai.articleid=a.articleid");
+        sql.append(" and ai.interestid=").append(interestid);
+        sql.append(" and uh.userid=").append(userid).append(")");
         sql.append(" group by t.tagid,t.name");
         sql.append(" order by count(*) desc , a.popularityscore desc");
 
@@ -591,7 +592,7 @@ public class ArticleDAOImpl implements ArticleDAO {
 
 
         return retval;
-    }    
+    }
 
     @Override
     public boolean checkIfArticleExist(String guid) throws SQLException {

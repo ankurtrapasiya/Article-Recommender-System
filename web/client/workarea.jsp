@@ -31,9 +31,6 @@
         </div>
 
 
-        <div id="maincontent">
-
-        </div>
 
 
         <script type="text/javascript">

@@ -52,12 +52,12 @@ public class ArticleController extends HttpServlet {
             if (req.getParameter("interestid") != null) {
                 intereseId = Integer.parseInt(req.getParameter("interestid"));
             }
-            userId=1;
+            userId = 1;
             if (req.getParameter("userid") != null) {
                 //userId = Integer.parseInt(session.getAttribute("userid").toString());
             }
 
-            if (intereseId != null && userId!=null) {
+            if (intereseId != null && userId != null) {
 
                 articleDao = new ArticleDAOImpl();
                 try {
@@ -79,6 +79,7 @@ public class ArticleController extends HttpServlet {
                         jObj.put("downvote", a.getDownvote());
                         jObj.put("viewed", a.getViewed());
                         jObj.put("timestamp", a.getTimestamp());
+                        articles.remove(i);
 
                         jArr.add(jObj);
 
