@@ -412,7 +412,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         sql.append(" and ai.interestid=ui.interestid");
         sql.append(" and ui.interestid=").append(interestid);
         sql.append(" and ui.userid<>userid ");
-        sql.append(" order by a.popularityscore");
+        sql.append(" order by a.popularityscore desc");
 
 
 
@@ -457,7 +457,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         sql.append(" and a.articleid=ai.articleid");
         sql.append(" and ai.interestid=").append(interestid);
         sql.append(" and uh.userid=").append(userid).append(")");
-        sql.append(" order by a.popularityscore");
+        sql.append(" order by a.popularityscore desc");
 
         con = new DBConnection();
         try {
@@ -499,7 +499,7 @@ public class ArticleDAOImpl implements ArticleDAO {
         sql.append(" and ai.interestid=").append(interestid);
         sql.append(" and uh.userid=").append(userid).append(")");
         sql.append(" and a.viewed<10");
-        sql.append(" order by a.popularityscore");
+        sql.append(" order by a.popularityscore desc");
 
 
         con = new DBConnection();
