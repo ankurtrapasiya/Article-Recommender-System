@@ -22,13 +22,17 @@
                 <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
                 {{/each}}
             </ul>                
-        </script>
-        Hello i am here
+        </script>        
 
-        <div id="sidebar" style="float:right">                       
+        <div id="sidebar" style="float:right;margin-right: 100px;">                       
             <h2>Interests</h2>
-            <div id="menu">                
+            <div id="links">                
             </div>
+        </div>
+
+
+        <div id="maincontent">
+
         </div>
 
 
@@ -36,10 +40,21 @@
             (function(){
                 var data=$.getJSON("ArticleController", function(dt){
                     var temp=Handlebars.compile($("#interest-template").html());                        
-                    $("#sidebar div").html(temp(dt.content));                    
-                });                
+                    $("#sidebar div").html(temp(dt.content));
+                    $("#links").find("a").on("click",function(e){
+                        e.preventDefault();
+                        var linktype = $(this).attr("rel");    
+                        
+                        var url="ArticleController?interestid=";
+                        var url1=url.concat(linktype);
+                        console.log(url1);
+                        var data1=$.getJSON(url1, function(dt){
+                            console.log(dt.content)
+                        });
+                        
+                    });          
+                });                                                               
             })();
-                
         </script>        
     </body>
 </html>
