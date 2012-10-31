@@ -2,11 +2,11 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
         <servlet-name>SignUpController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.SignUpController</servlet-class>
+        <servlet-class>com.surpriseme.controllers.client.SignUpController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UserInterestsControllers</servlet-name>
-        <servlet-class>com.surpriseme.controllers.UserInterestsControllers</servlet-class>
+        <servlet-class>com.surpriseme.controllers.client.UserInterestsControllers</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Client</servlet-name>
@@ -41,17 +41,9 @@
         <jsp-file>/client/notifications.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>BlockUnblockUserServlet</servlet-name>
-        <servlet-class>com.surpriseme.controllers.BlockUnblockUserServlet</servlet-class>
+        <servlet-name>ArticleController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.ArticleController</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>SignUpController</servlet-name>
-        <url-pattern>/SignUpController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserInterestsControllers</servlet-name>
-        <url-pattern>/UserInterestsControllers</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
