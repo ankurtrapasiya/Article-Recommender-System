@@ -90,9 +90,7 @@ public class InsertUpdateTagServlet extends HttpServlet {
         TagDAOImpl tgDAO=new TagDAOImpl();
         Tag tg = new Tag();
         HttpSession se=request.getSession(false);
-        if(se!=null){
-            se.removeAttribute("entity");
-        }
+            se.removeAttribute("entity");     
         if(p.containsKey("tagid")){
             if(p.containsKey("prev")){
                    
@@ -121,7 +119,7 @@ public class InsertUpdateTagServlet extends HttpServlet {
                     }
         }
         else{
-           
+          
              tg.setDescription(request.getParameter("txtDes2"));
             tg.setIcon(request.getParameter("icn2"));
             tg.setName(request.getParameter("txtName2"));
