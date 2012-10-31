@@ -52,6 +52,10 @@
         <servlet-name>InserImage</servlet-name>
         <servlet-class>com.surpriseme.controllers.InsertImage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>valiDationServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.valiDationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/SignUpController</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>InserImage</servlet-name>
         <url-pattern>/InserImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>valiDationServlet</servlet-name>
+        <url-pattern>/valiDationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

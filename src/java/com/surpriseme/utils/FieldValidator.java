@@ -12,6 +12,7 @@ public class FieldValidator {
     private String regExSimplePassword = ".{8,}";
     private String regExPassword = "^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[\\W]).*$"; // or alternate "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$"
     private String regExPattern;
+    private String regExName="/[^A-Za-z0-9_-]/";
 
     /**
      * Initializes this FieldValidator object without any custom pattern.
@@ -153,6 +154,16 @@ public class FieldValidator {
      */
     public boolean isSentence(String key) {
         return key.matches(regExSentence);
+    }
+     /**
+     * Checks whether given String key is a valid Name. Valid name
+     * contains alphabets, numbers and Underscore
+     *
+     * @param key String to be checked.
+     * @return boolean representing successful match.
+     */
+     public boolean isName(String key) {
+        return key.matches(regExName);
     }
 }
 
