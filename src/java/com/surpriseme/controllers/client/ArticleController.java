@@ -52,11 +52,12 @@ public class ArticleController extends HttpServlet {
             if (req.getParameter("interestid") != null) {
                 intereseId = Integer.parseInt(req.getParameter("interestid"));
             }
+            userId=1;
             if (req.getParameter("userid") != null) {
-                userId = Integer.parseInt(session.getAttribute("userid").toString());
+                //userId = Integer.parseInt(session.getAttribute("userid").toString());
             }
 
-            if (intereseId != null) {
+            if (intereseId != null && userId!=null) {
 
                 articleDao = new ArticleDAOImpl();
                 try {
