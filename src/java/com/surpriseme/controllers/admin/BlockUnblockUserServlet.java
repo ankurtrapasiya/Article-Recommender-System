@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.surpriseme.controllers;
+package com.surpriseme.controllers.admin;
 
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.BlockedUsers;
