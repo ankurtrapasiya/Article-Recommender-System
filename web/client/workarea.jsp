@@ -19,7 +19,7 @@
         <script id="interest-template" type="text/x-handlebars-template">                
             <ul>
                 {{#each this}}                    
-                <li><a href="ArticleController?interestid={{interestid}}">{{name}}</a></li>                        
+                <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
                 {{/each}}
             </ul>                
         </script>
@@ -36,8 +36,7 @@
             (function(){
                 var data=$.getJSON("ArticleController", function(dt){
                     var temp=Handlebars.compile($("#interest-template").html());                        
-                    $("#sidebar div").append(temp(dt.content));
-                    console.log(temp(dt.content));
+                    $("#sidebar div").html(temp(dt.content));                    
                 });                
             })();
                 
