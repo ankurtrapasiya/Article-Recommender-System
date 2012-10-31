@@ -38,7 +38,9 @@
                     var temp=Handlebars.compile($("#interest-template").html());                        
                     $("#sidebar div").append(temp(dt.content));
                     console.log(temp(dt.content));
-                });                                
+                });                
+            })();
+                
         </script>        
     </body>
 </html>
