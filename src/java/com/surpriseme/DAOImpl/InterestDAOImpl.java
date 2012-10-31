@@ -287,7 +287,7 @@ public class InterestDAOImpl implements InterestDAO {
 
     @Override
     public List<Integer> getUsersOfInterest(Integer interestid) throws SQLException {
-        List<Integer> retval = null;
+        List<Integer> retval = new ArrayList<Integer>();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
 
