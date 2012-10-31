@@ -14,7 +14,7 @@
             $("#main").load("client/workarea.jsp");
             
             $("#home").click(function(){                
-                $.get("client/workarea.jsp",function(data){
+                $.get("client/workarea.jsp",function(data){                   
                     $("#main").html(data);
                 },"html");
             });

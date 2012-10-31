@@ -5,8 +5,11 @@
 package com.surpriseme.controllers.client;
 
 import com.surpriseme.DAO.ArticleDAO;
+import com.surpriseme.DAO.UserDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
+import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.Interest;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.Utilities;
 import java.io.IOException;
@@ -45,43 +48,73 @@ public class ArticleController extends HttpServlet {
 
         if (session != null) {
 
-            intereseId = Integer.parseInt(req.getParameter("interestid"));
-            userId = Integer.parseInt(session.getAttribute("userid").toString());
 
-            articleDao = new ArticleDAOImpl();
-            try {
+            if (req.getParameter("interestid") != null) {
+                intereseId = Integer.parseInt(req.getParameter("interestid"));
+            }
+            if (req.getParameter("userid") != null) {
+                userId = Integer.parseInt(session.getAttribute("userid").toString());
+            }
 
-                articlesSuggestions = articleDao.suggestArticle(userId, intereseId);
+            if (intereseId != null) {
 
-                articles = Utilities.processArticles(articlesSuggestions);
+                articleDao = new ArticleDAOImpl();
+                try {
 
-                int i = 0;
-                while (!articles.isEmpty()) {
+                    articlesSuggestions = articleDao.suggestArticle(userId, intereseId);
 
-                    Article a = articles.get(i);
+                    articles = Utilities.processArticles(articlesSuggestions);
 
-                    jObj = new JSONObject();
-                    jObj.put("articleid", a.getArticleid());
-                    jObj.put("title", a.getTitle());
-                    jObj.put("body", a.getBody());
-                    jObj.put("upvote", a.getUpvote());
-                    jObj.put("downvote", a.getDownvote());
-                    jObj.put("viewed", a.getViewed());
-                    jObj.put("timestamp", a.getTimestamp());
+                    int i = 0;
+                    while (!articles.isEmpty()) {
 
-                    jArr.add(jObj);
+                        Article a = articles.get(i);
 
-                    i++;
+                        jObj = new JSONObject();
+                        jObj.put("articleid", a.getArticleid());
+                        jObj.put("title", a.getTitle());
+                        jObj.put("body", a.getBody());
+                        jObj.put("upvote", a.getUpvote());
+                        jObj.put("downvote", a.getDownvote());
+                        jObj.put("viewed", a.getViewed());
+                        jObj.put("timestamp", a.getTimestamp());
+
+                        jArr.add(jObj);
+
+                        i++;
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+
+                UserDAO userDao = new UserDAOImpl();
+                List<Interest> interestList = null;
+                try {
+                    interestList = userDao.getAllUserInterests(1);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                jObj = new JSONObject();
-                jObj.put("status", "success");
-                jArr.add(jObj);
-                resp.getWriter().println(jArr);
+                if (interestList != null) {
+                    jArr = new JSONArray();
 
-            } catch (SQLException ex) {
-                Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                    for (Interest i : interestList) {
+                        jObj = new JSONObject();
+                        jObj.put("interestid", i.getInterestid());
+                        jObj.put("name", i.getName());
+                        jArr.add(jObj);
+                    }
+                }
+
             }
+            jObj = new JSONObject();
+            jObj.put("content", jArr);
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().println(jObj);
         }
 
 

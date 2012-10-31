@@ -1,4 +1,4 @@
-package com.surpriseme.controllers.admin;
+package com.surpriseme.controllers.client;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
