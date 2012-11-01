@@ -110,6 +110,11 @@ public class Utilities {
         int ri = 0;
         int pi = 0;
         int rli = 0;
+        
+        boolean bf=false;
+        boolean rf=false;
+        boolean pf=false;
+        boolean rlf=false;
 
         while (true) {
 
@@ -121,40 +126,48 @@ public class Utilities {
             List<Article> temp = new ArrayList<Article>();
 
             while (pp > 0) {
-                if (!popularList.isEmpty()) {
+                if (pi < popularList.size()) {
                     temp.add(popularList.get(pi));
-                    popularList.remove(pi);
                     pi++;
+                } else {
+                    pf=true;
+                    break;
                 }
                 pp--;
             }
             while (bb > 0) {
-                if (!browsingList.isEmpty()) {
+                if (bi < browsingList.size()) {
                     temp.add(browsingList.get(bi));
-                    browsingList.remove(pi);
                     bi++;
+                } else {
+                    bf=true;
+                    break;
                 }
                 bb--;
             }
             while (rrll > 0) {
-                if (!relevancyList.isEmpty()) {
+                if (rli < relevancyList.size()) {
                     temp.add(relevancyList.get(rli));
-                    browsingList.remove(rrll);
                     rli++;
+                } else {
+                    rlf=true;
+                    break;
                 }
                 rrll--;
             }
             while (rr > 0) {
-                if (!randomizedList.isEmpty()) {
+                if (ri < randomizedList.size()) {
                     temp.add(randomizedList.get(ri));
-                    randomizedList.remove(ri);
                     ri++;
+                } else {
+                    rf=true;
+                    break;
                 }
                 rr--;
             }
             retval.addAll(temp);
 
-            if (popularList.isEmpty() && browsingList.isEmpty() && relevancyList.isEmpty() && randomizedList.isEmpty()) {
+            if (bf && rf && pf && rlf) {
                 break;
             }
         }

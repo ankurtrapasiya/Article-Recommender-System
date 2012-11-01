@@ -16,6 +16,7 @@ public class User {
     private String country;
     private Boolean isactive;
     private Date timeofregistration;
+    private String image;
 
     public Integer getUserid() {
         return userid;
@@ -43,6 +44,14 @@ public class User {
         this.country = country;
         this.isactive = isactive;
         this.timeofregistration = timeofregistration;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public User() {

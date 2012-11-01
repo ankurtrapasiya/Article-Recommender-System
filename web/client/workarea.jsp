@@ -24,7 +24,35 @@
             </ul>                
         </script>        
 
-        <div id="sidebar" style="float:right;margin-right: 100px;">                       
+        <script id="article-template" type="text/x-handlebars-template">                            
+            <div id="main">
+                {{#each this}}                
+                <div id="header">             
+                    {{title}}
+                </div>
+                <div id="votes">           
+                    <img class="img" src="images/up.png" ></img>
+                    <br/>
+                    <img class="img" src="images/down.png" /></img>
+                </div>                
+                <div id="footer">                    
+                    row
+                </div>         
+                <div class="content">                    
+                    content
+                </div>                
+                </br>
+                {{/each}}            
+            </div>
+        </script>        
+
+        <div id="contentarea" class="at_article_container">
+            <div id="rows">
+
+            </div>
+        </div>
+
+        <div id="at_sidebar" class="at_article_sidebar" style="float:right;border: #3c78ba;border-style: solid; ">                       
             <h2>Interests</h2>
             <div id="links">                
             </div>
@@ -35,21 +63,26 @@
 
         <script type="text/javascript">
             (function(){
-                var data=$.getJSON("ArticleController", function(dt){
+                $.getJSON("ArticleController", function(dt){
+                   
                     var temp=Handlebars.compile($("#interest-template").html());                        
-                    $("#sidebar div").html(temp(dt.content));
+                    $("#at_sidebar div").html(temp(dt.content));
+                   
                     $("#links").find("a").on("click",function(e){
                         e.preventDefault();
                         var linktype = $(this).attr("rel");    
                         
                         var url="ArticleController?interestid=";
                         var url1=url.concat(linktype);
-                        console.log(url1);
-                        var data1=$.getJSON(url1, function(dt){
-                            console.log(dt.content)
-                        });
                         
-                    });          
+                        $.get(url1, function(dt){
+
+                            var temp=Handlebars.compile($("#article-template").html());                        
+                            $("#contentarea div").html(temp(dt.content));
+                            
+                        },"json");
+                        
+                    });                            
                 });                                                               
             })();
         </script>        

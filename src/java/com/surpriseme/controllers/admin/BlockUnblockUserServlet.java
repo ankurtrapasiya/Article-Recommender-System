@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
+
 /**
  *
  * @author peace
@@ -71,50 +72,50 @@ public class BlockUnblockUserServlet extends HttpServlet {
             throws ServletException, IOException {
         // processRequest(request, response);
         UserDAOImpl user = new UserDAOImpl();
-        User u=null;
-        BlockedUsers bu=null;
+        User u = null;
+        BlockedUsers bu = null;
         List<BlockedUsers> rtval = new ArrayList<BlockedUsers>();
         //List<String> username = new ArrayList<String>();
         //List<String> blockername = new ArrayList<String>();
-        List<JSONObject> data=new ArrayList<JSONObject>();
-        JSONObject obj=null;
+        List<JSONObject> data = new ArrayList<JSONObject>();
+        JSONObject obj = null;
         String username;
         String blockername;
         HttpSession session = null;
         try {
 
-            rtval = user.getBlockedUsers();
-            for(int i=0;i<rtval.size();i++){
-                obj=new JSONObject();
-                bu=new BlockedUsers();
-                bu=rtval.get(i);
-                u=user.findById(bu.getUserid());
+            rtval = user.getAllBlocked();
+            for (int i = 0; i < rtval.size(); i++) {
+                obj = new JSONObject();
+                bu = new BlockedUsers();
+                bu = rtval.get(i);
+                u = user.findById(bu.getUserid());
                 //username.add(u.getUsername());
-                username=u.getUsername();
-                u=user.findById(bu.getBlockerid());
+                username = u.getUsername();
+                u = user.findById(bu.getBlockerid());
                 //blockername.add(u.getUsername());
-                blockername=u.getUsername();
+                blockername = u.getUsername();
                 obj.put("bu", bu);
-                obj.put("user",username);
+                obj.put("user", username);
                 obj.put("blocker", blockername);
                 data.add(obj);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-        session=request.getSession();
-        session.setAttribute("data",data);
+
+        session = request.getSession();
+        session.setAttribute("data", data);
         //session.setAttribute("user",username);
         //session.setAttribute("blocker",blockername);
         //request.setAttribute("data", rtval);
         //RequestDispatcher rd = request.getReqat com.surpriseme.adminCotrollers.BlockUnblockUserServlet.doGet(BlockUnblockUserServlet.java:81)uestDispatcher("admin/BlockUnblockUser.jsp");
         //rd.forward(request, response);
-        
-      response.sendRedirect("admin/BlockUnblockUser.jsp");
-      
-      
+
+        response.sendRedirect("admin/BlockUnblockUser.jsp");
+
+
     }
 
     /**
@@ -130,27 +131,26 @@ public class BlockUnblockUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String str=(String)request.getParameter("toggle");
-                    UserDAOImpl user = new UserDAOImpl();
-        int userid=Integer.parseInt(request.getParameter("userid"));
-        int blockerid=Integer.parseInt(request.getParameter("blockerid"));    
-        if(str.contentEquals("Block")){
-                    try {
-                        user.blockUser(userid, blockerid);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                  
+        String str = (String) request.getParameter("toggle");
+        UserDAOImpl user = new UserDAOImpl();
+        int userid = Integer.parseInt(request.getParameter("userid"));
+        int blockerid = Integer.parseInt(request.getParameter("blockerid"));
+        if (str.contentEquals("Block")) {
+            try {
+                user.blockUser(userid, blockerid);
+            } catch (SQLException ex) {
+                Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            try {
+                user.unblockUser(userid, blockerid);
+            } catch (SQLException ex) {
+                Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        else{
-                      try {
-                        user.unblockUser(userid,blockerid);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        }
-       doGet(request,response);
-        
+        doGet(request, response);
+
     }
 
     /**

@@ -17,7 +17,9 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -75,7 +77,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean blockUser(Integer userid, Integer blockerid) throws SQLException {
         boolean retval = false;
-        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
         try {
 
@@ -83,13 +85,17 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String sql = "update blockedusers set isactive=" + false + " where userid=" + userid + " and blockerid=" + blockerid;
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
 
-                if (con.executeQuery(sql)) {
-                    retval = true;
-                }
+                Timestamp stamp = new Timestamp(new Date().getTime());
 
+                cstmt.setInt("p_userid", userid);
+                cstmt.setInt("p_blockerid", blockerid);
+                cstmt.setTimestamp("p_timestamp", new java.sql.Timestamp(stamp.getTime()));
+                cstmt.setString("p_reason", "");
+                cstmt.setBoolean("p_isactive", false);
 
+                rs = con.customQuery(cstmt);
 
             }
 
@@ -172,6 +178,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setCountry(rs.getString("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    user.setImage(rs.getString("image"));
 
                     retval.add(user);
                 }
@@ -271,11 +278,11 @@ public class UserDAOImpl implements UserDAO {
 
                 if (entity.getUserid() != null) {
 
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                     cstmt.setInt("p_userid", entity.getUserid());
 
                 } else {
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
                 }
 
 
@@ -290,6 +297,7 @@ public class UserDAOImpl implements UserDAO {
                 cstmt.setString("p_country", entity.getCountry());
                 cstmt.setBoolean("p_isactive", entity.getIsactive());
                 cstmt.setDate("p_timeofregistration", Utilities.getSqlDate(entity.getTimeofregistration()));
+                cstmt.setString("p_image", entity.getImage());
 
                 rs = con.saveOrUpdate(cstmt);
 
@@ -333,11 +341,11 @@ public class UserDAOImpl implements UserDAO {
 
                     if (entity.getUserid() != null) {
 
-                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
+                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                         cstmt.setInt("p_userid", entity.getUserid());
 
                     } else {
-                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?)}");
+                        cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_user(?,?,?,?,?,?,?,?,?,?,?,?)}");
                     }
 
                     cstmt.setString("p_username", entity.getUsername());
@@ -351,6 +359,8 @@ public class UserDAOImpl implements UserDAO {
                     cstmt.setString("p_country", entity.getCountry());
                     cstmt.setBoolean("p_isactive", entity.getIsactive());
                     cstmt.setDate("p_timeofregistration", Utilities.getSqlDate(entity.getTimeofregistration()));
+                    cstmt.setString("p_image", entity.getImage());
+
                     rs = con.saveOrUpdate(cstmt);
 
                 }
@@ -403,6 +413,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setCountry(rs.getString("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    user.setImage(rs.getString("image"));
 
                     retval = user;
                 }
@@ -451,6 +462,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setCountry(rs.getString("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    user.setImage(rs.getString("image"));
 
                     retval.add(user);
                 }
@@ -803,7 +815,7 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String sql = "select * from blockeduser where isactive=?";
+                String sql = "select * from blockedusers where isactive=?";
                 pstmt = con.getConnection().prepareStatement(sql);
                 pstmt.setBoolean(1, true);
 
@@ -905,5 +917,46 @@ public class UserDAOImpl implements UserDAO {
             cstmt.close();
             con.disconnect();
         }
+    }
+
+    @Override
+    public List<BlockedUsers> getAllBlocked() throws SQLException {
+        List<BlockedUsers> retval = new ArrayList<BlockedUsers>();
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_sel_blockedusers()}");
+
+                rs = con.customQuery(cstmt);
+
+                while (rs.next()) {
+
+                    BlockedUsers user = new BlockedUsers();
+
+                    user.setUserid(rs.getInt("userid"));
+                    user.setBlockerid(rs.getInt("blockerid"));
+                    user.setTimestamp(rs.getTimestamp("timestamp"));
+                    user.setReason(rs.getString("reason"));
+                    user.setIsActive(rs.getBoolean("isactive"));
+
+                    retval.add(user);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
     }
 }

@@ -6,21 +6,18 @@ package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.entities.Article;
-import com.surpriseme.entities.UserHistory;
-import com.surpriseme.helper.TagHelper;
-import com.surpriseme.helper.TagSorter;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.DBConnection;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
@@ -644,6 +641,77 @@ public class ArticleDAOImpl implements ArticleDAO {
             }
 
             retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public boolean suggestArticle(int userid, int friendid, int articleid) throws SQLException {
+        ResultSet rs = null;
+        boolean retval = false;
+
+        try {
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_usersuggestions(?,?,?,?,?,?,?,?,?)}");
+
+                cstmt.setInt("p_userid", userid);
+                cstmt.setInt("p_friendid", friendid);
+                cstmt.setInt("p_articleid", articleid);
+                cstmt.setBoolean("p_isviewed", false);
+                cstmt.setTimestamp("p_timestamp", new Timestamp(new Date().getTime()));
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+            retval = true;
+
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    @Override
+    public boolean addArticleToFavourites(Integer userId, Integer articleId) throws SQLException {
+        ResultSet rs = null;
+        boolean retval = false;
+
+        try {
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_favourites(?,?,?,?,?,?,?,?,?)}");
+
+                cstmt.setInt("p_userid", userId);
+                cstmt.setInt("p_articleid", articleId);
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+            retval = true;
+
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());

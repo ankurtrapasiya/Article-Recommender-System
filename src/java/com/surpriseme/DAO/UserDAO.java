@@ -48,5 +48,7 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     
     void updateUserGraph(Integer userid,Integer friendid,boolean value) throws SQLException;
     
+    List<BlockedUsers> getAllBlocked() throws SQLException;
+    
     
 }

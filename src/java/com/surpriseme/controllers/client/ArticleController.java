@@ -67,7 +67,7 @@ public class ArticleController extends HttpServlet {
                     articles = Utilities.processArticles(articlesSuggestions);
 
                     int i = 0;
-                    while (!articles.isEmpty()) {
+                    while (i < articles.size()) {
 
                         Article a = articles.get(i);
 
@@ -78,7 +78,7 @@ public class ArticleController extends HttpServlet {
                         jObj.put("upvote", a.getUpvote());
                         jObj.put("downvote", a.getDownvote());
                         jObj.put("viewed", a.getViewed());
-                        jObj.put("timestamp", a.getTimestamp());
+                        jObj.put("timestamp", a.getTimestamp().toString());
                         articles.remove(i);
 
                         jArr.add(jObj);
@@ -124,6 +124,42 @@ public class ArticleController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
+        String articleId = req.getParameter("articleid");
+        String userId = req.getParameter("userId");
+        String friendId = req.getParameter("friendId");
+
+        String action = req.getParameter("action");
+        ArticleDAOImpl articleDao = new ArticleDAOImpl();
+        Article article = null;
+
+        if (articleId != null && action != null) {
+            if (action.equals("upvote")) {
+                try {
+                    articleDao.vote(Integer.parseInt(articleId), true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("downvote")) {
+                try {
+                    articleDao.vote(Integer.parseInt(articleId), false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("suggest")) {
+                try {
+                    articleDao.suggestArticle(Integer.parseInt(userId), Integer.parseInt(friendId), Integer.parseInt(articleId));
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("addtofav")) {
+                try {
+                    articleDao.addArticleToFavourites(Integer.parseInt(userId), Integer.parseInt(articleId));
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
     }
 }

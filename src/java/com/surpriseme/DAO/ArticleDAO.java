@@ -21,9 +21,13 @@ public interface ArticleDAO extends GenericDAO<Article, Integer> {
     boolean vote(Integer articleId, boolean up) throws SQLException;
 
     HashMap<Category, List<Article>> suggestArticle(int userid, int interestid) throws SQLException;
+    
+    boolean suggestArticle(int userid, int friendid,int articleid) throws SQLException;       
 
     boolean checkIfArticleExist(String guid) throws SQLException;
 
     boolean addSourceToArticle(Integer articleid, String articleurl, Integer sourceid) throws SQLException;
+    
+    boolean addArticleToFavourites(Integer userId,Integer articleId) throws SQLException;
         
 }
