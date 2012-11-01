@@ -73,9 +73,8 @@
                         <a href="#" class="btn-on">On</a>
                     </div>
                 </div>
-                <div class="workarea">
-                    <div id="main" class="main">	                        
-
+                <div id="at_workarea">
+                    <div id="main" class="main">	                                                
                     </div>
                 </div>
             </div>

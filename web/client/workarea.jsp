@@ -25,37 +25,41 @@
         </script>        
 
         <script id="article-template" type="text/x-handlebars-template">                            
-            <div id="main">
-                {{#each this}}                
+
+            {{#each this}}                
+            <div id="at_main">
                 <div id="header">             
-                    {{title}}
+                    title : {{title}}
                 </div>
-                <div id="votes">           
-                    <img class="img" src="images/up.png" ></img>
-                    <br/>
-                    <img class="img" src="images/down.png" /></img>
-                </div>                
-                <div id="footer">                    
-                    row
-                </div>         
-                <div class="content">                    
-                    content
-                </div>                
-                </br>
-                {{/each}}            
+                <div id="info">
+                    info
+                </div>
+                <div id="votes">                               
+                </div>                                        
+                <div id="content">                    
+                    content : {{body}}
+                </div>                                
             </div>
+            <br/>
+            {{/each}}            
+
         </script>        
 
-        <div id="contentarea" class="at_article_container">
-            <div id="rows">
+        <div id="container">
+            <div id="contentarea" class="at_article_container">
+                <div id="contentheader" class="at_article_header">
+                    <h2>Article Suggestions</h2>
+                </div>
+                <div id="rows" class="at_article_row">
 
+                </div>
+            </div>    
+            <div id="at_sidebar" class="at_article_sidebar">                       
+                <h2>Interests</h2>
+                <div id="links">                
+                </div>
             </div>
-        </div>
 
-        <div id="at_sidebar" class="at_article_sidebar" style="float:right;border: #3c78ba;border-style: solid; ">                       
-            <h2>Interests</h2>
-            <div id="links">                
-            </div>
         </div>
 
 
@@ -78,7 +82,7 @@
                         $.get(url1, function(dt){
 
                             var temp=Handlebars.compile($("#article-template").html());                        
-                            $("#contentarea div").html(temp(dt.content));
+                            $("#contentarea #rows").html(temp(dt.content));
                             
                         },"json");
                         

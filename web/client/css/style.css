@@ -35,6 +35,7 @@ form,fieldset{
     min-height:100%;
     overflow:hidden;
     background:url(../../images/bg-wrapper.png) repeat-y;
+
 }
 #content {
     float:left;
@@ -325,129 +326,89 @@ form,fieldset{
     border-top:2px solid #b01919;
 }
 
-.workarea{
-    margin :19px 0 0 35Px;
+
+/* article style */
+
+#container{  
 }
 
-.workarea .main{
-
+.at_article_container
+{
+    display:inline;
+    width:80%;
+    float:left;    
+    border:5px solid;
 }
 
-
-.at_article_sidebar{    
-    width:270px;
-    height: 400px;            
-    margin: 0px;
-    display: inline;
+.at_article_sidebar{           
+    height: auto;    
+    float:right;    
+    width:16%;          
 }
 
-.at_article_container{    
-    width:810px;
-    height: 400px;
+.at_article_content{            
     border: #3c78ba;
     border-style: solid;    
     float:left;
 }
 
 .at_article_row{
-    color: blue;
+    
+    /*margin:10px 10px 10px 10px;*/
 }
-
-#pageslide {
-    /* These styles MUST be included. Do not change. */
-    display: none;
-    position: absolute;
-    position: fixed;
-    top: 0;
-    height: 100%;
-    z-index: 999999;
-
-    /* Specify the width of your pageslide here */
-    width: 260px;
-    padding: 20px;
-
-    /* These styles are optional, and describe how the pageslide will look */
-    background-color: #333;
-    color: #FFF;
-    -webkit-box-shadow: inset 0 0 5px 5px #222;
-    -moz-shadow: inset 0 0 5px 5px #222;
-    box-shadow: inset 0 0 5px 5px #222;
-}
-
 
 /* article display*/
 
-.article{
-    width: 100%;
-    height: 90%;
-    border: black;
-    border-style: solid;
-    clear:both;
+#at_main{
+    display: block;
+    background-color:#BBB;
+    height: 200px;    
 }
-
-.article .vote{
-    height:30%;
-    float:left;
-    border: black;
-    border-style: solid;
+#at_main #header{
+    height:15%;
+    width:90%;
+    float: right;
+    background-color: #CCC;
 }
+/*#main #footer{
+        height: 20%;
+        width:99.9%;
+        margin-left:0.5px;
 
-.article .title{
-    float:left;
-    height: 5%;
-    border: black;
-    border-style: solid;
+        background-color: #DDD;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius:8px;
+
+}*/
+
+#at_main #votes{
+    background-color: #777;
+    width:10%;
+    height:200px;    
+    float: left;
+    vertical-align: top;
+    margin-top: -30px;
 }
-
-.article .row
-{    
-    border: black;
-    border-style: solid;
+#at_main #content{
+    background-color: #EFEFEF;    
+    max-height: 72%;
+    word-wrap:break-word;
+    overflow: auto;
+    float:right;
+    width:90%;    
 }
-
-
-.article .content{    
-    border: black;
-    border-style: solid;
-}
-
-.article .vote .img
+#at_main #info
 {
-    width: 16px;
-    height: 16px;
+    height:15%;
+    width:90%;
+    float: right;
+    background-color: #CCC;
+}
+#at_workarea{
+    margin:22px 15px 0 35px; 
+    
 }
 
 
-#main{
-	width:100%;
-	height:20%;
-	background-color:#BBB;
-	border-radius: 8px;
-	margin-bottom: 1%;
-}
-#main #header{
-	height:25%;
-	background-color: #CCC;
-	border-top-right-radius: 8px;
-	margin-left: 5%;
-	position: relative;
 
-}
-#main #footer{
-	height: 20%;
-	width:99.9%;
-	margin-left:0.5px;
 
-	background-color: #DDD;
-	border-bottom-right-radius: 8px;
-	border-bottom-left-radius:8px;
-
-}
-#main #votes{
-	background-color: #777;
-	margin-top: -2.25%;
-	width:5%;
-	height: 80%;
-	border-top-left-radius: 8px;
-
-}
