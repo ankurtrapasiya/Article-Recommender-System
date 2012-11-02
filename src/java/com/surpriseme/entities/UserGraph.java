@@ -1,11 +1,18 @@
 package com.surpriseme.entities;
 
-import java.sql.*;
-
 public class UserGraph {
 
     private Integer friendid;
     private Integer userid;
+    private Integer isnotified;
+
+    public Integer getIsnotified() {
+        return isnotified;
+    }
+
+    public void setIsnotified(Integer isnotified) {
+        this.isnotified = isnotified;
+    }
 
     public Integer getFriendid() {
         return friendid;

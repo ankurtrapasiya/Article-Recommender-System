@@ -48,6 +48,10 @@
         <servlet-name>BlockUser</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.BlockUnblockUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NotificationsController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.NotificationsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -79,7 +83,7 @@
     <servlet-mapping>
         <servlet-name>Notifications</servlet-name>
         <url-pattern>/Notifications</url-pattern>
-    </servlet-mapping>   
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlockUser</servlet-name>
         <url-pattern>/BlockUser</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
         <url-pattern>/ArticleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationsController</servlet-name>
+        <url-pattern>/NotificationsController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

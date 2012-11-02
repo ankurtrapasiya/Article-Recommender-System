@@ -55,7 +55,7 @@
                     <nav class="links">
                         <ul>
                             <li><a href="#" class="ico1">Suggestions <span class="num">26</span></a></li>
-                            <li><a href="#" class="ico2">Notifications <span class="num">5</span></a></li>
+                            <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">5</span></a></li>
                             <li><a href="#" class="ico3">Popular <span class="num">3</span></a></li>
                         </ul>
                     </nav>
