@@ -52,6 +52,14 @@
         <servlet-name>NotificationsController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.NotificationsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserInterestController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UserInterestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -95,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>NotificationsController</servlet-name>
         <url-pattern>/NotificationsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserInterestController</servlet-name>
+        <url-pattern>/UserInterestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfileController</servlet-name>
+        <url-pattern>/UserProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -708,9 +708,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<Interest> getAllUserInterests(Integer userid) throws SQLException {
+    public List<Interest> getUserInterests(Integer userid, boolean include) throws SQLException {
         List<Interest> retval = new ArrayList<Interest>();
         ResultSet rs = null;
+        String query = "";
 
         try {
 
@@ -718,8 +719,11 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String query = "select * from userinterest where userid=" + userid;
-
+                if (include) {
+                    query = "select * from userinterest where userid=" + userid;
+                } else {
+                    query = "select * from interest where interestid NOT IN(select interestid from userinterest where userid=" + userid + ")";
+                }
                 rs = con.customQuery(query);
 
                 List<UserInterest> list = new ArrayList<UserInterest>();
