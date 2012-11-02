@@ -389,6 +389,16 @@ form,fieldset{
     vertical-align: top;
     margin-top: -30px;
 }
+
+#at_main #votes #votes_content
+{
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+    margin: 50%;
+}
+
 #at_main #content{
     background-color: #EFEFEF;    
     max-height: 72%;

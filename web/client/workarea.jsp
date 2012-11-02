@@ -35,6 +35,13 @@
                     info
                 </div>
                 <div id="votes">                               
+                    
+                    <div id="votes_content">
+                        <img src="images/up.png"></img>
+                        <br/>
+                        <img src="images/down.png"></img>
+                    </div>
+                    
                 </div>                                        
                 <div id="content">                    
                     content : {{body}}
