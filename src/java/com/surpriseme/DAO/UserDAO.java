@@ -17,12 +17,12 @@ import java.util.List;
  * @author ankur
  */
 public interface UserDAO extends GenericDAO<User, Integer> {
-    
+
     boolean blockUserRequest(BlockedUsers entity) throws SQLException;
 
-    boolean blockUser(Integer userid,Integer blockerid) throws SQLException;
+    boolean blockUser(Integer userid, Integer blockerid) throws SQLException;
 
-    boolean unblockUser(Integer userid,Integer blockerid) throws SQLException;
+    boolean unblockUser(Integer userid, Integer blockerid) throws SQLException;
 
     List<User> searchUser(String firstName, String lastName, String email) throws SQLException;
 
@@ -38,17 +38,15 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     boolean removeInterestFromUser(Integer interestid, Integer userid) throws SQLException;
 
-    List<Interest> getAllUserInterests(Integer userid) throws SQLException;
+    List<Interest> getUserInterests(Integer userid,boolean include) throws SQLException;
 
     List<User> getAllFriends(Integer userid) throws SQLException;
 
     List<BlockedUsers> getBlockedUsers() throws SQLException;
 
     List<UserSuggestions> getUserSuggestions(Integer userid) throws SQLException;
-    
-    void updateUserGraph(Integer userid,Integer friendid,boolean value) throws SQLException;
-    
+
+    List<User> updateUserGraph() throws SQLException;
+
     List<BlockedUsers> getAllBlocked() throws SQLException;
-    
-    
 }

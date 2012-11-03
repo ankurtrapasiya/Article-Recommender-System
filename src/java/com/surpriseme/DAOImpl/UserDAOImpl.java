@@ -708,9 +708,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<Interest> getAllUserInterests(Integer userid) throws SQLException {
+    public List<Interest> getUserInterests(Integer userid, boolean include) throws SQLException {
         List<Interest> retval = new ArrayList<Interest>();
         ResultSet rs = null;
+        String query = "";
 
         try {
 
@@ -718,8 +719,11 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String query = "select * from userinterest where userid=" + userid;
-
+                if (include) {
+                    query = "select * from userinterest where userid=" + userid;
+                } else {
+                    query = "select * from interest where interestid NOT IN(select interestid from userinterest where userid=" + userid + ")";
+                }
                 rs = con.customQuery(query);
 
                 List<UserInterest> list = new ArrayList<UserInterest>();
@@ -891,32 +895,64 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUserGraph(Integer userid, Integer friendid, boolean value) throws SQLException {
+    public List<User> updateUserGraph() throws SQLException {
         ResultSet rs = null;
-
+        ResultSet rs1 = null;
+        String query = null;
+        String query_update = null;
+        PreparedStatement pstmt = null;
+        List<User> retval = null;
+        Boolean updated = false;
         try {
 
             con = new DBConnection();
+
             if (con.connect()) {
+                retval = new ArrayList<User>();
+                // cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?)}");
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_user(?,?,?)}");
+                // cstmt.setInt("p_friendid", friendid);
+                //cstmt.setInt("p_userid", userid);
+                //cstmt.setInt("p_isnotifitied",value);
+                query = "SELECT * from user inner join usergraph on user.userid  = usergraph.friendid where usergraph.isnotified =   0 and usergraph.friendid !=1";
+                pstmt = con.getConnection().prepareStatement(query);
+                rs = con.customQuery(pstmt);
 
-                cstmt.setInt("p_friendid", friendid);
-                cstmt.setInt("p_userid", userid);
-                cstmt.setBoolean("p_isnotifitied", value);
+                query_update = "UPDATE usergraph SET isnotified=1 WHERE isnotified=0";
 
-                rs = con.saveOrUpdate(cstmt);
+                updated = con.executeQuery(query_update);
+                //---------------------
+                while (rs.next()) {
+                    User user = new User();
+                    System.out.println("hbh" + rs.getString("userid"));
+
+                    user.setUserid(rs.getInt("userid"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setFirstname(rs.getString("firstname"));
+                    user.setLastname(rs.getString("lastname"));
+                    user.setDob(rs.getDate("dob"));
+                    user.setState(rs.getString("state"));
+                    user.setCity(rs.getString("city"));
+                    user.setCountry(rs.getString("country"));
+                    user.setIsactive(rs.getBoolean("isactive"));
+                    user.setTimeofregistration(rs.getDate("timeofregistration"));
+
+                    retval.add(user);
+                }
 
             }
-
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException e) {
             throw e;
         } finally {
-            cstmt.close();
+            // cstmt.close();
             con.disconnect();
         }
+
+        return retval;
     }
 
     @Override
