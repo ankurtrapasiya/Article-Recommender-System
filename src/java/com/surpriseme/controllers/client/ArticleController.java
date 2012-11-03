@@ -10,6 +10,7 @@ import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.HistoryDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.Favourites;
 import com.surpriseme.entities.Interest;
 import com.surpriseme.entities.UserHistory;
 import com.surpriseme.helper.UserHistoryPK;
@@ -18,6 +19,8 @@ import com.surpriseme.utils.Utilities;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -82,7 +85,12 @@ public class ArticleController extends HttpServlet {
                         jObj.put("upvote", a.getUpvote());
                         jObj.put("downvote", a.getDownvote());
                         jObj.put("viewed", a.getViewed());
-                        jObj.put("timestamp", a.getTimestamp().toString());
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+                        String date = sdf.format(new Date(a.getTimestamp().getTime()));
+
+                        jObj.put("popularityscore", a.getPopularityscore());
+                        jObj.put("publicationdate", date);
                         articles.remove(i);
 
                         jArr.add(jObj);
@@ -179,10 +187,10 @@ public class ArticleController extends HttpServlet {
                         jObj = new JSONObject();
                         jObj.put("upvote", upvote);
                         jArr.add(jObj);
-                        
-                        Article a=articleDao.findById(articleId);
-                        jObj=new JSONObject();
-                        jObj.put("downvote",a.getDownvote());
+
+                        Article a = articleDao.findById(articleId);
+                        jObj = new JSONObject();
+                        jObj.put("downvote", a.getDownvote());
                         jArr.add(jObj);
                     }
                 } catch (SQLException ex) {
@@ -210,13 +218,13 @@ public class ArticleController extends HttpServlet {
 
                         jObj = new JSONObject();
                         jObj.put("downvote", downvote);
-                                                
+
                         jArr.add(jObj);
-                        
-                        Article a=articleDao.findById(articleId);
-                        jObj=new JSONObject();
-                        jObj.put("upvote",a.getUpvote());
-                        
+
+                        Article a = articleDao.findById(articleId);
+                        jObj = new JSONObject();
+                        jObj.put("upvote", a.getUpvote());
+
                         jArr.add(jObj);
                     }
 
@@ -229,14 +237,42 @@ public class ArticleController extends HttpServlet {
                  } catch (SQLException ex) {
                  Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                  }*/
-            } else if (action.equals("addtofav")) {
+            } else if (action.equals("addtofavourites")) {
                 try {
-                    articleDao.addArticleToFavourites(userId, articleId);
+                    if (!articleDao.checkIfExistInFavourites(userId, articleId)) {
 
+                        Favourites fav = new Favourites(userId, articleId, false, true);
 
+                        articleDao.addArticleToFavourites(fav);
+
+                        jObj = new JSONObject();
+                        jObj.put("status", "true");
+                        jArr.add(jObj);
+                    }
+                    jObj = new JSONObject();
+                    jObj.put("status", "false");
+                    jArr.add(jObj);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class
                             .getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("readitlater")) {
+                try {
+                    if (!articleDao.checkIfExistInReadLater(userId, articleId)) {
+                        Favourites fav = new Favourites(userId, articleId, true, false);
+
+                        articleDao.addArticleToFavourites(fav);
+
+                        jObj = new JSONObject();
+                        jObj.put("status", "true");
+                        jArr.add(jObj);
+                    }
+
+                    jObj = new JSONObject();
+                    jObj.put("status", "false");
+                    jArr.add(jObj);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

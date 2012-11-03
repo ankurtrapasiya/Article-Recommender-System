@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">                       
         <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="js/moment.js"></script>
 
     </head>
     <body>
@@ -22,20 +23,7 @@
                 <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
                 {{/each}}
             </ul>                
-        </script>        
-
-
-        <!--        <script id="upvote-template" type="text/x-handlebars-template">
-                    {{#each this}}
-                    <label>{{upvote}}</label>
-                    {{/each}}
-                </script>
-        
-                <script id="downvote-template" type="text/x-handlebars-template">
-                    {{#each this}}
-                    <label>{{downvote}}</label>
-                    {{/each}}
-                </script>-->
+        </script>             
 
         <script id="article-template" type="text/x-handlebars-template">                            
 
@@ -43,9 +31,12 @@
             <div id="at_main">
                 <div id="header">             
                     title : {{title}}
+                    <a href="#" rel="{{articleid}}" id="addtofavourites">Add to favourites</a>
+                    <a href="#" rel="{{articleid}}" id="readitlater">Read it later</a>
                 </div>
                 <div id="info">
-                    info
+                    <span id="dateinfo">posted on {{publicationdate}}</span>
+                    <span id="totalviews"> <b>Total views {{viewed}} </b></span>
                 </div>
                 <div id="votes">                               
 
@@ -117,13 +108,40 @@
                                 e.preventDefault();
                                 var val=$(this).attr("rel");  
                                 
-                                var up=$(this).attr("id");
+                                var id=$(this).attr("id");
                                 
                                 var upvoteDiv=$(this).parent().find("#upvotes");   
-                                var downvoteDiv=$(this).parent().find("#downvotes");   
-                                                                                                
+                                var downvoteDiv=$(this).parent().find("#downvotes");
+                                var anchor=$(this);
                                 
-                                if(up==="down")
+                                console.log(anchor);
+                                                                                                
+                                if(id==="addtofavourites")
+                                {
+                                    var url="ArticleController?action=addtofavourites&articleid=";
+                                    var url1=url.concat(val);
+                                    
+                                    $.post(url1,function(dt){
+                                        
+                                        console.log(dt.content);
+                                        anchor.html(dt.content.status);
+                                        
+                                    },"json");
+                                    
+                                }
+                                else if(id==="readitlater")
+                                {
+                                    var url="ArticleController?action=readitlater&articleid=";
+                                    var url1=url.concat(val);
+                                    
+                                    $.post(url1,function(dt){
+                                        
+                                        console.log(dt.content);
+                                        anchor.html(dt.content.status);
+                                        
+                                    },"json");
+                                }
+                                else if(id==="down")
                                 {
                                     var url="ArticleController?action=downvote&articleid=";
                                     var url1=url.concat(val);

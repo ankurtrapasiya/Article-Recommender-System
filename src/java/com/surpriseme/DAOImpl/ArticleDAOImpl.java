@@ -6,6 +6,7 @@ package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.Favourites;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.DBConnection;
 import java.sql.CallableStatement;
@@ -96,7 +97,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                             downvotes--;
                         }
                         sql += "downvote=" + downvotes;
-                        retval = upvotes ;
+                        retval = upvotes;
                     } else {
                         if (upvotes > 0) {
                             upvotes--;
@@ -105,7 +106,7 @@ public class ArticleDAOImpl implements ArticleDAO {
                         downvotes++;
                         sql += "downvote=" + downvotes;
 
-                        retval = downvotes ;
+                        retval = downvotes;
                     }
 
                     sql += " where articleid=" + articleId;
@@ -709,19 +710,29 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public boolean addArticleToFavourites(Integer userId, Integer articleId) throws SQLException {
+    public boolean addArticleToFavourites(Favourites entity) throws SQLException {
         ResultSet rs = null;
         boolean retval = false;
+        boolean isUpdate = false;
 
         try {
+
+            isUpdate = checkIfEntryExists(entity.getUserid(), entity.getArticleid());
 
             con = new DBConnection();
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_favourites(?,?,?,?,?,?,?,?,?)}");
+                if (isUpdate) {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_favourites(?,?,?,?)}");
+                } else {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_favourites(?,?,?,?)}");
+                }
 
-                cstmt.setInt("p_userid", userId);
-                cstmt.setInt("p_articleid", articleId);
+                System.out.println("entity" + entity);
+                cstmt.setInt("p_userid", entity.getUserid());
+                cstmt.setInt("p_articleid", entity.getArticleid());
+                cstmt.setBoolean("p_readlater", entity.isReadlater());
+                cstmt.setBoolean("p_isfav", entity.isIsfav());
 
                 rs = con.saveOrUpdate(cstmt);
 
@@ -736,6 +747,102 @@ public class ArticleDAOImpl implements ArticleDAO {
             throw e;
         } finally {
             cstmt.close();
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    /**
+     *
+     * @param userid
+     * @param articleId
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public boolean checkIfEntryExists(Integer userid, Integer articleId) throws SQLException {
+        boolean retval = false;
+
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid;
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = true;
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
+
+    @Override
+    public boolean checkIfExistInFavourites(Integer userid, Integer articleId) throws SQLException {
+        boolean retval = false;
+
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid + " and isfav=" + true;
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = true;
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
+
+    @Override
+    public boolean checkIfExistInReadLater(Integer userid, Integer articleId) throws SQLException {
+        boolean retval = false;
+
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid + " and readlater=" + true;
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = true;
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
             con.disconnect();
         }
 

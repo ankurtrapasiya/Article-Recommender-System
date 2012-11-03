@@ -7,6 +7,8 @@ package com.surpriseme.utils;
 import com.surpriseme.entities.Article;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -110,11 +112,11 @@ public class Utilities {
         int ri = 0;
         int pi = 0;
         int rli = 0;
-        
-        boolean bf=false;
-        boolean rf=false;
-        boolean pf=false;
-        boolean rlf=false;
+
+        boolean bf = false;
+        boolean rf = false;
+        boolean pf = false;
+        boolean rlf = false;
 
         while (true) {
 
@@ -130,7 +132,7 @@ public class Utilities {
                     temp.add(popularList.get(pi));
                     pi++;
                 } else {
-                    pf=true;
+                    pf = true;
                     break;
                 }
                 pp--;
@@ -140,7 +142,7 @@ public class Utilities {
                     temp.add(browsingList.get(bi));
                     bi++;
                 } else {
-                    bf=true;
+                    bf = true;
                     break;
                 }
                 bb--;
@@ -150,7 +152,7 @@ public class Utilities {
                     temp.add(relevancyList.get(rli));
                     rli++;
                 } else {
-                    rlf=true;
+                    rlf = true;
                     break;
                 }
                 rrll--;
@@ -160,7 +162,7 @@ public class Utilities {
                     temp.add(randomizedList.get(ri));
                     ri++;
                 } else {
-                    rf=true;
+                    rf = true;
                     break;
                 }
                 rr--;
