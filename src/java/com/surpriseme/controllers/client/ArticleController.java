@@ -94,7 +94,7 @@ public class ArticleController extends HttpServlet {
                 UserDAO userDao = new UserDAOImpl();
                 List<Interest> interestList = null;
                 try {
-                    interestList = userDao.getAllUserInterests(1);
+                    interestList = userDao.getUserInterests(1, true);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
