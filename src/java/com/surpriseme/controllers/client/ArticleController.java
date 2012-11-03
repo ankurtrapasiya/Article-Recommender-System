@@ -134,13 +134,17 @@ public class ArticleController extends HttpServlet {
 
         Integer articleId = Integer.parseInt(req.getParameter("articleid"));
         //Integer userId = Integer.parseInt(req.getParameter("userId"));
-        Integer userId=1;
-       // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
+        Integer userId = 1;
+        // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
+        boolean flag = true;
+
 
         String action = req.getParameter("action");
         ArticleDAOImpl articleDao = new ArticleDAOImpl();
         HistoryDAOImpl historyDao = new HistoryDAOImpl();
         UserHistory history = null;
+
+
         try {
             history = historyDao.findById(new UserHistoryPK(userId, articleId));
         } catch (SQLException ex) {
@@ -152,19 +156,33 @@ public class ArticleController extends HttpServlet {
         if (articleId != null && action != null) {
             if (action.equals("upvote")) {
                 try {
-                    Integer upvote = articleDao.vote(articleId, true);
+
+                    Integer upvote = null;
+
+                    if (history == null) {
+                        history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.TRUE, Boolean.FALSE);
+                    } else if (history.getDownvote()) {
+                        history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
+                        history.setUpvote(Boolean.TRUE);
+                        history.setDownvote(Boolean.FALSE);
+                    } else {
+                        flag = false;
+                    }
+
+                    if (flag) {
+                        historyDao.saveOrUpdate(history);
+                        upvote = articleDao.vote(articleId, true);
+                    }
+
                     if (upvote != null) {
 
-                        if (history != null) {
-                            history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
-                            history.setUpvote(Boolean.TRUE);
-                            history.setDownvote(Boolean.FALSE);
-                        } else {
-                            history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.TRUE, Boolean.FALSE);
-                        }
-                        historyDao.saveOrUpdate(history);
                         jObj = new JSONObject();
                         jObj.put("upvote", upvote);
+                        jArr.add(jObj);
+                        
+                        Article a=articleDao.findById(articleId);
+                        jObj=new JSONObject();
+                        jObj.put("downvote",a.getDownvote());
                         jArr.add(jObj);
                     }
                 } catch (SQLException ex) {
@@ -173,37 +191,52 @@ public class ArticleController extends HttpServlet {
             } else if (action.equals("downvote")) {
                 try {
                     Integer downvote = null;
-                    if (history != null && !history.getDownvote()) {
+                    if (history == null) {
+                        history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.FALSE, Boolean.TRUE);
+                    } else if (history.getUpvote()) {
+                        history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
+                        history.setUpvote(Boolean.FALSE);
+                        history.setDownvote(Boolean.TRUE);
+                    } else {
+                        flag = false;
+                    }
+
+                    if (flag) {
+                        historyDao.saveOrUpdate(history);
                         downvote = articleDao.vote(articleId, false);
                     }
+
                     if (downvote != null) {
 
-                        if (history != null) {
-                            history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
-                            history.setUpvote(Boolean.FALSE);
-                            history.setDownvote(Boolean.TRUE);
-                        } else {
-                            history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.FALSE, Boolean.TRUE);
-                        }
+                        jObj = new JSONObject();
+                        jObj.put("downvote", downvote);
+                                                
+                        jArr.add(jObj);
+                        
+                        Article a=articleDao.findById(articleId);
+                        jObj=new JSONObject();
+                        jObj.put("upvote",a.getUpvote());
+                        
+                        jArr.add(jObj);
                     }
-                    historyDao.saveOrUpdate(history);
-                    jObj = new JSONObject();
-                    jObj.put("downvote", downvote);
-                    jArr.add(jObj);
+
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("suggest")) {
                 /*try {
-                    articleDao.suggestArticle(userId, friendId, articleId);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                 articleDao.suggestArticle(userId, friendId, articleId);
+                 } catch (SQLException ex) {
+                 Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                 }*/
             } else if (action.equals("addtofav")) {
                 try {
                     articleDao.addArticleToFavourites(userId, articleId);
+
+
                 } catch (SQLException ex) {
-                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ArticleController.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

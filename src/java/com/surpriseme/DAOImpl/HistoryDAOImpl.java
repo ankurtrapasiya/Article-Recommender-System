@@ -177,14 +177,26 @@ public class HistoryDAOImpl implements HistoryDAO {
     public Integer saveOrUpdate(UserHistory entity) throws SQLException {
         ResultSet rs = null;
         Integer retval = null;
+        boolean isUpdate = false;
+
 
         try {
+
+
+            UserHistory u = findById(new UserHistoryPK(entity.getUserid(), entity.getArticleid()));
+
+            if (u != null) {
+                isUpdate = true;
+            }
 
             con = new DBConnection();
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_userhistory(?,?,?,?,?)}");
-
+                if (isUpdate) {
+                       cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_userhistory(?,?,?,?,?)}");
+                } else {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_userhistory(?,?,?,?,?)}");
+                }
 
                 cstmt.setInt("p_userid", entity.getUserid());
                 cstmt.setInt("p_articleid", entity.getArticleid());
@@ -193,14 +205,7 @@ public class HistoryDAOImpl implements HistoryDAO {
                 cstmt.setBoolean("p_downvote", entity.getDownvote());
 
                 rs = con.saveOrUpdate(cstmt);
-
-                String sql = "select last_insert_id()";
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-                    retval = rs.getInt(1);
-                }
+                
             }
 
 
@@ -213,7 +218,7 @@ public class HistoryDAOImpl implements HistoryDAO {
             con.disconnect();
         }
 
-        return retval;
+        return null;
     }
 
     @Override
@@ -277,6 +282,8 @@ public class HistoryDAOImpl implements HistoryDAO {
                 rs = con.customQuery(pstmt);
 
                 while (rs.next()) {
+
+                    retval = new UserHistory();
 
                     retval.setUserid(rs.getInt("userid"));
                     retval.setArticleid(rs.getInt("articleid"));

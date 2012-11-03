@@ -131,7 +131,7 @@
                                     $.post(url1,function(dt)
                                     {
                                         downvoteDiv.html("<label>" + dt.content[0].downvote + "</label>");   
-                                        
+                                        upvoteDiv.html("<label>" + dt.content[1].upvote + "</label>");
                                     },"json");
                                 }
                                 else
@@ -144,6 +144,7 @@
                                     {
                                         
                                         upvoteDiv.html("<label>" + dt.content[0].upvote + "</label>");                                        
+                                        downvoteDiv.html("<label>" + dt.content[1].downvote + "</label>");   
                                     
                                     },"json");
                                 }                                
