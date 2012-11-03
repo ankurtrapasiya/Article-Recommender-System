@@ -24,6 +24,19 @@
             </ul>                
         </script>        
 
+
+        <!--        <script id="upvote-template" type="text/x-handlebars-template">
+                    {{#each this}}
+                    <label>{{upvote}}</label>
+                    {{/each}}
+                </script>
+        
+                <script id="downvote-template" type="text/x-handlebars-template">
+                    {{#each this}}
+                    <label>{{downvote}}</label>
+                    {{/each}}
+                </script>-->
+
         <script id="article-template" type="text/x-handlebars-template">                            
 
             {{#each this}}                
@@ -35,13 +48,19 @@
                     info
                 </div>
                 <div id="votes">                               
-                    
+
                     <div id="votes_content">
-                        <img src="images/up.png"></img>
+                        <a href="#" id="up" rel="{{articleid}}"><img src="images/up.png"></img></a>
                         <br/>
-                        <img src="images/down.png"></img>
+                        <div id="upvotes">
+                            {{upvote}}
+                        </div>
+                        <div id="downvotes">
+                            {{downvote}}
+                        </div>
+                        <a href="#" id="down" rel="{{articleid}}"><img src="images/down.png"></img></a>                        
                     </div>
-                    
+
                 </div>                                        
                 <div id="content">                    
                     content : {{body}}
@@ -91,9 +110,49 @@
                             var temp=Handlebars.compile($("#article-template").html());                        
                             $("#contentarea #rows").html(temp(dt.content));
                             
+                            
+                            
+                            $("#rows").find("a").on("click",function(e){
+                            
+                                e.preventDefault();
+                                var val=$(this).attr("rel");  
+                                
+                                var up=$(this).attr("id");
+                                
+                                var upvoteDiv=$(this).parent().find("#upvotes");   
+                                var downvoteDiv=$(this).parent().find("#downvotes");   
+                                                                                                
+                                
+                                if(up==="down")
+                                {
+                                    var url="ArticleController?action=downvote&articleid=";
+                                    var url1=url.concat(val);
+                                
+                                    $.post(url1,function(dt)
+                                    {
+                                        console.log(downvoteDiv);
+                                        downvoteDiv.html("<label>" + dt.content[0].downvote + "</label>");                                        
+                                    },"json");
+                                }
+                                else
+                                {
+                                        
+                                    var url="ArticleController?action=upvote&articleid=";
+                                    var url1=url.concat(val);
+                                
+                                    $.post(url1,function(dt)
+                                    {
+                                        
+                                        console.log(upvoteDiv);
+                                        upvoteDiv.html("<label>" + dt.content[0].upvote + "</label>");                                        
+                                    
+                                    },"json");
+                                }                                
+                            });
+                            
                         },"json");
                         
-                    });                            
+                    });                           
                 });                                                               
             })();
         </script>        

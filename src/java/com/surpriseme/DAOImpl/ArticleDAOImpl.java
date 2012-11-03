@@ -70,14 +70,16 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public boolean vote(Integer articleId, boolean up) throws SQLException {
+    public Integer vote(Integer articleId, boolean up) throws SQLException {
 
-        boolean retval = false;
+        Integer retval = 0;
         try {
             con = new DBConnection();
             if (con.connect()) {
 
-                Article article = this.findById(articleId);
+                ArticleDAO articleDao=new ArticleDAOImpl();
+                
+                Article article = articleDao.findById(articleId);
 
                 if (article != null) {
 
@@ -86,14 +88,16 @@ public class ArticleDAOImpl implements ArticleDAO {
                     if (up) {
                         count = article.getUpvote();
                         sql += "upvote=" + (count + 1);
+                        retval = count + 1;
                     } else {
                         count = article.getDownvote();
                         sql += "downvote=" + (count + 1);
+                        retval = count + 1;
                     }
 
                     sql += " where articleid=" + articleId;
 
-                    retval = con.executeQuery(sql);
+                    con.executeQuery(sql);
                 }
             }
 

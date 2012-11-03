@@ -125,6 +125,9 @@ public class ArticleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        JSONArray jArr = new JSONArray();
+        JSONObject jObj = null;
+
         String articleId = req.getParameter("articleid");
         String userId = req.getParameter("userId");
         String friendId = req.getParameter("friendId");
@@ -136,13 +139,19 @@ public class ArticleController extends HttpServlet {
         if (articleId != null && action != null) {
             if (action.equals("upvote")) {
                 try {
-                    articleDao.vote(Integer.parseInt(articleId), true);
+                    Integer upvote = articleDao.vote(Integer.parseInt(articleId), true);
+                    jObj = new JSONObject();
+                    jObj.put("upvote", upvote);
+                    jArr.add(jObj);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("downvote")) {
                 try {
-                    articleDao.vote(Integer.parseInt(articleId), false);
+                    Integer downvote = articleDao.vote(Integer.parseInt(articleId), false);
+                    jObj = new JSONObject();
+                    jObj.put("downvote", downvote);
+                    jArr.add(jObj);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -160,6 +169,11 @@ public class ArticleController extends HttpServlet {
                 }
             }
         }
+        jObj = new JSONObject();
+        jObj.put("content", jArr);
 
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().println(jObj);
     }
 }
