@@ -7,13 +7,17 @@ package com.surpriseme.controllers.client;
 import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.DAO.UserDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
+import com.surpriseme.DAOImpl.HistoryDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.UserHistory;
+import com.surpriseme.helper.UserHistoryPK;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.Utilities;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -128,27 +132,61 @@ public class ArticleController extends HttpServlet {
         JSONArray jArr = new JSONArray();
         JSONObject jObj = null;
 
-        String articleId = req.getParameter("articleid");
-        String userId = req.getParameter("userId");
-        String friendId = req.getParameter("friendId");
+        Integer articleId = Integer.parseInt(req.getParameter("articleid"));
+        //Integer userId = Integer.parseInt(req.getParameter("userId"));
+        Integer userId=1;
+       // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
 
         String action = req.getParameter("action");
         ArticleDAOImpl articleDao = new ArticleDAOImpl();
+        HistoryDAOImpl historyDao = new HistoryDAOImpl();
+        UserHistory history = null;
+        try {
+            history = historyDao.findById(new UserHistoryPK(userId, articleId));
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         Article article = null;
 
         if (articleId != null && action != null) {
             if (action.equals("upvote")) {
                 try {
-                    Integer upvote = articleDao.vote(Integer.parseInt(articleId), true);
-                    jObj = new JSONObject();
-                    jObj.put("upvote", upvote);
-                    jArr.add(jObj);
+                    Integer upvote = articleDao.vote(articleId, true);
+                    if (upvote != null) {
+
+                        if (history != null) {
+                            history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
+                            history.setUpvote(Boolean.TRUE);
+                            history.setDownvote(Boolean.FALSE);
+                        } else {
+                            history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.TRUE, Boolean.FALSE);
+                        }
+                        historyDao.saveOrUpdate(history);
+                        jObj = new JSONObject();
+                        jObj.put("upvote", upvote);
+                        jArr.add(jObj);
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("downvote")) {
                 try {
-                    Integer downvote = articleDao.vote(Integer.parseInt(articleId), false);
+                    Integer downvote = null;
+                    if (history != null && !history.getDownvote()) {
+                        downvote = articleDao.vote(articleId, false);
+                    }
+                    if (downvote != null) {
+
+                        if (history != null) {
+                            history.setTimestamp(new Timestamp(new java.util.Date().getTime()));
+                            history.setUpvote(Boolean.FALSE);
+                            history.setDownvote(Boolean.TRUE);
+                        } else {
+                            history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.FALSE, Boolean.TRUE);
+                        }
+                    }
+                    historyDao.saveOrUpdate(history);
                     jObj = new JSONObject();
                     jObj.put("downvote", downvote);
                     jArr.add(jObj);
@@ -156,14 +194,14 @@ public class ArticleController extends HttpServlet {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("suggest")) {
-                try {
-                    articleDao.suggestArticle(Integer.parseInt(userId), Integer.parseInt(friendId), Integer.parseInt(articleId));
+                /*try {
+                    articleDao.suggestArticle(userId, friendId, articleId);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
             } else if (action.equals("addtofav")) {
                 try {
-                    articleDao.addArticleToFavourites(Integer.parseInt(userId), Integer.parseInt(articleId));
+                    articleDao.addArticleToFavourites(userId, articleId);
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }

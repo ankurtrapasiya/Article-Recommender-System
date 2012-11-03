@@ -72,27 +72,40 @@ public class ArticleDAOImpl implements ArticleDAO {
     @Override
     public Integer vote(Integer articleId, boolean up) throws SQLException {
 
-        Integer retval = 0;
+        Integer retval = null;
         try {
             con = new DBConnection();
             if (con.connect()) {
 
-                ArticleDAO articleDao=new ArticleDAOImpl();
-                
+                ArticleDAO articleDao = new ArticleDAOImpl();
+
                 Article article = articleDao.findById(articleId);
 
                 if (article != null) {
 
-                    int count = 0;
+                    int upvotes = 0;
+                    int downvotes = 0;
+                    upvotes = article.getUpvote();
+                    downvotes = article.getDownvote();
+
                     String sql = "update article set ";
                     if (up) {
-                        count = article.getUpvote();
-                        sql += "upvote=" + (count + 1);
-                        retval = count + 1;
+                        upvotes++;
+                        sql += "upvote=" + upvotes + ",";
+                        if (downvotes > 0) {
+                            downvotes--;
+                        }
+                        sql += "downvote=" + downvotes;
+                        retval = upvotes ;
                     } else {
-                        count = article.getDownvote();
-                        sql += "downvote=" + (count + 1);
-                        retval = count + 1;
+                        if (upvotes > 0) {
+                            upvotes--;
+                        }
+                        sql += "upvote=" + upvotes + ",";
+                        downvotes++;
+                        sql += "downvote=" + downvotes;
+
+                        retval = downvotes ;
                     }
 
                     sql += " where articleid=" + articleId;

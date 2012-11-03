@@ -727,29 +727,37 @@ public class UserDAOImpl implements UserDAO {
                 rs = con.customQuery(query);
 
                 List<UserInterest> list = new ArrayList<UserInterest>();
+                if (include) {
+                    while (rs.next()) {
 
-                while (rs.next()) {
+                        UserInterest userinterest = new UserInterest();
 
-                    UserInterest userinterest = new UserInterest();
+                        userinterest.setUserid(rs.getInt("userid"));
+                        userinterest.setInterestid(rs.getInt("interestid"));
 
-                    userinterest.setUserid(rs.getInt("userid"));
-                    userinterest.setInterestid(rs.getInt("interestid"));
+                        list.add(userinterest);
+                    }
 
-                    list.add(userinterest);
+
+                    Iterator<UserInterest> i = list.iterator();
+                    InterestDAOImpl impl = new InterestDAOImpl();
+
+                    while (i.hasNext()) {
+
+                        UserInterest ui = i.next();
+                        Interest interest = impl.findById(ui.getInterestid());
+
+                        retval.add(interest);
+                    }
+                } else {
+                    InterestDAOImpl impl = new InterestDAOImpl();
+                    while (rs.next()) {
+                        Interest interest = new Interest();
+                        int id = rs.getInt("interestid");
+                        interest = impl.findById(id);
+                        retval.add(interest);
+                    }
                 }
-
-
-                Iterator<UserInterest> i = list.iterator();
-                InterestDAOImpl impl = new InterestDAOImpl();
-
-                while (i.hasNext()) {
-
-                    UserInterest ui = i.next();
-                    Interest interest = impl.findById(ui.getInterestid());
-
-                    retval.add(interest);
-                }
-
             }
 
         } catch (ClassNotFoundException ex) {
@@ -761,6 +769,7 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return retval;
+
     }
 
     @Override

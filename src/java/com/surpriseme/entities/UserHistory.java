@@ -49,4 +49,15 @@ public class UserHistory {
     public void setDownvote(Boolean downvote) {
         this.downvote = downvote;
     }
+
+    public UserHistory(Integer Userid, Integer articleid, Timestamp timestamp, Boolean upvote, Boolean downvote) {
+        this.Userid = Userid;
+        this.articleid = articleid;
+        this.timestamp = timestamp;
+        this.upvote = upvote;
+        this.downvote = downvote;
+    }
+
+    public UserHistory() {
+    }
 }

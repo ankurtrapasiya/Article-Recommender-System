@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class UserInterestController extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
+public class UserInterestController extends javax.servlet.http.HttpServlet {
 
     static final long serialVersionUID = 1L;
     Boolean retval = false;
@@ -49,8 +49,6 @@ public class UserInterestController extends javax.servlet.http.HttpServlet imple
                 notInterestList = UserDao.getUserInterests(UserId, false);
                 retval = true;
 
-
-
             } catch (Exception ex) {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -73,16 +71,27 @@ public class UserInterestController extends javax.servlet.http.HttpServlet imple
                     words.add(token);
                 }
             }
-            for (int i = 0; i < words.size(); i++) {
-                try {
-                    int id = Integer.parseInt(words.get(i));
-                    UserDao = new UserDAOImpl();
-                    retval = UserDao.removeInterestFromUser(id, UserId);
-                } catch (Exception ex) {
-                    Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
 
+            try {
+                UserDao = new UserDAOImpl();
+                interestList = UserDao.getUserInterests(UserId, true);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if ((interestList.size()) > (words.size())) {
+                for (int i = 0; i < words.size(); i++) {
+                    try {
+
+                        int id = Integer.parseInt(words.get(i));
+                        UserDao = new UserDAOImpl();
+                        retval = UserDao.removeInterestFromUser(id, UserId);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                retval = false;
+            }
             try {
                 UserDao = new UserDAOImpl();
                 interestList = UserDao.getUserInterests(UserId, true);
@@ -90,6 +99,8 @@ public class UserInterestController extends javax.servlet.http.HttpServlet imple
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+
             request.setAttribute("status", retval);
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);

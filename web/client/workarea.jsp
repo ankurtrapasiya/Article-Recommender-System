@@ -130,8 +130,8 @@
                                 
                                     $.post(url1,function(dt)
                                     {
-                                        console.log(downvoteDiv);
-                                        downvoteDiv.html("<label>" + dt.content[0].downvote + "</label>");                                        
+                                        downvoteDiv.html("<label>" + dt.content[0].downvote + "</label>");   
+                                        
                                     },"json");
                                 }
                                 else
@@ -143,7 +143,6 @@
                                     $.post(url1,function(dt)
                                     {
                                         
-                                        console.log(upvoteDiv);
                                         upvoteDiv.html("<label>" + dt.content[0].upvote + "</label>");                                        
                                     
                                     },"json");

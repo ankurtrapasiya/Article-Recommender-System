@@ -5,7 +5,9 @@
 package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.HistoryDAO;
+import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserHistory;
+import com.surpriseme.helper.UserHistoryPK;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Duration;
 import java.sql.CallableStatement;
@@ -256,8 +258,45 @@ public class HistoryDAOImpl implements HistoryDAO {
     }
 
     @Override
-    public UserHistory findById(Integer key) throws SQLException {
-        return null;
+    public UserHistory findById(UserHistoryPK key) throws SQLException {
+        UserHistory retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from userhistory where userid=? and articleid=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setInt(1, key.getUserid());
+                pstmt.setInt(2, key.getArticleid());
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    retval.setUserid(rs.getInt("userid"));
+                    retval.setArticleid(rs.getInt("articleid"));
+                    retval.setTimestamp(rs.getTimestamp("timestamp"));
+                    retval.setUpvote(rs.getBoolean("upvote"));
+                    retval.setDownvote(rs.getBoolean("downvote"));
+
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
     }
 
     @Override
@@ -302,7 +341,7 @@ public class HistoryDAOImpl implements HistoryDAO {
     }
 
     @Override
-    public boolean delete(Integer key) throws SQLException {
+    public boolean delete(UserHistoryPK key) throws SQLException {
         boolean retval = false;
         ResultSet rs = null;
 
@@ -313,12 +352,9 @@ public class HistoryDAOImpl implements HistoryDAO {
 
             if (con.connect()) {
 
-                UserHistory entity = findById(key);
-
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_userhistory(?,?,?)}");
-                cstmt.setInt(1, entity.getUserid());
-                cstmt.setInt(1, entity.getArticleid());
-                cstmt.setTimestamp(1, entity.getTimestamp());
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_userhistory(?,?)}");
+                cstmt.setInt(1, key.getUserid());
+                cstmt.setInt(1, key.getArticleid());
 
                 con.customQuery(cstmt);
 
