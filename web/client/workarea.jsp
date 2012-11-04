@@ -62,12 +62,12 @@
             {{/each}}            
 
         </script>        
-<div id="contentheader" class="at_article_header">
-                    <h2>Article Suggestions</h2>
-                </div>
+        <div id="contentheader" class="at_article_header">
+            <h2>Article Suggestions</h2>
+        </div>
         <div id="container">
             <div id="contentarea" class="at_article_container">
-                
+
                 <div id="rows" class="at_article_row">
 
                 </div>

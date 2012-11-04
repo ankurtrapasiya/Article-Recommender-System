@@ -1059,4 +1059,50 @@ public class UserDAOImpl implements UserDAO {
         }
         return ret;
     }
+
+    @Override
+    public boolean isEmailAvailable(String email) throws SQLException {
+        boolean available = false;
+        ResultSet rs;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                rs = con.customQuery("select * from user where email = '" + email + "'");
+                if (rs.next()) {
+                    available = false;
+                    System.out.println("Result set has record for this email id.");
+                } else {
+                    available = true;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            return available;
+        }
+    }
+
+    @Override
+    public boolean isUsernameAvailable(String username) throws SQLException {
+        boolean available = false;
+        ResultSet rs;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+                rs = con.customQuery("select * from user where username = '" + username + "'");
+                if (rs.next()) {
+                    available = false;
+                } else {
+                    available = true;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            return available;
+        }
+    }
 }

@@ -79,6 +79,14 @@
         <servlet-name>SignUp</servlet-name>
         <jsp-file>/client/registration.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>UsernameCheckerController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UsernameCheckerController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmailCheckerController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.EmailCheckerController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -124,14 +132,6 @@
         <url-pattern>/UserProfileController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SignUp</servlet-name>
-        <url-pattern>/SignUp</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SignUpController</servlet-name>
-        <url-pattern>/SignUpController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
         <url-pattern>/client/ArticleController</url-pattern>
     </servlet-mapping>
@@ -142,6 +142,22 @@
     <servlet-mapping>
         <servlet-name>LoginPage</servlet-name>
         <url-pattern>/client/LoginPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/client/SignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsernameCheckerController</servlet-name>
+        <url-pattern>/UsernameCheckerController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmailCheckerController</servlet-name>
+        <url-pattern>/EmailCheckerController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpController</servlet-name>
+        <url-pattern>/client/SignUpController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

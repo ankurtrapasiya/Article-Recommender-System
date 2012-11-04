@@ -51,4 +51,8 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     List<BlockedUsers> getAllBlocked() throws SQLException;
 
     User isValidUser(String username, String password) throws SQLException;
+
+    boolean isEmailAvailable(String email) throws SQLException;
+
+    boolean isUsernameAvailable(String username) throws SQLException;
 }

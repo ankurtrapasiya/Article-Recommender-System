@@ -293,7 +293,7 @@
                 <!--LOGIN FORM-->
                 <div style="background-color: #F3F3F3">
 
-                    &nbsp;<form method="get" action="../Client/SignUpController" name="signupform" style="left: -246px; top: -10px" onsubmit="return validate()">
+                    &nbsp;<form method="post" action="client/SignUpController" name="signupform" style="left: -246px; top: -10px" onsubmit="return validate()">
                         &nbsp;<table cellpadding="5" style="font-family: serif; font-size: 20px; color: #414848; margin-left: 40px;">
                             <div class="content">
                                 <h1 style="color: #414848; font-size: 28px; width: 789px; margin-left: 50px;" class="style1">
