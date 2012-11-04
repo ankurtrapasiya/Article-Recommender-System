@@ -4,6 +4,8 @@
  */
 package com.surpriseme.controllers.admin;
 
+import com.surpriseme.DAO.BlockedUsersDAO;
+import com.surpriseme.DAOImpl.BlockedUserDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.BlockedUsers;
 import com.surpriseme.entities.User;
@@ -72,6 +74,7 @@ public class BlockUnblockUserServlet extends HttpServlet {
             throws ServletException, IOException {
         // processRequest(request, response);
         UserDAOImpl user = new UserDAOImpl();
+        BlockedUsersDAO blockedUser = new BlockedUserDAOImpl();
         User u = null;
         BlockedUsers bu = null;
         List<BlockedUsers> rtval = new ArrayList<BlockedUsers>();
@@ -84,7 +87,7 @@ public class BlockUnblockUserServlet extends HttpServlet {
         HttpSession session = null;
         try {
 
-            rtval = user.getAllBlocked();
+            rtval = blockedUser.getAllBlocked();
             for (int i = 0; i < rtval.size(); i++) {
                 obj = new JSONObject();
                 bu = new BlockedUsers();
@@ -133,18 +136,19 @@ public class BlockUnblockUserServlet extends HttpServlet {
         //processRequest(request, response);
         String str = (String) request.getParameter("toggle");
         UserDAOImpl user = new UserDAOImpl();
+        BlockedUsersDAO blockedUser = new BlockedUserDAOImpl();
         int userid = Integer.parseInt(request.getParameter("userid"));
         int blockerid = Integer.parseInt(request.getParameter("blockerid"));
         if (str.contentEquals("Block")) {
             try {
-                user.blockUser(userid, blockerid);
+                blockedUser.blockUser(userid, blockerid);
             } catch (SQLException ex) {
                 Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
             try {
-                user.unblockUser(userid, blockerid);
+                blockedUser.unblockUser(userid, blockerid);
             } catch (SQLException ex) {
                 Logger.getLogger(BlockUnblockUserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

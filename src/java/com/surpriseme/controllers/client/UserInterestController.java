@@ -1,6 +1,8 @@
 package com.surpriseme.controllers.client;
 
+import com.surpriseme.DAO.UserInterestDAO;
 import com.surpriseme.DAOImpl.UserDAOImpl;
+import com.surpriseme.DAOImpl.UserInterestDAOImpl;
 import com.surpriseme.entities.Interest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,7 +15,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class UserInterestController extends javax.servlet.http.HttpServlet {
 
@@ -38,15 +39,15 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
         String Add = request.getParameter("btnAdd");
 
 
-        UserDAOImpl UserDao = null;
+        UserInterestDAO userDao = null;
         List<Interest> interestList = new ArrayList<Interest>();
         List<Interest> notInterestList = null;
 
         if (View != null) {
             try {
-                UserDao = new UserDAOImpl();
-                interestList = UserDao.getUserInterests(UserId, true);
-                notInterestList = UserDao.getUserInterests(UserId, false);
+                userDao = new UserInterestDAOImpl();
+                interestList = userDao.getUserInterests(UserId, true);
+                notInterestList = userDao.getUserInterests(UserId, false);
                 retval = true;
 
             } catch (Exception ex) {
@@ -73,8 +74,8 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             }
 
             try {
-                UserDao = new UserDAOImpl();
-                interestList = UserDao.getUserInterests(UserId, true);
+                userDao = new UserInterestDAOImpl();
+                interestList = userDao.getUserInterests(UserId, true);
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -83,8 +84,8 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
                     try {
 
                         int id = Integer.parseInt(words.get(i));
-                        UserDao = new UserDAOImpl();
-                        retval = UserDao.removeInterestFromUser(id, UserId);
+                        userDao = new UserInterestDAOImpl();
+                        retval = userDao.removeInterestFromUser(id, UserId);
                     } catch (Exception ex) {
                         Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -93,9 +94,9 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
                 retval = false;
             }
             try {
-                UserDao = new UserDAOImpl();
-                interestList = UserDao.getUserInterests(UserId, true);
-                notInterestList = UserDao.getUserInterests(UserId, false);
+                userDao = new UserInterestDAOImpl();
+                interestList = userDao.getUserInterests(UserId, true);
+                notInterestList = userDao.getUserInterests(UserId, false);
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -122,17 +123,17 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             for (int i = 0; i < words.size(); i++) {
                 try {
                     int id = Integer.parseInt(words.get(i));
-                    UserDao = new UserDAOImpl();
-                    retval = UserDao.addInterestToUser(id, UserId);
+                    userDao = new UserInterestDAOImpl();
+                    retval = userDao.addInterestToUser(id, UserId);
 
                 } catch (Exception ex) {
                     Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             try {
-                UserDao = new UserDAOImpl();
-                interestList = UserDao.getUserInterests(UserId, true);
-                notInterestList = UserDao.getUserInterests(UserId, false);
+                userDao = new UserInterestDAOImpl();
+                interestList = userDao.getUserInterests(UserId, true);
+                notInterestList = userDao.getUserInterests(UserId, false);
 
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);

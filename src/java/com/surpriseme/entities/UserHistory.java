@@ -60,4 +60,47 @@ public class UserHistory {
 
     public UserHistory() {
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + (this.userid != null ? this.userid.hashCode() : 0);
+        hash = 59 * hash + (this.articleid != null ? this.articleid.hashCode() : 0);
+        hash = 59 * hash + (this.timestamp != null ? this.timestamp.hashCode() : 0);
+        hash = 59 * hash + (this.upvote != null ? this.upvote.hashCode() : 0);
+        hash = 59 * hash + (this.downvote != null ? this.downvote.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserHistory other = (UserHistory) obj;
+        if (this.userid != other.userid && (this.userid == null || !this.userid.equals(other.userid))) {
+            return false;
+        }
+        if (this.articleid != other.articleid && (this.articleid == null || !this.articleid.equals(other.articleid))) {
+            return false;
+        }
+        if (this.timestamp != other.timestamp && (this.timestamp == null || !this.timestamp.equals(other.timestamp))) {
+            return false;
+        }
+        if (this.upvote != other.upvote && (this.upvote == null || !this.upvote.equals(other.upvote))) {
+            return false;
+        }
+        if (this.downvote != other.downvote && (this.downvote == null || !this.downvote.equals(other.downvote))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserHistory{" + "userid=" + userid + ", articleid=" + articleid + ", timestamp=" + timestamp + ", upvote=" + upvote + ", downvote=" + downvote + '}';
+    }
 }

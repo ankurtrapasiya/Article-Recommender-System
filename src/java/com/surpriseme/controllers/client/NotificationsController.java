@@ -4,7 +4,8 @@
  */
 package com.surpriseme.controllers.client;
 
-import com.surpriseme.DAOImpl.UserDAOImpl;
+import com.surpriseme.DAO.UserGraphDAO;
+import com.surpriseme.DAOImpl.UserGraphDAOImpl;
 import com.surpriseme.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -72,7 +73,7 @@ public class NotificationsController extends HttpServlet {
         boolean retval = false;
         System.out.println("Servlet");
         List<User> userlist = null;
-        UserDAOImpl userDao = new UserDAOImpl();
+        UserGraphDAO userDao = new UserGraphDAOImpl();
         //  userGraph = new UserGraph();
         try {
             userlist= new ArrayList<User>();

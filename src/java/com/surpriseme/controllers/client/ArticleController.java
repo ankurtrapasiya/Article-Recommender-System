@@ -5,10 +5,14 @@
 package com.surpriseme.controllers.client;
 
 import com.surpriseme.DAO.ArticleDAO;
+import com.surpriseme.DAO.FavouritesDAO;
 import com.surpriseme.DAO.UserDAO;
+import com.surpriseme.DAO.UserInterestDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
+import com.surpriseme.DAOImpl.FavouritesDAOImpl;
 import com.surpriseme.DAOImpl.HistoryDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
+import com.surpriseme.DAOImpl.UserInterestDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.Favourites;
 import com.surpriseme.entities.Interest;
@@ -50,6 +54,8 @@ public class ArticleController extends HttpServlet {
         JSONObject jObj = new JSONObject();
 
         ArticleDAO articleDao = null;
+        UserInterestDAO suggestions = new UserInterestDAOImpl();
+
         Integer userId = null;
         Integer intereseId = null;
 
@@ -69,7 +75,7 @@ public class ArticleController extends HttpServlet {
                 articleDao = new ArticleDAOImpl();
                 try {
 
-                    articlesSuggestions = articleDao.suggestArticle(userId, intereseId);
+                    articlesSuggestions = suggestions.suggestArticle(userId, intereseId);
 
                     articles = Utilities.processArticles(articlesSuggestions);
 
@@ -103,7 +109,7 @@ public class ArticleController extends HttpServlet {
                 }
             } else {
 
-                UserDAO userDao = new UserDAOImpl();
+                UserInterestDAO userDao = new UserInterestDAOImpl();
                 List<Interest> interestList = null;
                 try {
                     interestList = userDao.getUserInterests(1, true);
@@ -239,11 +245,14 @@ public class ArticleController extends HttpServlet {
                  }*/
             } else if (action.equals("addtofavourites")) {
                 try {
-                    if (!articleDao.checkIfExistInFavourites(userId, articleId)) {
+
+                    FavouritesDAO favDao = new FavouritesDAOImpl();
+
+                    if (!favDao.checkIfExistInFavourites(userId, articleId)) {
 
                         Favourites fav = new Favourites(userId, articleId, false, true);
 
-                        articleDao.addArticleToFavourites(fav);
+                        favDao.addArticleToFavourites(fav);
 
                         jObj = new JSONObject();
                         jObj.put("status", "true");
@@ -258,10 +267,12 @@ public class ArticleController extends HttpServlet {
                 }
             } else if (action.equals("readitlater")) {
                 try {
-                    if (!articleDao.checkIfExistInReadLater(userId, articleId)) {
+
+                    FavouritesDAO favDao = new FavouritesDAOImpl();
+                    if (!favDao.checkIfExistInReadLater(userId, articleId)) {
                         Favourites fav = new Favourites(userId, articleId, true, false);
 
-                        articleDao.addArticleToFavourites(fav);
+                        favDao.addArticleToFavourites(fav);
 
                         jObj = new JSONObject();
                         jObj.put("status", "true");

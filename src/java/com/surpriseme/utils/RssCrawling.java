@@ -11,7 +11,11 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import com.surpriseme.DAO.ArticleLinksDAO;
+import com.surpriseme.DAO.ArticleTagDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
+import com.surpriseme.DAOImpl.ArticleLinksDAOImpl;
+import com.surpriseme.DAOImpl.ArticleTagDAOImpl;
 import com.surpriseme.DAOImpl.SourceDAOImpl;
 import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
@@ -98,7 +102,10 @@ public class RssCrawling {
                     articleid = articleDAOImpl.saveOrUpdate(article);
                     if (articleid != null) {//if success
                         source = sourceDAOImpl.getSoureFromFeedUrl(rssurl);
-                        articleurlAdded = articleDAOImpl.addSourceToArticle(articleid, articleLinks.getArticleurl(), source.getSourceid());
+
+                        ArticleLinksDAO articleSources = new ArticleLinksDAOImpl();
+
+                        articleurlAdded = articleSources.addSourceToArticle(articleid, articleLinks.getArticleurl(), source.getSourceid());
                         if (articleurlAdded) {
                             if (tags.size() >= 1) {
                                 for (int i = 0; i < tags.size(); i++) {
@@ -107,7 +114,10 @@ public class RssCrawling {
                                         tagid = tagDAOImpl.saveOrUpdate(tags.get(i));
                                     }
                                     if (tagid != null) {
-                                        tagAddedToArticle = tagDAOImpl.addTagToArticle(tagid, articleid);
+
+                                        ArticleTagDAO articleTagDao = new ArticleTagDAOImpl();
+
+                                        tagAddedToArticle = articleTagDao.addTagToArticle(tagid, articleid);
                                     }//end if(tagAdded)
                                 }//end of for
                             }
