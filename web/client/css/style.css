@@ -48,6 +48,9 @@ form,fieldset{
     padding:26px 13px 0 34px;
     background:url(../../images/bg-controls.png);
 }
+#links ul li{text-decoration: none;
+text-align: center;
+}
 .links {float:left;}
 .links ul {
     list-style:none;
@@ -147,10 +150,11 @@ form,fieldset{
     background:url(../../images/sprite.png) no-repeat -39px -58px;
     width:32px;
     height:37px;
-    overflow:hidden;
+    overflow:auto;
     text-indent:-9999px;
     border-left:1px solid #dde2e8;
 }
+
 .tabs {border-top:1px solid #fff;}
 .tabs .text-section {
     background:#f9f9f9;
@@ -330,21 +334,33 @@ form,fieldset{
 /* article style */
 
 #container{  
+    background-color: red;
+    height:200px;
 }
 
 .at_article_container
 {
-    display:inline;
     width:80%;
-    float:left;    
-    border:5px solid;
+    float:left;  
+   
+    
 }
 
-.at_article_sidebar{           
+.at_article_sidebar{      
+color:white;    
+text-decoration: underline; 
+margin-top:1%;
     height: auto;    
     float:right;    
-    width:16%;          
+    width:17%;
+    text-align: center;
+    background-color: #333A40;
+-webkit-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
+     -moz-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
+          box-shadow: 0 0 5px rgba(51, 58, 64, 10);  
+
 }
+.
 
 .at_article_content{            
     border: #3c78ba;
@@ -354,7 +370,7 @@ form,fieldset{
 
 .at_article_row{
     
-    /*margin:10px 10px 10px 10px;*/
+    margin:0 0 0 0;
 }
 
 /* article display*/
@@ -362,10 +378,11 @@ form,fieldset{
 #at_main{
     display: block;
     background-color:#BBB;
-    height: 200px;    
+      
 }
 #at_main #header{
     height:15%;
+    
     width:90%;
     float: right;
     background-color: #CCC;
@@ -387,16 +404,17 @@ form,fieldset{
     height:200px;    
     float: left;
     vertical-align: top;
-    margin-top: -30px;
+    
 }
 
 #at_main #votes #votes_content
 {
-    display: block;
+    
     text-align: center;
-    vertical-align: middle;
-    height: 100%;
-    margin: 50%;
+    vertical-align: top;
+
+    height: 200px;
+ 
 }
 
 #at_main #content{
@@ -415,7 +433,8 @@ form,fieldset{
     background-color: #CCC;
 }
 #at_workarea{
-    margin:22px 15px 0 35px; 
+    margin:25px 5px 5px 25px; 
+    vertical-align: center;
     
 }
 

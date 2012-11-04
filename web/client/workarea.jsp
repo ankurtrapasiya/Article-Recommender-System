@@ -12,6 +12,7 @@
         <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="js/handlebars.js"></script>
         <script type="text/javascript" src="js/moment.js"></script>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
 
     </head>
     <body>
@@ -61,12 +62,12 @@
             {{/each}}            
 
         </script>        
-
-        <div id="container">
-            <div id="contentarea" class="at_article_container">
-                <div id="contentheader" class="at_article_header">
+<div id="contentheader" class="at_article_header">
                     <h2>Article Suggestions</h2>
                 </div>
+        <div id="container">
+            <div id="contentarea" class="at_article_container">
+                
                 <div id="rows" class="at_article_row">
 
                 </div>

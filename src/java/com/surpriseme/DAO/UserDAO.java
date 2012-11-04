@@ -38,7 +38,7 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     boolean removeInterestFromUser(Integer interestid, Integer userid) throws SQLException;
 
-    List<Interest> getUserInterests(Integer userid,boolean include) throws SQLException;
+    List<Interest> getUserInterests(Integer userid, boolean include) throws SQLException;
 
     List<User> getAllFriends(Integer userid) throws SQLException;
 
@@ -49,4 +49,6 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     List<User> updateUserGraph() throws SQLException;
 
     List<BlockedUsers> getAllBlocked() throws SQLException;
+
+    User isValidUser(String username, String password) throws SQLException;
 }

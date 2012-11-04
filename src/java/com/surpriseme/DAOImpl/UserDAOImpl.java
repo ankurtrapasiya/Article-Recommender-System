@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
@@ -586,6 +587,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setCountry(rs.getString("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    user.setImage(rs.getString("image"));
 
                     retval = user;
                 }
@@ -947,6 +949,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setCountry(rs.getString("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
+                    user.setImage(rs.getString("image"));
 
                     retval.add(user);
                 }
@@ -1003,5 +1006,57 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return retval;
+    }
+
+    @Override
+    public User isValidUser(String username, String password) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        User ret = null;
+        try {
+
+            con = new DBConnection();
+            con.connect();
+
+            String sql = "select * from user where username=? and password=? and isactive=?";
+
+            pstmt = con.getConnection().prepareStatement(sql);
+            pstmt.setString(1, username);
+            pstmt.setString(2, Utilities.toMD5(password));
+            pstmt.setBoolean(3, true);
+
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+
+                User user = new User();
+
+                user.setUserid(rs.getInt("userid"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstname(rs.getString("firstname"));
+                user.setLastname(rs.getString("lastname"));
+                user.setDob(rs.getDate("dob"));
+                user.setState(rs.getString("state"));
+                user.setCity(rs.getString("city"));
+                user.setCountry(rs.getString("country"));
+                user.setIsactive(rs.getBoolean("isactive"));
+                user.setTimeofregistration(rs.getDate("timeofregistration"));
+                user.setImage(rs.getString("image"));
+
+                ret = user;
+            }
+
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAOImpl.class.getName()).log(Level.ERROR, null, ex);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            con.disconnect();
+        }
+        return ret;
     }
 }

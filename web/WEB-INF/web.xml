@@ -60,6 +60,14 @@
         <servlet-name>UserProfileController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginPage</servlet-name>
+        <jsp-file>/client/login.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -111,6 +119,14 @@
     <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/UserProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/LoginController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginPage</servlet-name>
+        <url-pattern>/LoginPage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
