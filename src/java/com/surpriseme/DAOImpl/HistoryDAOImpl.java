@@ -4,7 +4,7 @@
  */
 package com.surpriseme.DAOImpl;
 
-import com.surpriseme.DAO.HistoryDAO;
+import com.surpriseme.DAO.UserHistoryDAO;
 import com.surpriseme.entities.UserHistory;
 import com.surpriseme.helper.UserHistoryPK;
 import com.surpriseme.utils.DBConnection;
@@ -25,7 +25,7 @@ import org.apache.log4j.Priority;
  *
  * @author ankur
  */
-public class HistoryDAOImpl implements HistoryDAO {
+public class HistoryDAOImpl implements UserHistoryDAO {
 
     CallableStatement cstmt;
     DBConnection con;

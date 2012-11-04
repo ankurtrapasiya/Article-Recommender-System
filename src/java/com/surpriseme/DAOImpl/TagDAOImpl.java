@@ -30,41 +30,7 @@ public class TagDAOImpl implements TagDAO {
     DBConnection con;
     private static final Logger logger = Logger.getLogger(TagDAOImpl.class);
 
-    @Override
-    public boolean addTagToArticle(Integer tagId, Integer ArticleId) throws SQLException {
-
-        boolean retval = false;
-
-        ResultSet rs = null;
-
-        try {
-
-            con = new DBConnection();
-
-            if (con.connect()) {
-
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_articletag(?,?,?)}");
-
-                cstmt.setInt("p_articleid", ArticleId);
-                cstmt.setInt("p_tagid", tagId);
-                cstmt.setTimestamp("p_timestamp", new Timestamp(new Date().getTime()));
-
-                rs = con.saveOrUpdate(cstmt);
-
-            }
-            retval = true;
-
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            con.disconnect();
-        }
-
-        return retval;
-    }
-
+   
     @Override
     public Integer saveOrUpdate(Tag entity) throws SQLException {
         ResultSet rs = null;
@@ -313,39 +279,6 @@ public class TagDAOImpl implements TagDAO {
         } finally {
             con.disconnect();
         }
-        return retval;
-    }
-
-    @Override
-    public boolean removeTagFromArticle(Integer tagId, Integer ArticleId) throws SQLException {
-        boolean retval = false;
-
-        ResultSet rs = null;
-
-        try {
-
-            con = new DBConnection();
-
-            if (con.connect()) {
-
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_articletag(?,?)}");
-
-                cstmt.setInt("p_articleid", ArticleId);
-                cstmt.setInt("p_tagid", tagId);
-
-                rs = con.saveOrUpdate(cstmt);
-
-            }
-            retval = true;
-
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            con.disconnect();
-        }
-
         return retval;
     }
 
