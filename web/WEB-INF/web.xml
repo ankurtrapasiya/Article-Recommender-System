@@ -76,6 +76,10 @@
         <servlet-name>SaveTags</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.SaveTags</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SchedularController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>SaveTags</servlet-name>
         <url-pattern>/SaveTags</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchedularController</servlet-name>
+        <url-pattern>/SchedularController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

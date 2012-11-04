@@ -46,6 +46,11 @@
                         $("#main").html(data);
                     });
                 });
+                 $("#manage_crawling").click(function(){                
+                    $.get("managecrawling.jsp",function(data){
+                        $("#main").html(data);
+                    });
+                });
                 
 
             });
@@ -102,7 +107,7 @@
                 </ul>
             <h3>Schedule</h3>
             <ul class="toggle">
-                <li class="icn_settings"><a href="#">Manage Crawling</a></li>
+                <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
             </ul>
             <ul>
                 <li class="icn_jump_back"><a href="#">Logout</a></li>
