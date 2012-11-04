@@ -60,6 +60,22 @@
         <servlet-name>UserProfileController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ArticleTag</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.ArticleTag</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListArticles</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.ListArticles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageTags</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.ManageTags</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveTags</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SaveTags</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -111,6 +127,22 @@
     <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/UserProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArticleTag</servlet-name>
+        <url-pattern>/ArticleTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListArticles</servlet-name>
+        <url-pattern>/ListArticles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageTags</servlet-name>
+        <url-pattern>/ManageTags</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveTags</servlet-name>
+        <url-pattern>/SaveTags</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

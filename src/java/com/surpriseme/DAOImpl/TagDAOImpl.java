@@ -5,6 +5,7 @@
 package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.TagDAO;
+import com.surpriseme.entities.ArticleTag;
 import com.surpriseme.entities.Tag;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
@@ -385,4 +386,173 @@ public class TagDAOImpl implements TagDAO {
 
         return retval;
     }
+    
+    public int getArticleID(int tagid) throws SQLException {
+        int artid = 0;
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_sel_getarticleid(?)}");
+
+                cstmt.setInt("id", tagid);
+
+
+                rs = con.saveOrUpdate(cstmt);
+                while (rs.next()) {
+                    artid = Integer.parseInt(rs.getString("0"));
+                }
+            }
+
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return artid;
+    }
+    
+    public List<Tag> getRemaining(int articleid) throws SQLException {
+        List<Tag> retval = new ArrayList<Tag>();
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_sel_remaining(" + articleid + ")}");
+
+                rs = con.customQuery(cstmt);
+
+                while (rs.next()) {
+
+                    Tag tag = new Tag();
+
+                    tag.setTagid(rs.getInt("tagid"));
+                    tag.setName(rs.getString("name"));
+                    tag.setIcon(rs.getString("icon"));
+                    tag.setDescription(rs.getString("description"));
+
+                    retval.add(tag);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        System.out.println("retval" + retval);
+        return retval;
+
+    }
+    
+    public void savechanges(List<ArticleTag> entities) throws SQLException {
+        ResultSet rs = null;
+
+        try {
+
+            int articleid=entities.get(0).getArticleid();
+            deleteAllArticleTags(articleid);
+            for(int i=0;i<entities.size();i++){
+                addTagToArticle(entities.get(i).getTagid(),entities.get(i).getArticleid());
+            }
+
+            
+
+        } catch(Exception e){
+            
+        } finally {
+            cstmt.close();
+
+            con.disconnect();
+        }
+
+
+
+    }
+
+    public List<Tag> getTags(int articleid) throws SQLException {
+        List<Tag> retval = new ArrayList<Tag>();
+        ResultSet rs = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_sel_article_tag(" + articleid + ")}");
+
+                rs = con.customQuery(cstmt);
+
+                while (rs.next()) {
+
+                    Tag tag = new Tag();
+
+                    tag.setTagid(rs.getInt("tagid"));
+                    tag.setName(rs.getString("name"));
+                    tag.setIcon(rs.getString("icon"));
+                    tag.setDescription(rs.getString("description"));
+
+                    retval.add(tag);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
+    
+    public boolean deleteAllArticleTags(int articleid) throws SQLException {
+        boolean retval = false;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+                String sql="Delete from articletag where articleid="+articleid;
+               
+               con.executeQuery(sql);
+            }
+
+            retval = true;
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        return retval;
+    }
+    
+
+
+
 }

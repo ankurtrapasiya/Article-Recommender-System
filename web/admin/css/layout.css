@@ -304,7 +304,7 @@ background: url(../../images/icn_edit_article.png) no-repeat center left;
 #sidebar li.icn_categories a {
 background: url(../../images/icn_categories.png) no-repeat center left;
 }
-#sidebar li.icn_tags a {
+#sidebar li.icn_manage_tags a {
 background: url(../../images/icn_tags.png) no-repeat center left;
 }
 #sidebar li.icn_add_user a {
