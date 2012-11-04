@@ -13,9 +13,5 @@ import java.sql.SQLException;
  */
 public interface TagDAO extends GenericDAO<Tag, Integer>{
     
-    boolean addTagToArticle(Integer tagId,Integer ArticleId) throws SQLException;
-    
-    boolean removeTagFromArticle(Integer tagId,Integer ArticleId) throws SQLException;
-    
     Integer checkIfTagExist(String tagname) throws SQLException;
 }

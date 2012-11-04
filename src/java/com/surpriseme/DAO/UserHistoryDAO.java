@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author ankur
  */
-public interface HistoryDAO extends GenericDAO<UserHistory, UserHistoryPK>{
+public interface UserHistoryDAO extends GenericDAO<UserHistory, UserHistoryPK>{
     
     List<UserHistory> getAllHistory(Integer userid) throws SQLException;
     

@@ -4,15 +4,11 @@
  */
 package com.surpriseme.DAO;
 
-import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.UserActivation;
 
 /**
  *
  * @author ankur
  */
-public interface InterestDAO extends GenericDAO<Interest, Integer> {
-
-    
-
-    
+public interface UserActivationDAO extends GenericDAO<UserActivation, Integer> {
 }

@@ -4,15 +4,13 @@
  */
 package com.surpriseme.DAO;
 
-import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.UserRole;
+import com.surpriseme.helper.UserRolePK;
 
 /**
  *
  * @author ankur
  */
-public interface InterestDAO extends GenericDAO<Interest, Integer> {
-
-    
-
+public interface UserRoleDAO extends GenericDAO<UserRole, UserRolePK> {
     
 }
