@@ -5,7 +5,6 @@
 package com.surpriseme.DAOImpl;
 
 import com.surpriseme.DAO.HistoryDAO;
-import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserHistory;
 import com.surpriseme.helper.UserHistoryPK;
 import com.surpriseme.utils.DBConnection;

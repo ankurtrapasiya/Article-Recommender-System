@@ -4,18 +4,18 @@ import java.sql.*;
 
 public class UserHistory {
 
-    private Integer Userid;
+    private Integer userid;
     private Integer articleid;
     private Timestamp timestamp;
     private Boolean upvote;
     private Boolean downvote;
 
     public Integer getUserid() {
-        return Userid;
+        return userid;
     }
 
-    public void setUserid(Integer Userid) {
-        this.Userid = Userid;
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public Integer getArticleid() {
@@ -50,8 +50,8 @@ public class UserHistory {
         this.downvote = downvote;
     }
 
-    public UserHistory(Integer Userid, Integer articleid, Timestamp timestamp, Boolean upvote, Boolean downvote) {
-        this.Userid = Userid;
+    public UserHistory(Integer userid, Integer articleid, Timestamp timestamp, Boolean upvote, Boolean downvote) {
+        this.userid = userid;
         this.articleid = articleid;
         this.timestamp = timestamp;
         this.upvote = upvote;

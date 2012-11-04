@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
@@ -38,31 +40,34 @@ public class SignUpController extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String firstName = req.getParameter("txtFirstName");
+        String lastName = req.getParameter("txtLastName");
+        String email = req.getParameter("txtEmail");
+        String username = req.getParameter("username");
+        String password = req.getParameter("txtPassword");
 
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        Date dob = null;
+        try {
+            dob = df.parse(req.getParameter("txtDob"));
+            String dt = dob.toString();
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String country = req.getParameter("txtCountry");
+
+        User u = new User(username, password, email, firstName, lastName, dob, country, Boolean.TRUE, new Date());
         if (verifyCaptcha(req)) {
-            String firstName = req.getParameter("txtFirstName");
-            String lastName = req.getParameter("txtLastName");
-            String email = req.getParameter("txtEmail");
-            String username = req.getParameter("username");
-            String password = req.getParameter("txtPassword");
 
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date dob = null;
-            try {
-                dob = df.parse(req.getParameter("txtDob"));
-            } catch (java.text.ParseException ex) {
-                Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            String country = req.getParameter("txtCountry");
-
-            User u = new User(username, password, email, firstName, lastName, dob, country, Boolean.TRUE, new Date());
 
             UserDAOImpl userDao = new UserDAOImpl();
             boolean retval = false;
             try {
+
+                //Error in the following method. For detailed comment check userdoaimpl
                 userDao.saveOrUpdate(u);
             } catch (SQLException ex) {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,22 +80,29 @@ public class SignUpController extends HttpServlet {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            String mailmessage = "Dear " + firstName + " " + lastName + "\n\nPlease click on the following link to continue with the registration process.\n\nhttp://localhost:8080/UserRegistration/VerifyActivation?code=" + hashedtext;
+            String mailmessage = "Dear " + firstName + " " + lastName + "\n\nKindly click on the following link to verify your email id.\n\nhttp://localhost:8080/UserRegistration/VerifyEmail?tocken=" + hashedtext;
 
             if (retval) {
                 boolean sent;
                 sent = Utilities.sendActivationMail(email, mailmessage);
 
-                if (sent) {
+                if (true) {
                     UserActivation ua;
-                    ua = new UserActivation(u.getUserid(), hashedtext, new Timestamp(new Date().getTime()), true);
+                    ua = new UserActivation(u.getUserid(), hashedtext, new Timestamp(new Date().getTime()), false);
                     try {
-                        userDao.sendActivationMail(ua);
+                        userDao.insertIntoUserActivation(ua);
                     } catch (SQLException ex) {
                         Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
+            HttpSession session = req.getSession();
+            session.setAttribute("user", u);
+            RequestDispatcher rd = req.getRequestDispatcher("FetchInterestController");
+            rd.forward(req, resp);
+        } else {
+            RequestDispatcher rd = req.getRequestDispatcher("../client/registration.jsp");
+            rd.forward(req, resp);
         }
     }
 }

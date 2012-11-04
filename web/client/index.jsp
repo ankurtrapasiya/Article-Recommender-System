@@ -2,19 +2,19 @@
 <head>
     <meta charset="utf-8">
     <title>AdminPanel</title>
-    <link media="all" rel="stylesheet" type="text/css" href="client/css/style.css" />
+    <link media="all" rel="stylesheet" type="text/css" href="../client/css/style.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js/jquery-1.8.2.min.js"><\/script>');</script>
-    <script type="text/javascript" src="js/jquery.main.js"></script>
+    <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="../js/jquery-1.8.2.min.js"><\/script>');</script>
+    <script type="text/javascript" src="../js/jquery.main.js"></script>
     <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 
     <script type="text/javascript">
         $(document).ready(function()
         {
-            $("#main").load("client/workarea.jsp");
+            $("#main").load("workarea.jsp");
             
             $("#home").click(function(){                
-                $.get("client/workarea.jsp",function(data){                   
+                $.get("workarea.jsp",function(data){                   
                     $("#main").html(data);
                 },"html");
             });
@@ -41,8 +41,8 @@
                 $.get("client/history.jsp",function(data){
                     $("#main").html(data);
                 },"html");
-            });
-            
+            });                           
+                        
         });
     </script>
 
@@ -62,7 +62,7 @@
                     <div class="profile-box">
                         <span class="profile">
                             <a href="#" class="section">
-                                <img class="image" src="images/user.png" alt="image description" width="26" height="26" />
+                                <img class="image" src="../images/user.png" alt="image description" width="26" height="26" />
                                 <span class="text-box">
                                     Welcome
                                     <strong class="name">Ankur</strong>
@@ -70,7 +70,7 @@
                             </a>
                             <a href="#" class="opener">opener</a>
                         </span>
-                        <a href="#" class="btn-on">On</a>
+                        <a href="LoginController?signout=true" id="btnSignOut" class="btn-on">Sign Out</a>
                     </div>
                 </div>
                 <div id="at_workarea">

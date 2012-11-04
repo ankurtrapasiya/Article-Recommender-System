@@ -31,8 +31,8 @@ public class Utilities {
 
     public static boolean sendActivationMail(String recepient, String activationmessage) {
         try {
-            final String username = "username";
-            final String password = "password";
+            final String username = "surpriseme.sen@gmail.com";
+            final String password = "livefreeordiehard";
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.socketFactory.port", "465");

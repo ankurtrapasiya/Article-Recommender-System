@@ -606,7 +606,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean sendActivationMail(UserActivation ua) throws SQLException {
+    public boolean insertIntoUserActivation(UserActivation ua) throws SQLException {
 
         boolean retval = false;
         ResultSet rs = null;

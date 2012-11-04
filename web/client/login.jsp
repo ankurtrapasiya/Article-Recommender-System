@@ -73,7 +73,7 @@ Author     : ankur
                 <!--END SLIDE-IN ICONS-->
 
                 <!--LOGIN FORM-->
-                <form name="loginform" class="login-form" method="post"  action="LoginController">
+                <form name="loginform" class="login-form" method="post"  action="client/LoginController">
 
                     <!--HEADER-->
                     <div class="header">
@@ -90,8 +90,8 @@ Author     : ankur
 
                     <!--FOOTER-->
                     <div class="footer">
-                        <!--LOGIN BUTTON--><input type="submit" name="submit" value="Login" class="button" /><!--END LOGIN BUTTON-->
-                        <!--REGISTER BUTTON--><input type="submit" name="submit" value="Register" class="register" /><!--END REGISTER BUTTON-->
+                        <!--LOGIN BUTTON--><input type="submit" name="btnLogin" value="Login" class="button" /><!--END LOGIN BUTTON-->
+                        <!--REGISTER BUTTON--><input type="submit" name="btnRegister" value="Register" class="register" /><!--END REGISTER BUTTON-->
                     </div>
                     <!--END FOOTER-->
 

@@ -32,7 +32,7 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     User findByUsername(String username) throws SQLException;
 
-    boolean sendActivationMail(UserActivation ua) throws SQLException;
+    boolean insertIntoUserActivation(UserActivation ua) throws SQLException;
 
     boolean addInterestToUser(Integer interestid, Integer userid) throws SQLException;
 

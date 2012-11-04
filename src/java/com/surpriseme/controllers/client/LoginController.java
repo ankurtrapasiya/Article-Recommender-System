@@ -27,43 +27,56 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (request.getParameter("signout") != null) {
+            session.invalidate();
+            response.sendRedirect("/surpriseme");
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        JSONArray jArr = new JSONArray();
-        JSONObject jObj = null;
-
-        UserDAOImpl userDao = new UserDAOImpl();
-        User user = null;
         HttpSession session = request.getSession(true);
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        try {
-            user = userDao.isValidUser(username, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (request.getParameter("btnRegister") != null) {
 
-        if (user != null) {
-            session.setAttribute("user", user);
-            response.sendRedirect("Client");
+            response.sendRedirect("SignUp");
 
         } else {
+            JSONArray jArr = new JSONArray();
+            JSONObject jObj = null;
+
+            UserDAOImpl userDao = new UserDAOImpl();
+            User user = null;
+
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            try {
+                user = userDao.isValidUser(username, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (user != null) {
+                session.setAttribute("user", user);
+                session.setAttribute("islogged", "true");
+                response.sendRedirect("index.jsp");
+
+            } else {
+                jObj = new JSONObject();
+                jObj.put("status", "fail");
+                jArr.add(jObj);
+            }
+
             jObj = new JSONObject();
-            jObj.put("status", "fail");
-            jArr.add(jObj);
+            jObj.put("content", jArr);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(jObj);
+
         }
-
-        jObj = new JSONObject();
-        jObj.put("content", jArr);
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(jObj);
-
     }
 }

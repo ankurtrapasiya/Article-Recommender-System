@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.surpriseme.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/user/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>SignUpController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.SignUpController</servlet-class>
@@ -7,10 +18,6 @@
     <servlet>
         <servlet-name>UserInterestsControllers</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserInterestsControllers</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Client</servlet-name>
-        <jsp-file>/client/index.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>Interest</servlet-name>
@@ -68,10 +75,10 @@
         <servlet-name>LoginPage</servlet-name>
         <jsp-file>/client/login.jsp</jsp-file>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>Client</servlet-name>
-        <url-pattern>/Client</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>SignUp</servlet-name>
+        <jsp-file>/client/registration.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -105,10 +112,6 @@
         <url-pattern>/BlockUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ArticleController</servlet-name>
-        <url-pattern>/ArticleController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>NotificationsController</servlet-name>
         <url-pattern>/NotificationsController</url-pattern>
     </servlet-mapping>
@@ -121,12 +124,24 @@
         <url-pattern>/UserProfileController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/SignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpController</servlet-name>
+        <url-pattern>/SignUpController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArticleController</servlet-name>
+        <url-pattern>/client/ArticleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/LoginController</url-pattern>
+        <url-pattern>/client/LoginController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginPage</servlet-name>
-        <url-pattern>/LoginPage</url-pattern>
+        <url-pattern>/client/LoginPage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -134,6 +149,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Client</welcome-file>
+        <welcome-file>client/LoginPage</welcome-file>
     </welcome-file-list>
 </web-app>
