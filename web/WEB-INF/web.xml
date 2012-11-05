@@ -92,6 +92,30 @@
         <servlet-name>InsertImage</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.InsertImage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InterestController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.InterestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InterestEdit</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.InterestEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InterestInsert</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.InterestInsert</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SourceController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SourceController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SourceEdit</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SourceEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SourceInsert</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SourceInsert</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
@@ -175,6 +199,30 @@
     <servlet-mapping>
         <servlet-name>InsertUpdateTagServlet</servlet-name>
         <url-pattern>/admin/InsertUpdateTagServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestController</servlet-name>
+        <url-pattern>/admin/InterestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestEdit</servlet-name>
+        <url-pattern>/admin/InterestEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestInsert</servlet-name>
+        <url-pattern>/admin/InterestInsert</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceController</servlet-name>
+        <url-pattern>/admin/SourceController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceEdit</servlet-name>
+        <url-pattern>/admin/SourceEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceInsert</servlet-name>
+        <url-pattern>/admin/SourceInsert</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

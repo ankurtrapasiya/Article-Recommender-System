@@ -40,7 +40,7 @@ public class InsertUpdateTagServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("admin/InsertUpdateTag.jsp").forward(request, response);
+        request.getRequestDispatcher("InsertUpdateTag.jsp").forward(request, response);
     }
 
     /**
@@ -82,7 +82,7 @@ public class InsertUpdateTagServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(InsertUpdateTagServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            response.sendRedirect("InsertImage?name=" + tg.getIcon() + "&table=tag&column=icon&path=file-upload&file=tagAddUpdateDeleteServlet&key=name&value=" + tg.getName());
+            response.sendRedirect("InsertImage?name=" + tg.getIcon() + "&table=tag&column=icon&path=file-upload&file=tagAddUpdateDeleteServlet&key=name&value=" + tg.getName()+"&defaultimg=icn_tags.png");
         }
        
         

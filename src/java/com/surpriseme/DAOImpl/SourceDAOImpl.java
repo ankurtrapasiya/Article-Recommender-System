@@ -224,11 +224,13 @@ public class SourceDAOImpl implements SourceDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_source(?)}");
+                //cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_source(?)}");
 
-                cstmt.setInt(1, key);
-
-                rs = con.customQuery(cstmt);
+                //cstmt.setInt(1, key);
+                String sql="Delete from interestsources where sourceid="+key;
+                con.executeQuery(sql);
+                sql="Delete from source where sourceid="+key;
+                con.executeQuery(sql);
 
             }
 

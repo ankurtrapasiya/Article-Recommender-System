@@ -71,8 +71,11 @@ public class InsertImage extends HttpServlet {
         img.setFile_url(request.getParameter("file"));
         img.setP_key(request.getParameter("key"));
         img.setP_value(request.getParameter("value"));
+        img.setDefaultImage(request.getParameter("defaultimg"));
         request.setAttribute("fileurl", img.getFile_url());
-        request.setAttribute("name", img.getName());
+        ResourceBundle rb = ResourceBundle.getBundle("com.surpriseme.config.iconpath");
+        String filePath = rb.getString(img.getPath_url());
+        request.setAttribute("img", filePath + img.getName());
         request.getRequestDispatcher("InsertImage.jsp").forward(request, response);
 
     }
@@ -109,7 +112,7 @@ public class InsertImage extends HttpServlet {
             // maximum size that will be stored in memory
             factory.setSizeThreshold(maxMemSize);
             // Location to save data that is larger than maxMemSize.
-            factory.setRepository(new File("/home/peace/temp"));
+            factory.setRepository(new File("/home/udit/temp"));
 
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload(factory);
@@ -160,7 +163,7 @@ public class InsertImage extends HttpServlet {
                                         String s = img.getName();
                                         File f = new File(filePath + s);
                                         if (f.exists()) {
-                                            if (s.contentEquals("icn_tags.png")) {
+                                            if (s.contentEquals(img.getDefaultImage())) {
                                             } else {
                                                 f.delete();
                                             }

@@ -51,12 +51,12 @@
                     $(activeTab).fadeIn(); //Fade in the active ID content
                     return false;
                 });
-                $("#edit_article").click(function(){                
+                           $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
                         $("#main").html(data);
                     });
                 });
-                $("#manage_crawling").click(function(){                
+                 $("#manage_crawling").click(function(){                
                     $.get("managecrawling.jsp",function(data){
                         $("#main").html(data);
                     });
@@ -110,12 +110,12 @@
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">
-                <li class="icn_new_article"><a href="#">Manage Interest</a></li>
+                <li class="icn_new_article"><a href="InterestController">Manage Interest</a></li>
             </ul>
             <h3>Sources</h3>
             <ul class="toggle">
-                <li class="icn_folder"><a href="#">Manage Sources</a></li>
-            </ul>
+                <li class="icn_folder"><a href="SourceController">Manage Sources</a></li>
+                </ul>
             <h3>Schedule</h3>
             <ul class="toggle">
                 <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>

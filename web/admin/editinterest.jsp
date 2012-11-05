@@ -1,7 +1,7 @@
-<%-- 
-    Document   : tagAddUpdateDelete
-    Created on : 29 Oct, 2012, 12:11:50 AM
-    Author     : Nomaan
+<%-- EDITINTEREST
+    Document   : ThirdJspForm
+    Created on : Oct 30, 2012, 8:10:36 PM
+    Author     : Priyank
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,16 +9,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tag Management</title>
-        <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="css/datatable.css" type="text/css" media="screen" />
+         <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+
         <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
         <script src="../js/hideshow.js" type="text/javascript"></script>
         <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
-        <script type="text/javascript" src="../js/jquery.dataTables.nightly.js"></script>
         <script type="text/javascript">
             $(document).ready(function() 
             { 
@@ -45,29 +42,16 @@
                 });
 
             });
+        </script>
+         <script type="text/javascript">
+            function IconUpload(){
+                var t = document.getElementById("frm");
+                t.enctype="multipart/form-data";
+                t.action="UploadImage";
+                t.submit();
+            }
+            
             $(document).ready( function () {
-                $('#tags').dataTable({});
-            } ); 
-        </script>
-        <script type="text/javascript">
-            $(function(){
-                $('.column').equalHeight();
-            });
-        </script>
-        <script type="text/javascript">
-            function tagSubmit(t,r){
-                
-                var f=document.getElementById("from");
-                var x=document.getElementById("clicked");
-                var a=document.getElementById("tagid");
-                a.value=r;
-                x.value=t;
-                f.method="post";
-                f.action='tagAddUpdateDeleteServlet';                
-                f.submit();
-            } //Sidebar clicks
-        
-           $(document).ready( function () {
                 $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
                         $("#main").html(data);
@@ -148,52 +132,26 @@
                 <p><strong>Copyright &copy; 2012 Website Admin</strong></p>
             </footer>
         </aside><!-- end of sidebar -->
-
-        <section id="main" class="column">
-
-            <article class="module width_full">    
-                <header><center><h3> Tags</h3> </center>
-
-                    <a href="InsertUpdateTagServlet"> <input type="button" value="Insert" style=" float: right;" title="Add New Tag"></a>
-
-                </header>
-                <table class="tablesorter" cellspacing="0" id="tags"> 
-                    <thead> 
-                        <tr> 
-
-                            <th>Tag Name</th> 
-                            <th>Icon</th> 
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr> 
-                    </thead> 
-                    <tbody> 
-                        <c:forEach var="tg" items="${requestScope.data}">
-
-                            <tr> 
-
-                                <td><c:out value="${tg.name}"/></td> 
-                                <td><a href="InsertImage?name=<c:out value="${tg.icon}"/>&table=tag&column=icon&path=file-upload&file=tagAddUpdateDeleteServlet&key=tagid&value=<c:out value="${tg.tagid}"/>&defaultimg=icn_tags.png">
-                                        <img src="../images/Tag/<c:out value="${tg.icon}"/>" width="16" height="16"> </a></td> 
-                                <td><c:out value="${tg.description}"/></td> 
-                                <td><form id="from">
-                                        <input type="hidden" id="clicked" value="" name="clicked">
-                                        <input type="hidden" name="tagid" value="<c:out value="${tg.tagid}"/>" id="tagid">
-
-                                        <img src="../images/icn_edit.png" height="15" width="15" onclick="tagSubmit('up',<c:out value="${tg.tagid}"/>);" title="Edit"/>
-                                        <img src="../images/icn_trash.png" height="15" width="15" onclick="tagSubmit('del',<c:out value="${tg.tagid}"/>);" title="Delete"/>
-                                    </form>
-                                </td> 
-
-                            </tr> 
-                        </c:forEach>
-                    </tbody> 
-                </table>
-
-
-            </article><!-- end of article -->
-
+        <section id="main" class="column" >
+            <article class="module width_full">
+                <header><center><h3>Insert Interest</h3></center></header>
+                <div class="module_content">
+                    <form action="InterestEdit" method="post">
+                  
+                        
+               Name:           <input type="text" name="txtname" value="<c:out value="${XYZ.name}"/>"><br>
+               Description:           <input type="text" name="txtdescription" value="<c:out value="${XYZ.description}"/>"><br>
+                 <input type="hidden" value="<c:out value="${name}"/>" name="Icon" /> <br><br>
+            
+                 
+        
+         <input type="hidden" name="interestid" value="<c:out value="${XYZ.interestid}"/>">
+          <input type="submit" value="Save" />
+         
+                    </form>
+                </div>
+            </article><!-- end of styles article -->
+            <div class="spacer"></div>
         </section>
-
     </body>
 </html>

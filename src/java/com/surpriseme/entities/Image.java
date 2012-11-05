@@ -17,6 +17,15 @@ public class Image {
     private String file_url;
     private String P_key;
     private String P_value;
+    private String defaultImage;
+
+    public String getDefaultImage() {
+        return defaultImage;
+    }
+
+    public void setDefaultImage(String defaultImage) {
+        this.defaultImage = defaultImage;
+    }
 
     /**
      * Get the value of P_value

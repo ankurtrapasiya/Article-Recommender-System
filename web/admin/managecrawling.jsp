@@ -84,22 +84,26 @@
                             <th class="header">Action</th>
                         </tr>
                     </thead>
+
+                    </tbody>
+
+                    {{#each this}}                    
+                    <tr><td>
+                            <form id="feeddiv" class="feedurlform">
+                                <a href="{{feedurl}}" id="feedurl" target="blank" value="{{feedurl}}">{{feedurl}}</a>
+                                <input type="hidden" id="feedurlhidden" name="feedurlhidden" value="{{feedurl}}"/>
+                        </td><td>
+                            <input type="text" id="crawltime" name="crawltime"/></td>
+                        <td><input type="text" id="pattern" name="pattern"/></td>
+                        <td><input type="button" id="start" name="start"  value="Start" onclick="startCrawling(this.form)"/>
+                            </form></td>
+                    </tr>
+
+                    {{/each}}
+
+                    </tbody>
                 </table>
             </div>
-
-            {{#each this}}                    
-
-            <form id="feeddiv" class="feedurlform">
-                <a href="{{feedurl}}" id="feedurl" target="blank" value="{{feedurl}}">{{feedurl}}</a>
-                <input type="hidden" id="feedurlhidden" name="feedurlhidden" value="{{feedurl}}"/>
-                <input type="text" id="crawltime" name="crawltime"/>
-                <input type="text" id="pattern" name="pattern"/>
-                <input type="button" id="start" name="start"  value="Start" onclick="startCrawling(this.form)"/>
-            </form>
-
-            {{/each}}
-
-
         </script>
 
         <article id="feedurltable" class=\"module width_full\">

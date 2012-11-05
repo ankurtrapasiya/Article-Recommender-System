@@ -10,13 +10,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-               <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-         <link rel="stylesheet" href="css/datatable.css" type="text/css" media="screen" />
-         <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
-         <script src="../js/hideshow.js" type="text/javascript"></script>
-         <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
-         <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
-         <script type="text/javascript" src="../js/jquery.dataTables.nightly.js"></script>
+        <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/datatable.css" type="text/css" media="screen" />
+        <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="../js/hideshow.js" type="text/javascript"></script>
+        <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
+        <script type="text/javascript" src="../js/jquery.dataTables.nightly.js"></script>
         <script type="text/javascript">
             $(document).ready(function() 
             { 
@@ -44,37 +44,39 @@
 
             });
             $(document).ready( function () {
-           $('#tags').dataTable({});
-	} ); 
+                $('#tags').dataTable({});
+            } ); 
         </script>
+
         <script type="text/javascript">
             $(function(){
                 $('.column').equalHeight();
             });
         </script>
         <script type="text/javascript">
-           function frmSubmit(t){
+            function frmSubmit(t){
              
                 if(t == "ins"){
                     var k=document.getElementById("frmup");
-                      k.method="post";
-                      k.enctype="multipart/form-data";
-                k.action='InserImage';                 
-                k.submit();
+                    k.method="post";
+                    k.enctype="multipart/form-data";
+                    k.action='InserImage';                 
+                    k.submit();
                 }
                 else{
                     
-                     var n=document.getElementById("frm");
-                      n.method="post";
-                      n.enctype="multipart/form-data";
-                n.action='InsertImage';                
-                n.submit();
+                    var n=document.getElementById("frm");
+                    n.method="post";
+                    n.enctype="multipart/form-data";
+                    n.action='InsertImage';                
+                    n.submit();
                 }
            
-        } 
-        //Sidebar clicks
-               $(document).ready(function(){
-                $("#edit_article").click(function(){
+            } 
+         
+            //Sidebar clicks
+            $(document).ready( function () {
+                $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
                         $("#main").html(data);
                     });
@@ -84,12 +86,12 @@
                         $("#main").html(data);
                     });
                 });
-
-            });
+            }); 
+            
                  
                 
 
-            
+        
         </script>
         <script type="text/javascript">
             $(function(){
@@ -135,12 +137,12 @@
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">
-                <li class="icn_new_article"><a href="#">Manage Interest</a></li>
+                <li class="icn_new_article"><a href="InterestController">Manage Interest</a></li>
             </ul>
             <h3>Sources</h3>
             <ul class="toggle">
-                <li class="icn_folder"><a href="#">Manage Sources</a></li>
-                </ul>
+                <li class="icn_folder"><a href="SourceController">Manage Sources</a></li>
+            </ul>
             <h3>Schedule</h3>
             <ul class="toggle">
                 <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
@@ -160,67 +162,67 @@
             <article class="module width_full">    
                 <header><center><h3><c:if test="${entity != null}">Update Tag</c:if>
                             <c:if test="${entity eq null}">Insert Tag</c:if></h3> </center>
-                    
+
                 </header>
                 <c:if test="${entity != null}">
                     <form method="post" action="InsertUpdateTagServlet" id="frmup">
-                    <table cellpadding="10" cellspacing="">
-                        
-                        <tr>
-                            <td>Name :</td>
-                            <td><input type="text" value="<c:out value="${entity.name}"/>" name="txtName">
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Description :</td>
-                            <td><input type="text" multiple="true" name="txtDes" value="<c:out value="${entity.description}"/>"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center"><input type="hidden" name="tagid" value="<c:out value="${entity.tagid}"/>" id="tagid">
-                                <input type="hidden" name="icn" value="<c:out value="${entity.icon}"/>" id="icn">
-                                <input type="submit" value="Update"></td>
-                        </tr>
-                    
-                    </table>
+                        <table cellpadding="10" cellspacing="">
+
+                            <tr>
+                                <td>Name :</td>
+                                <td><input type="text" value="<c:out value="${entity.name}"/>" name="txtName">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Description :</td>
+                                <td><input type="text" multiple="true" name="txtDes" value="<c:out value="${entity.description}"/>"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center"><input type="hidden" name="tagid" value="<c:out value="${entity.tagid}"/>" id="tagid">
+                                    <input type="hidden" name="icn" value="<c:out value="${entity.icon}"/>" id="icn">
+                                    <input type="submit" value="Update"></td>
+                            </tr>
+
+                        </table>
                     </form>
-                            
+
                 </c:if>
                 <c:if test="${entity eq null}">
-                 
+
                     <form  id="frm" name="frm" method="post" action="InsertUpdateTagServlet">
-                  
-                     
+
+
                         <table cellspacing="2" cellpadding="2">
-                           
+
                             <tr>
                                 <td>Name :</td>
                                 <td><input type="text" name="txtName2" id="txtName2" value=""></td>
-                                
+
                             </tr>
-                           
-                         
+
+
                             <tr>
                                 <td>Description :</td>
                                 <td><input type="text" multiple="true" name="txtDes2"></td>
-                                
+
                             </tr>
-                            
+
                             <tr>
                                 <td colspan="2" align="center">
-                                     <input type="hidden" name="icn2" value="icn_tags.png" id="icn2">
+                                    <input type="hidden" name="icn2" value="icn_tags.png" id="icn2">
                                     <input type="submit" value="Insert"/></td>
                             </tr>
-                       
+
                         </table>
 
-                                        
+
                     </form>
                 </c:if>
-            
+
             </article><!-- end of article -->
-           
+
         </section>
-        
+
     </body>
 </html>

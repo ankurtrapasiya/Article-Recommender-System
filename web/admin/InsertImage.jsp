@@ -21,7 +21,7 @@
                     <td rowspan="2">
 
 
-                        <img src="images/Tag/<c:out value="${name}"/>"width="45" height="45">
+                        <img src=<c:out value="${img}"/> width="45" height="45" />
 
 
                     </td>
