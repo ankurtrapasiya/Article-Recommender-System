@@ -87,6 +87,10 @@
         <servlet-name>EmailCheckerController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.EmailCheckerController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FetchInterestController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.FetchInterestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -124,10 +128,6 @@
         <url-pattern>/NotificationsController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserInterestController</servlet-name>
-        <url-pattern>/UserInterestController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/UserProfileController</url-pattern>
     </servlet-mapping>
@@ -158,6 +158,14 @@
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/client/SignUpController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FetchInterestController</servlet-name>
+        <url-pattern>/FetchInterestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserInterestController</servlet-name>
+        <url-pattern>/client/UserInterestController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

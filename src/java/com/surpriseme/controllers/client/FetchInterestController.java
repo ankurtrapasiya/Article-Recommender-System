@@ -63,7 +63,7 @@ public class FetchInterestController extends HttpServlet {
             System.out.println("The size of interst list " + interestlist.size());
             request.setAttribute("interests", interestlist);
             
-            RequestDispatcher rd = request.getRequestDispatcher("../client/userinterest.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("client/userinterest.jsp");
             rd.forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(FetchInterestController.class.getName()).log(Level.SEVERE, null, ex);

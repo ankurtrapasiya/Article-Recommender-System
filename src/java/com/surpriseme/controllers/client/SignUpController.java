@@ -64,11 +64,11 @@ public class SignUpController extends HttpServlet {
 
 
             UserDAOImpl userDao = new UserDAOImpl();
-            boolean retval = false;
+            Integer retval = null;
             try {
 
                 //Error in the following method. For detailed comment check userdoaimpl
-                userDao.saveOrUpdate(u);
+                retval=userDao.saveOrUpdate(u);
             } catch (SQLException ex) {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,7 +82,7 @@ public class SignUpController extends HttpServlet {
 
             String mailmessage = "Dear " + firstName + " " + lastName + "\n\nKindly click on the following link to verify your email id.\n\nhttp://localhost:8080/UserRegistration/VerifyEmail?tocken=" + hashedtext;
 
-            if (retval) {
+            if (retval!=null) {
                 boolean sent;
                 sent = Utilities.sendActivationMail(email, mailmessage);
 
@@ -98,7 +98,7 @@ public class SignUpController extends HttpServlet {
             }
             HttpSession session = req.getSession();
             session.setAttribute("user", u);
-            RequestDispatcher rd = req.getRequestDispatcher("FetchInterestController");
+            RequestDispatcher rd = req.getRequestDispatcher("../FetchInterestController");
             rd.forward(req, resp);
         } else {
             RequestDispatcher rd = req.getRequestDispatcher("../client/registration.jsp");

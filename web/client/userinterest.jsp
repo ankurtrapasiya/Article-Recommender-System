@@ -69,7 +69,7 @@
                 </p>
 
 
-                <form method="get" name="interestform" action="UserInterestsControllers" onsubmit="return validate()"/>
+                <form method="get" name="interestform" action="UserInterestController" onsubmit="return validate()"/>
                 <table cellspacing ="15" cellpading ="10">
                     <c:forEach var="interests" items="${requestScope.interests}">
 

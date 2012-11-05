@@ -100,10 +100,6 @@
             }
         </style>
 
-
-        <!-- Css for page -->
-        <link href="style.css" rel="stylesheet" type="text/css" />
-
         <!--  JQuery, Css for calendar control -->
         <link rel="stylesheet" href="css/jquery-ui.css" />
         <script src="../js/jquery-1.8.2.min.js"></script>
@@ -293,7 +289,7 @@
                 <!--LOGIN FORM-->
                 <div style="background-color: #F3F3F3">
 
-                    &nbsp;<form method="post" action="client/SignUpController" name="signupform" style="left: -246px; top: -10px" onsubmit="return validate()">
+                    &nbsp;<form method="post" action="SignUpController" name="signupform" style="left: -246px; top: -10px" onsubmit="return validate()">
                         &nbsp;<table cellpadding="5" style="font-family: serif; font-size: 20px; color: #414848; margin-left: 40px;">
                             <div class="content">
                                 <h1 style="color: #414848; font-size: 28px; width: 789px; margin-left: 50px;" class="style1">

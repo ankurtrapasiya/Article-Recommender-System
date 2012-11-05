@@ -1,9 +1,9 @@
 package com.surpriseme.controllers.client;
 
 import com.surpriseme.DAO.UserInterestDAO;
-import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.DAOImpl.UserInterestDAOImpl;
 import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class UserInterestController extends javax.servlet.http.HttpServlet {
 
@@ -25,6 +26,36 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
 
     public UserInterestController() {
         super();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String interestIds[] = req.getParameterValues("interest");
+
+        UserInterestDAO userInterestDao = new UserInterestDAOImpl();
+
+
+        HttpSession session = req.getSession();
+        User u = (User) session.getAttribute("user");
+        int id = u.getUserid();
+        
+        try {
+            for (int i = 0; i < interestIds.length; i++) {
+
+                //Ankur after you fix the problem of signupcontroller mentioned in email uncomment all the line in this 
+                //servlet and remove the statement at line 42
+
+                //UNCOMMENT THIS LINE
+                userInterestDao.addInterestToUser(Integer.parseInt(interestIds[i]), id);
+
+                //remove the belove line
+                //userInterestDao.addInterestToUser(Integer.parseInt(interestIds[i]), 1);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
     }
 
     @Override
