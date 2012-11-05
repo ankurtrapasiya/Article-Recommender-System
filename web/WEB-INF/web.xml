@@ -45,7 +45,7 @@
         <servlet-class>com.surpriseme.controllers.client.ArticleController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>BlockUser</servlet-name>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.BlockUnblockUserServlet</servlet-class>
     </servlet>
     <servlet>
@@ -75,6 +75,10 @@
     <servlet>
         <servlet-name>SaveTags</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.SaveTags</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SchedularController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
@@ -109,10 +113,6 @@
         <url-pattern>/Notifications</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>BlockUser</servlet-name>
-        <url-pattern>/BlockUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
         <url-pattern>/ArticleController</url-pattern>
     </servlet-mapping>
@@ -143,6 +143,14 @@
     <servlet-mapping>
         <servlet-name>SaveTags</servlet-name>
         <url-pattern>/SaveTags</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchedularController</servlet-name>
+        <url-pattern>/SchedularController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
+        <url-pattern>/BlockUnblockUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
