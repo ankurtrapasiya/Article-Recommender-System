@@ -11,7 +11,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">                       
         <script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="../js/handlebars.js"></script>
-        <script type="text/javascript" src="../js/moment.js"></script>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
 
     </head>
@@ -24,62 +23,64 @@
                 <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
                 {{/each}}
             </ul>                
-        </script>             
+        </script> 
 
-        <script id="article-template" type="text/x-handlebars-template">                            
-
-            {{#each this}}                
-            <div id="at_main">
-                <div id="header">             
-                    title : {{title}}
-                    <a href="#" rel="{{articleid}}" id="addtofavourites">Add to favourites</a>
-                    <a href="#" rel="{{articleid}}" id="readitlater">Read it later</a>
-                </div>
-                <div id="info">
-                    <span id="dateinfo">posted on {{publicationdate}}</span>
-                    <span id="totalviews"> <b>Total views {{viewed}} </b></span>
-                </div>
-                <div id="votes">                               
-
-                    <div id="votes_content">
-                        <a href="#" id="up" rel="{{articleid}}"><img src="images/up.png"></img></a>
-                        <br/>
-                        <div id="upvotes">
-                            {{upvote}}
-                        </div>
-                        <div id="downvotes">
-                            {{downvote}}
-                        </div>
-                        <a href="#" id="down" rel="{{articleid}}"><img src="images/down.png"></img></a>                        
-                    </div>
-
+        <script id="article-template" type="text/x-handlebars-template">    
+            {{#each this}}    
+            <div id="content_votes">
+                <div>
+                    <a href="#" id="up" rel="{{articleid}}"><img src="../images/images/arrow-up.png"></img></a>
+                </div>                    
+                <div id="upvotes">
+                    {{upvote}}
                 </div>                                        
-                <div id="content">                    
-                    content : {{body}}
-                </div>                                
+                <div id="downvotes">
+                    {{downvote}}
+                </div>                                        
+                <div><a href="#" id="down" rel="{{articleid}}"><img src="../images/images/arrow-down.png"></img></a>
+                </div>                    
             </div>
-            <br/>
+
+
+            <div id="content_title">             
+                <span id="title">{{title}}</span>
+                <div id="misc" >
+                    <a href="#" rel="{{articleid}}" id="addtofavourites"><img src="../images/fav.png"></img></a>
+                    <a href="#" rel="{{articleid}}" id="readitlater"><img src="../images/readlater.png" ></img></a>
+                </div>
+            </div>
+            <div id="content_info">
+                <div id="content_upload_date">
+                    <h4>Upload Date: {{publicationdate}} </h4>
+                </div>
+                <div id="content_links">
+                </div>
+            </div>
+
+
+            <div id="content_body">                    
+                content : {{body}}
+            </div>   
+
             {{/each}}            
 
-        </script>        
-        <div id="contentheader" class="at_article_header">
+        </script>    
+
+
+        <div id="header">
             <h2>Article Suggestions</h2>
         </div>
-        <div id="container">
-            <div id="contentarea" class="at_article_container">
-
-                <div id="rows" class="at_article_row">
-
+        <div id="maincontainer">
+            <div id="maincontent">
+                <div id="row">                                 
                 </div>
-            </div>    
-            <div id="at_sidebar" class="at_article_sidebar">                       
-                <h2>Interests</h2>
+            </div>
+            <div id="interestbar">
+                <h3>Interests</h3>
                 <div id="links">                
                 </div>
             </div>
-
-        </div>
-
+        </div>	
 
 
 
@@ -113,7 +114,7 @@
                 $.getJSON("ArticleController", function(dt){
                    
                     var temp=Handlebars.compile($("#interest-template").html());                        
-                    $("#at_sidebar div").html(temp(dt.content));
+                    $("#interestbar div").html(temp(dt.content));
                    
                     $("#links").find("a").on("click",function(e){
                         e.preventDefault();
@@ -125,11 +126,11 @@
                         $.get(url1, function(dt){
 
                             var temp=Handlebars.compile($("#article-template").html());                        
-                            $("#contentarea #rows").html(temp(dt.content));
+                            $("#maincontent #row").html(temp(dt.content));
                             
                             
                             
-                            $("#rows").find("a").on("click",function(e){
+                            $("#row").find("a").on("click",function(e){
                             
                                 e.preventDefault();
                                 var val=$(this).attr("rel");  
@@ -186,6 +187,12 @@
                                 
                                     $.post(url1,function(dt)
                                     {
+                                     
+                                        console.log(dt.content[0].upvote);
+                                        console.log(dt.content[1].downvote);
+                                        
+                                        console.log(upvoteDiv);
+                                        console.log(downvoteDiv);
                                         
                                         upvoteDiv.html("<label>" + dt.content[0].upvote + "</label>");                                        
                                         downvoteDiv.html("<label>" + dt.content[1].downvote + "</label>");   

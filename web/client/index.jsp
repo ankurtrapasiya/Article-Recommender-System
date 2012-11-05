@@ -20,25 +20,25 @@
             });
             
             $("#profile").click(function(){                
-                $.get("client/profile.jsp",function(data){
+                $.get("profile.jsp",function(data){
                     $("#main").html(data);
                 },"html");
             });       
 
             $("#interest").click(function(){                
-                $.get("client/interest.jsp",function(data){
+                $.get("interests.jsp",function(data){
                     $("#main").html(data);
                 },"html");
             });
             
             $("#favourite").click(function(){                
-                $.get("client/favourite.jsp",function(data){
+                $.get("favourite.jsp",function(data){
                     $("#main").html(data);
                 },"html");
             });
             
             $("#history").click(function(){                
-                $.get("client/history.jsp",function(data){
+                $.get("history.jsp",function(data){
                     $("#main").html(data);
                 },"html");
             });                           
@@ -67,17 +67,16 @@
                                     Welcome
                                     <strong class="name">Ankur</strong>
                                 </span>
-                            </a>
-                            <a href="#" class="opener">opener</a>
+                            </a>                            
                         </span>
                         <a href="LoginController?signout=true" id="btnSignOut" class="btn-on">Sign Out</a>
                     </div>
-                </div>
+                </div>                
                 <div id="at_workarea">
                     <div id="main" class="main">	                                                
                     </div>
                 </div>
-            </div>
+            </div>           
         </div>
         <aside id="sidebar">
             <strong class="logo"><a href="#">lg</a></strong>
@@ -105,6 +104,101 @@
             </ul>
             <span class="shadow"></span>
         </aside>
+        <!--
+                <div id="maincontainer">
+                    <div id="maincontent">
+                        <div id="row">
+                            <div id="content_votes">
+                                <a href="#" id="up"><img src="images/arrow-up.png"></a>
+                                <a href="#" id="down"><img src="images/arrow-down.png"></a>
+        
+        
+                            </div>
+                            <div id="content_title">
+                                <h3> This is the demo Title</h3>
+                            </div>
+                            <div id="content_info">
+                                <div id="content_upload_date">
+                                    <h3>Upload Date: 12/12/12 </h3>
+                                </div>
+                                <div id="content_links">
+                                </div>
+                            </div>
+                            <div id="content_body">
+                                On the web, it?s impossible to maintain the fiction that you can gather a single public together in one place. There?s always going to be one link further that you never explored, or one site that is totally different from you. And I think one of the things that the web does to journalism is that it gives lie to the notion that journalism can ever represent ?the public.?
+                                <div id="viewmore">
+                                    <a href="#" name="slide">View More</a>
+                                </div>
+                            </div>
+        
+                        </div>
+                        <div  id="slide">Java is a set of several computer software products and specifications from Sun Microsystems (which has since merged with Oracle Corporation), that together provide a system for developing application software and deploying it in a cross-platform computing environment. Java is used in a wide variety of computing platforms from embedded devices and mobile phones on the low end, to enterprise servers and supercomputers on the high end. While less common on desktop computers, Java applets are sometimes used to provide improved and secure functions while browsing the World Wide Web.</div>			
+        
+                        <div id="row">
+                            <div id="content_votes">
+                                <a href="#" id="up"><img src="images/arrow-up.png"></a>
+                                <a href="#" id="down"><img src="images/arrow-down.png"></a>
+        
+                            </div>
+                            <div id="content_title">
+                                <h3> This is the demo Title</h3>
+                            </div>
+                            <div id="content_info">
+                                <div id="content_upload_date">
+                                    <h3>Upload Date: 12/12/12 </h3>
+                                </div>
+                                <div id="content_links">
+                                </div>
+                            </div>
+                            <div id="content_body">
+                                On the web, it?s impossible to maintain the fiction that you can gather a single public together in one place. There?s always going to be one link further that you never explored, or one site that is totally different from you. And I think one of the things that the web does to journalism is that it gives lie to the notion that journalism can ever represent ?the public.?
+                                <div id="viewmore">
+                                    <a href="#" name="slide">View More</a>
+                                </div>
+        
+                            </div>
+                        </div>
+        
+                        <div  id="slide">Java is a set of several computer software products and specifications from Sun Microsystems (which has since merged with Oracle Corporation), that together provide a system for developing application software and deploying it in a cross-platform computing environment. Java is used in a wide variety of computing platforms from embedded devices and mobile phones on the low end, to enterprise servers and supercomputers on the high end. While less common on desktop computers, Java applets are sometimes used to provide improved and secure functions while browsing the World Wide Web.</div>
+                        <div id="row">
+                            <div id="content_votes">
+                                <a href="#" id="up"><img src="images/arrow-up.png"></a>
+                                <a href="#" id="down"><img src="images/arrow-down.png"></a>
+        
+                            </div>
+                            <div id="content_title">
+                                <h3> This is the demo Title</h3>
+                            </div>
+                            <div id="content_info">
+                                <div id="content_upload_date">
+                                    <h3>Upload Date: 12/12/12 </h3>
+                                </div>
+                                <div id="content_links">
+                                </div>
+                            </div>
+                            <div id="content_body">
+                                On the web, it?s impossible to maintain the fiction that you can gather a single public together in one place. There?s always going to be one link further that you never explored, or one site that is totally different from you. And I think one of the things that the web does to journalism is that it gives lie to the notion that journalism can ever represent ?the public.?
+                                <div id="viewmore">
+                                    <a href="#" name="slide">View More</a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div  id="slide">Java is a set of several computer software products and specifications from Sun Microsystems (which has since merged with Oracle Corporation), that together provide a system for developing application software and deploying it in a cross-platform computing environment. Java is used in a wide variety of computing platforms from embedded devices and mobile phones on the low end, to enterprise servers and supercomputers on the high end. While less common on desktop computers, Java applets are sometimes used to provide improved and secure functions while browsing the World Wide Web.</div>
+                    </div>
+                    <div id="interestbar">
+                        <h3>Interests</h3>
+                        <a href="#"><img src="images/Play.png"/><br/></a>
+                        <a href="#"><img src="images/edit1.png"/><br/></a>
+                        <a href="#"><img src="images/Play.png"/><br/></a>
+                        <a href="#"><img src="images/edit1.png"/><br/></a>
+                        <a href="#"><img src="images/Play.png"/><br/></a>
+                        <a href="#"><img src="images/edit1.png"/><br/></a>
+        
+                    </div>
+                </div>	-->
+
     </div>
+</div>
 </body>
 </html>

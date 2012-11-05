@@ -49,7 +49,7 @@ form,fieldset{
     background:url(../../images/bg-controls.png);
 }
 #links ul li{text-decoration: none;
-text-align: center;
+             text-align: center;
 }
 .links {float:left;}
 .links ul {
@@ -342,25 +342,24 @@ text-align: center;
 {
     width:80%;
     float:left;  
-   
-    
+
+
 }
 
 .at_article_sidebar{      
-color:white;    
-text-decoration: underline; 
-margin-top:1%;
+    color:white;    
+    text-decoration: underline; 
+    margin-top:1%;
     height: auto;    
     float:right;    
     width:17%;
     text-align: center;
     background-color: #333A40;
--webkit-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
-     -moz-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
-          box-shadow: 0 0 5px rgba(51, 58, 64, 10);  
+    -webkit-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
+    -moz-box-shadow: 0 0 5px rgba(51, 58, 64, 10);
+    box-shadow: 0 0 5px rgba(51, 58, 64, 10);  
 
 }
-.
 
 .at_article_content{            
     border: #3c78ba;
@@ -369,7 +368,7 @@ margin-top:1%;
 }
 
 .at_article_row{
-    
+
     margin:0 0 0 0;
 }
 
@@ -378,15 +377,15 @@ margin-top:1%;
 #at_main{
     display: block;
     background-color:#BBB;
-      
+
 }
-#at_main #header{
+/*#at_main #header{
+    margin-top: 5px;
     height:15%;
-    
     width:90%;
     float: right;
     background-color: #CCC;
-}
+}*/
 /*#main #footer{
         height: 20%;
         width:99.9%;
@@ -404,17 +403,17 @@ margin-top:1%;
     height:200px;    
     float: left;
     vertical-align: top;
-    
+
 }
 
 #at_main #votes #votes_content
 {
-    
+
     text-align: center;
     vertical-align: top;
     margin-top: -5%;
     height: 200px;
- 
+
 }
 
 #at_main #content{
@@ -433,11 +432,168 @@ margin-top:1%;
     background-color: #CCC;
 }
 #at_workarea{
-    margin:25px 5px 5px 25px; 
+    margin:20px 5px 5px 25px; 
     vertical-align: center;
-    
+
 }
 
 
+/* rochak style */
 
+
+#maincontainer{
+    margin:0px;
+    width:100%;
+
+    height:800px;
+    overflow: visible;
+    background-color:#FAFAFA;
+}
+
+
+#maincontainer #header{    
+    height:15%;
+    width:90%;
+    float: right;
+    background-color: #CCC;
+}
+#maincontainer #maincontent{
+    width:80%;
+    height: 800px;
+    float: left;
+    background-color: #FAFAFA;
+
+}
+#maincontainer #row{
+    width:100%;
+    height:125px;
+    background-color: #FAFAFA;
+    margin-bottom:5px;
+
+}
+#maincontent #slide
+{
+    float:right;
+    display: none;
+    width:100%;
+}
+#maincontainer #interestbar
+{
+    width:18%;
+    float: right;
+    margin:0 5px 0 0;
+    height: 800px;
+    background-color: #FAFAFA;
+
+}
+
+#row #content_votes{
+
+    width:10%;
+    float:left;
+    height:125px;
+    display: block;
+}
+#content_votes #upvotes{
+
+    margin-left: 30%;
+}
+#content_votes #downvotes{
+
+    margin-left: 30%;
+}
+#content_votes #up{
+
+    margin:35px 25px 10px 20px;
+    text-align: center;
+}
+
+#content_votes #down{
+    margin:15px 25px 10px 20px;
+    text-align: center;
+}
+#content_body #viewmore{
+    vertical-align: bottom;
+    float:right;
+    width:100px;
+    height:25px;
+    background-color:#FAFAFA;
+
+}
+
+#row #content_title
+{
+
+    color:black;
+    float: right;
+    width: 90%;
+    background-color: #FAFAFA;
+    height:30px;
+    word-wrap:break-word;
+    vertical-align: center;
+}
+
+#content_title #title
+{
+    font-size: 15px;
+    padding-top: 5px;
+}
+
+#row #content_info
+{
+    color:black;
+    float: right;
+    width: 90%;
+    background-color: #FAFAFA;
+    height:30px;
+    word-wrap:break-word;
+    vertical-align: center;
+}
+
+
+#row #content_body{
+
+    width:90%;
+    height:65px;
+    color:black;
+    background-color: #FAFAFA;
+    word-wrap:break-word;
+    font-size:14px;
+    float:right;
+    overflow: auto;
+}
+
+
+#content_info #content_upload_date
+{
+    color:black;
+    width:50%;
+    height:100%;
+    float:left;
+    background-color: #FAFAFA;
+    word-wrap:break-word;
+}
+#content_info #content_links{
+    width:30%;
+    height:100%;
+    float: right;
+    background-color: #FAFAFA;
+    word-wrap:break-word;
+}
+
+#content {
+    float:left;
+    width:100%;
+
+}
+
+#row #article
+{
+    margin-bottom: 10px;
+}
+
+#misc
+{
+    float:right;
+}
 
