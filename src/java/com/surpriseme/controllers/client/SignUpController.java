@@ -80,7 +80,7 @@ public class SignUpController extends HttpServlet {
                 Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            String mailmessage = "Dear " + firstName + " " + lastName + "\n\nKindly click on the following link to verify your email id.\n\nhttp://localhost:8080/UserRegistration/VerifyEmail?tocken=" + hashedtext;
+            String mailmessage = "Dear " + firstName + " " + lastName + "\n\nKindly click on the following link to verify your email id.\n\nhttp://localhost:8080/surpriseme/client/VerifyEmail?token=" + hashedtext;
 
             if (retval!=null) {
                 boolean sent;

@@ -10,6 +10,10 @@ public class UserActivation {
     private Timestamp timestamp;
     private Boolean isactive;
 
+    public UserActivation() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public Integer getId() {
         return id;
     }

@@ -5,10 +5,13 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.UserActivation;
+import java.sql.SQLException;
 
 /**
  *
  * @author ankur
  */
 public interface UserActivationDAO extends GenericDAO<UserActivation, Integer> {
+        public boolean verifyToken(String token) throws SQLException;
+
 }
