@@ -80,6 +80,10 @@
         <servlet-name>SchedularController</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SchedularController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
         <url-pattern>/Client</url-pattern>
