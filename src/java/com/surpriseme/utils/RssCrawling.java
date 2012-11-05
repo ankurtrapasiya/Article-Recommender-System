@@ -95,7 +95,7 @@ public class RssCrawling {
                 for (SyndCategoryImpl category : (List<SyndCategoryImpl>) entry.getCategories()) {
                     tag = new Tag();
                     tag.setName(category.getName().toLowerCase());
-                    tag.setIcon("");
+                    tag.setIcon("icn_tags.png");
                     tag.setDescription("");
                     tags.add(tag);
 

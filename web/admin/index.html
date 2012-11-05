@@ -41,11 +41,6 @@
                         $("#main").html(data);
                     });
                 });
-                 $("#manage_tags").click(function(){                
-                    $.get("managetags.jsp",function(data){
-                        $("#main").html(data);
-                    });
-                });
                  $("#manage_crawling").click(function(){                
                     $.get("managecrawling.jsp",function(data){
                         $("#main").html(data);
@@ -91,12 +86,12 @@
             <hr/>
             <h3>Users</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a id="blockuser" href="../BlockUnblockUserServlet">Block User</a></li>
+                <li class="icn_add_user"><a id="blockuser" href="BlockUnblockUserServlet">Block User</a></li>
             </ul>
             <h3>Article</h3>
             <ul class="toggle">
                 <li class="icn_edit_article"><a id="edit_article" href="#">Edit Articles</a></li>
-                <li class="icn_tags"><a id="manage_tags" href="#">Manage Tags</a></li>
+                <li class="icn_tags"><a id="manage_tags" href="tagAddUpdateDeleteServlet">Manage Tags</a></li>
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">

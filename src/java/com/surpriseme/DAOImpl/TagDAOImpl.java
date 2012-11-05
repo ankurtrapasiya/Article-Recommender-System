@@ -100,7 +100,7 @@ public class TagDAOImpl implements TagDAO {
                     retval = rs.getInt(1);
                 }
 
-            }            
+            }
 
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
@@ -257,11 +257,14 @@ public class TagDAOImpl implements TagDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_tag(?)}");
+                //cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_tag(?)}");
 
-                cstmt.setInt(1, key);
+                //cstmt.setInt(1, key);
+                String sql = "Delete from articletag where tagid=" + key;
+                con.executeQuery(sql);
 
-                rs = con.customQuery(cstmt);
+                sql = "Delete from tag where tagid=" + key;
+                con.executeQuery(sql);
 
             }
 
@@ -386,7 +389,7 @@ public class TagDAOImpl implements TagDAO {
 
         return retval;
     }
-    
+
     public int getArticleID(int tagid) throws SQLException {
         int artid = 0;
         ResultSet rs = null;
@@ -419,7 +422,7 @@ public class TagDAOImpl implements TagDAO {
 
         return artid;
     }
-    
+
     public List<Tag> getRemaining(int articleid) throws SQLException {
         List<Tag> retval = new ArrayList<Tag>();
         ResultSet rs = null;
@@ -460,22 +463,21 @@ public class TagDAOImpl implements TagDAO {
         return retval;
 
     }
-    
+
     public void savechanges(List<ArticleTag> entities) throws SQLException {
         ResultSet rs = null;
 
         try {
 
-            int articleid=entities.get(0).getArticleid();
+            int articleid = entities.get(0).getArticleid();
             deleteAllArticleTags(articleid);
-            for(int i=0;i<entities.size();i++){
-                addTagToArticle(entities.get(i).getTagid(),entities.get(i).getArticleid());
+            for (int i = 0; i < entities.size(); i++) {
+                addTagToArticle(entities.get(i).getTagid(), entities.get(i).getArticleid());
             }
 
-            
 
-        } catch(Exception e){
-            
+
+        } catch (Exception e) {
         } finally {
             cstmt.close();
 
@@ -525,7 +527,7 @@ public class TagDAOImpl implements TagDAO {
         return retval;
 
     }
-    
+
     public boolean deleteAllArticleTags(int articleid) throws SQLException {
         boolean retval = false;
 
@@ -534,9 +536,9 @@ public class TagDAOImpl implements TagDAO {
             con = new DBConnection();
 
             if (con.connect()) {
-                String sql="Delete from articletag where articleid="+articleid;
-               
-               con.executeQuery(sql);
+                String sql = "Delete from articletag where articleid=" + articleid;
+
+                con.executeQuery(sql);
             }
 
             retval = true;
@@ -544,15 +546,11 @@ public class TagDAOImpl implements TagDAO {
         } catch (ClassNotFoundException ex) {
             logger.log(Priority.ERROR, ex.toString());
         } catch (SQLException ex) {
-            
+
             throw ex;
         } finally {
             con.disconnect();
         }
         return retval;
     }
-    
-
-
-
 }

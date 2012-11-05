@@ -81,8 +81,16 @@
         <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SchedularController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.admin.SchedularController</servlet-class>
+        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.tagAddUpdateDeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertUpdateTagServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.InsertUpdateTagServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertImage</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.InsertImage</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
@@ -153,13 +161,23 @@
         <url-pattern>/SchedularController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
+        <url-pattern>/admin/tagAddUpdateDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>BlockUnblockUserServlet</servlet-name>
-        <url-pattern>/BlockUnblockUserServlet</url-pattern>
+        <url-pattern>/admin/BlockUnblockUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertImage</servlet-name>
+        <url-pattern>/admin/InsertImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertUpdateTagServlet</servlet-name>
+        <url-pattern>/admin/InsertUpdateTagServlet</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>Client</welcome-file>
