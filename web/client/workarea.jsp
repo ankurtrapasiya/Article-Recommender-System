@@ -84,6 +84,31 @@
 
 
         <script type="text/javascript">
+            
+            $(document).ready(function(){
+                $('a[name=slide]').live("click",function(){
+               
+               
+                    if($(this).parent().parent().parent().next().is(":hidden"))
+                    {
+                    
+                        $(this).text("View Less");
+               
+                
+                    }
+                    else
+                    {
+                        $(this).text("View More");
+                    }
+                    $(this).parent().parent().parent().next().slideToggle();
+                    //$("articleid").append(id);
+                                   
+
+                });
+
+
+            });
+            
             (function(){
                 $.getJSON("ArticleController", function(dt){
                    
