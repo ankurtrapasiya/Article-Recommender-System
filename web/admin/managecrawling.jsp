@@ -64,7 +64,7 @@
     <body>
         <script id="source-template" type="text/x-handlebars-template">                
             <ul>
-                <select id="sources">
+                <label for="sources"><b>Select Source Name:</b></label><select id="sources">
                     <option value="Select Source Name">Select Source Name</option>
                     {{#each this}}                    
                     <option value="{{name}}">{{name}}</option>                        
@@ -107,7 +107,7 @@
         </script>
 
         <article id="feedurltable" class=\"module width_full\">
-                 <header><h2>Schedular</h2></header>
+                 <header><center><h2>Schedular</h2></center></header>
             <div id="selectsources"></div>
             <div id="feedtable"><ul>
 
