@@ -21,8 +21,10 @@ import com.surpriseme.DAOImpl.TagDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.ArticleLinks;
+import com.surpriseme.entities.ArticleTag;
 import com.surpriseme.entities.Source;
 import com.surpriseme.entities.Tag;
+import com.surpriseme.helper.ArticleLinksPK;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,7 +67,7 @@ public class RssCrawling {
         Boolean articleExists = false;
         Boolean tagAdded = false;
         Boolean tagAddedToArticle = false;
-        Boolean articleurlAdded = false;
+        ArticleLinksPK articleurlAdded = null;
         try {
             URL feedUrl = new URL(rssurl);
             SyndFeedInput input = new SyndFeedInput();
@@ -105,8 +107,8 @@ public class RssCrawling {
 
                         ArticleLinksDAO articleSources = new ArticleLinksDAOImpl();
 
-                        articleurlAdded = articleSources.addSourceToArticle(articleid, articleLinks.getArticleurl(), source.getSourceid());
-                        if (articleurlAdded) {
+                        articleurlAdded = articleSources.saveOrUpdate(new ArticleLinks(articleid, articleLinks.getArticleurl(), source.getSourceid()));
+                        if (articleurlAdded != null) {
                             if (tags.size() >= 1) {
                                 for (int i = 0; i < tags.size(); i++) {
                                     tagid = tagDAOImpl.checkIfTagExist(tags.get(i).getName());
@@ -117,7 +119,7 @@ public class RssCrawling {
 
                                         ArticleTagDAO articleTagDao = new ArticleTagDAOImpl();
 
-                                        tagAddedToArticle = articleTagDao.addTagToArticle(tagid, articleid);
+                                        articleTagDao.saveOrUpdate(new ArticleTag(articleid, tagid, new Timestamp(new Date().getTime())));
                                     }//end if(tagAdded)
                                 }//end of for
                             }
