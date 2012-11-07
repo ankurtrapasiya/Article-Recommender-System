@@ -1,5 +1,7 @@
 #error{
-    color: #FF0000;
+    color: #FFee00;
+    font:14px Arial;
+    font-weight: bold;
 }
 #login-box {
 	width:333px;

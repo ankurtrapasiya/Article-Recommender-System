@@ -29,6 +29,7 @@ public class AuthenticateUser extends HttpServlet {
         String msg = "Error Message";
         HttpSession session = null;
         try {
+
             session = request.getSession();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -36,12 +37,14 @@ public class AuthenticateUser extends HttpServlet {
             UserDAOImpl userdaoimpl = new UserDAOImpl();
             User user = userdaoimpl.findByUsername(username);
             RoleDAOImpl roledaoimpl = new RoleDAOImpl();
-            UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
+            
             if (user == null) {
                 msg = "Invalid Username or Password.";
             } else {
+                
                 if (password.equals(user.getPassword())) {
                     msg = "Valid User";
+                    UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
                     if (userrole.getRolename().equals("Admin")) {
                         msg = "ok";
                         session.setAttribute("user", user);

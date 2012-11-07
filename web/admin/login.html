@@ -14,8 +14,11 @@
             $("document").ready(function(){
                 $(".loginclass").click(function(){
                     var flag=true;
-                    var username=$("#username").val().trim();
-                    var password=$("#password").val().trim();
+                    var username=$("#username").val();
+                    var password=$("#password").val();
+                    $.trim(username);
+                    $.trim(password);
+                    
                     if((username=="")||(password=="")){
                         $("#error").html("Invalid Username or Password.");
                         var flag=false;
@@ -24,10 +27,10 @@
                         var datastring="username="+username+"&password="+password;
                         $.post("AuthenticateUser",datastring,function(data){
                             
-                            data.trim();
+                            $.trim(data);
                             if(data=='ok'){
                                
-                                $(window.location).attr('href', 'index.jsp');
+                                $(window.location).attr('href', 'index.html');
                             }else{
                                 $("#error").html(data);
                                 
@@ -46,19 +49,18 @@
     <body>
 
 
-        <div style="padding: 100px 0 0 250px;">
+        <div style="padding: 100px 0 0 420px;">
             <div id="login-box">
-                <H2>Login</H2>
-                Welcome to Surpriseme login panel.
+                <H2><center>Login</center></H2>
+                <center>Welcome to Surpriseme login panel.</center>
                 <br />
                 <br />
-                <div id="login-box-name" style="margin-top:20px;">Username:</div><div id="login-box-field" style="margin-top:20px;"><input name="username" id="username" class="form-login" title="Username" value="" size="30" maxlength="2048" /></div>
-                <div id="login-box-name">Password:</div><div id="login-box-field"><input name="password" id="password" type="password" class="form-login" title="Password" value="" size="30" maxlength="2048" /></div>
-                <br />
-                <span class="login-box-options"><input type="checkbox" name="1" value="1"> Remember Me <a href="#" style="margin-left:30px;">Forgot password?</a></span>
+                <div id="login-box-name" style="margin-top:20px;"><b>Username:</b></div><div id="login-box-field" style="margin-top:20px;"><input name="username" id="username" class="form-login" title="Username" value="" size="30" maxlength="2048" /></div>
+                <div id="login-box-name"><b>Password:</b></div><div id="login-box-field"><input name="password" id="password" type="password" class="form-login" title="Password" value="" size="30" maxlength="2048" /></div>
                 <br />
                 <br />
-                <div id="login" class="loginclass"><img id="loginimg" src="../images/login-btn.png" width="103" height="42" style="margin-left:90px;" /></div>
+                <br />
+                <div id="login" class="loginclass"><center><img id="loginimg" src="../images/login-btn.png" width="103" height="42" style="margin-left:90px;" /></center></div>
                 <center><div id="error"></div></center>
             </div>
         </div>
