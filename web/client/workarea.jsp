@@ -81,11 +81,11 @@
                 margin-bottom:10px;
                 margin-top: 0px;
             }	
-            a.source,.sidebar a{
+            a.source,.sidebar a,a.tag-link{
                 color:#4878b3;
                 text-decoration:none;
             }	
-            a.source:hover,.sidebar a:hover{
+            a.source:hover,.sidebar a:hover,a.tag-link:hover{
                 text-decoration:underline;
             }
 
@@ -124,7 +124,12 @@
 
                 float: left;
             }
-
+            .counter-up{
+                color:#778bb7;
+            }
+            .counter-down{
+                color:#778bb7;
+            }         
 
         </style>
     </head>
@@ -132,78 +137,58 @@
 
         <script id="article-template" type="text/x-handlebars-template">    
             {{#each this}}    
-            <div class="article-heading">
-                <h3>{{title}}</h3>
-            </div>
-            <div class="description">
-                <div class="like-dislike">
-                    <img src="../images/thumbs-up-1.png" alt="" />
-                    <label class="counter">{{upvote}}</label>
-                    <br />
-                    <label class="counter">{{downvote}}</label>
-                    <img src="../images/thumbs-down.png" alt="" />
-                    <label class="views">{{viewed}} Views</label>
-                </div>
-
-                <div class="meta-data">
-
-                    <p class="tags">
-                        Tags : tag1
-                    </p>
-                    <div  class="meta-links">
-                        <span>Source : <a href="#" class="source">link1</a></span>
-                        <span class="alignright">Posted On : {{publicationdate}}</span>
-                    </div>
-                    <div class="meta-links">
-                        <span><input type="submit" value="Add to Favorite" /></span>
-                        <span class="alignright"><input type="submit" value="Read Later" /></span>
-                    </div>
-                    <div id="article_content">
-                        {{body}}
-                    </div>
-                </div>
-
-            </div>
-            {{/each}}            
-        </script>    
-
-
-        <div id="article-contents" class="float-left">
-            <div class="article">
+            
                 <div class="article-heading">
-                    <h3>Article heading will come over here babes..:D</h3>
+                    <h3>{{title}}</h3>
                 </div>
-
                 <div class="description">
                     <div class="like-dislike">
-                        <img src="../images/thumbs-up-1.png" alt="" />
-                        <label class="counter">9</label>
+                        <a href="#" id="up" rel="{{articleid}}"><img src="../images/thumbs-up-1.png" alt="" /></a>
+                        <label class="counter-up">{{upvote}}</label>
                         <br />
-                        <label class="counter">8</label>
-                        <img src="../images/thumbs-down.png" alt="" />
-                        <label class="views">100 Views</label>
+                        <label class="counter-down">{{downvote}}</label>
+                        <a href="#" id="down" rel="{{articleid}}"><img src="../images/thumbs-down.png" alt="" /></a>
+                        <label class="views">{{viewed}} Views</label>
                     </div>
 
                     <div class="meta-data">
 
                         <p class="tags">
-                            Tags : output the tags over here. as much as u want
+                            Tags : 
+                            {{#tags}}
+
+                            <a href="#" class="tag-link">{{name}}</a>
+
+                            {{/tags}}
                         </p>
                         <div  class="meta-links">
-                            <span>Source : <a href="#" class="source">Here comes the wtf link</a></span>
-                            <span class="alignright">Posted On : 31-12-2101</span>
+                            <span>Source : <a href="#" class="source">{{#sources}}{{source}}{{/sources}}</a></span>
+                            <span class="alignright">Posted On : {{publicationdate}}</span>
                         </div>
                         <div class="meta-links">
-                            <span><input type="submit" value="Add to Favorite" /></span>
-                            <span class="alignright"><input type="submit" value="Read Later" /></span>
+                            <span><input id="addtofav" type="submit" data="{{articleid}}" value="Add to Favorite" /></span>
+                            <span class="alignright"><input id="readlater" data="{{articleid}}" type="submit" value="Read Later" /></span>
                         </div>
                         <div id="article_content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In gravida, dolor eu imperdiet commodo, nisl lacus faucibus libero, nec luctus diam turpis ac augue. Phasellus vitae sollicitudin felis. <a href="#" class="more-link">View More</a>
+                            {{body}}
                         </div>
                     </div>
 
-                </div>
-            </div>
+                </div>                
+            {{/each}}            
+        </script>    
+
+        <script id="interest-template" type="text/x-handlebars-template">                
+            <ul>
+                {{#each this}}                    
+                <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
+                {{/each}}
+            </ul>                
+        </script> 
+
+        <div id="article-contents" class="float-left">
+            
+            <div class="article"></div>
         </div>
 
         <div>
@@ -216,18 +201,7 @@
 
                 <div class="sidebar-links"> 
                     <ul>
-                        <li>
-                            <a href="#">Interest first</a>
-                        </li>
-                        <li>
-                            <a href="#">Interest first</a>
-                        </li>
-                        <li>
-                            I<a href="#">Interest first</a>
-                        </li>
-                        <li>
-                            <a href="#">Interest first</a>
-                        </li>
+
                     </ul>
                 </div>    
             </div>
@@ -235,77 +209,14 @@
         </div>
         <div class="clearfix"></div>
 
-        <!--
-                <script id="interest-template" type="text/x-handlebars-template">                
-                    <ul>
-                        {{#each this}}                    
-                        <li><a href="#" rel="{{interestid}}">{{name}}</a></li>                        
-                        {{/each}}
-                    </ul>                
-                </script> 
-        
-                <script id="article-template" type="text/x-handlebars-template">    
-                    {{#each this}}    
-                    <div id="content_votes">
-                        <div>
-                            <a href="#" id="up" rel="{{articleid}}"><img src="../images/images/arrow-up.png"></img></a>
-                        </div>                    
-                        <div id="upvotes">
-                            {{upvote}}
-                        </div>                                        
-                        <div id="downvotes">
-                            {{downvote}}
-                        </div>                                        
-                        <div><a href="#" id="down" rel="{{articleid}}"><img src="../images/images/arrow-down.png"></img></a>
-                        </div>                    
-                    </div>
-        
-        
-                    <div id="content_title">             
-                        <span id="title">{{title}}</span>
-                        <div id="misc" >
-                            <a href="#" rel="{{articleid}}" id="addtofavourites"><img src="../images/fav.png"></img></a>
-                            <a href="#" rel="{{articleid}}" id="readitlater"><img src="../images/readlater.png" ></img></a>
-                        </div>
-                    </div>
-                    <div id="content_info">
-                        <div id="content_upload_date">
-                            <h4>Upload Date: {{publicationdate}} </h4>
-                        </div>
-                        <div id="content_links">
-                        </div>
-                    </div>
-        
-        
-                    <div id="content_body">                    
-                        content : {{body}}
-                    </div>   
-        
-                    {{/each}}            
-        
-                </script>    
-        
-        
-                <div id="header">
-                    <h2>Article Suggestions</h2>
-                </div>
-                <div id="maincontainer">
-                    <div id="maincontent">
-                        <div id="row">                                 
-                        </div>
-                    </div>
-                    <div id="interestbar">
-                        <h3>Interests</h3>
-                        <div id="links">                
-                        </div>
-                    </div>
-                </div>	-->
-
-
 
         <script type="text/javascript">
             
             $(document).ready(function(){
+                
+               
+                
+                
                 $('a[name=slide]').live("click",function(){
                
                
@@ -330,12 +241,18 @@
             });
             
             (function(){
+                $.getJSON("ArticleController?freq=true", function(dt){
+                   
+                    var temp=Handlebars.compile($("#article-template").html());                        
+                    $("#article-contents").html(temp(dt.content));
+                });
+                
                 $.getJSON("ArticleController", function(dt){
                    
                     var temp=Handlebars.compile($("#interest-template").html());                        
-                    $("#interestbar div").html(temp(dt.content));
+                    $(".sidebar .sidebar-links").html(temp(dt.content));
                    
-                    $("#links").find("a").on("click",function(e){
+                    $(".sidebar-links").find("a").on("click",function(e){
                         e.preventDefault();
                         var linktype = $(this).attr("rel");    
                         
@@ -345,57 +262,70 @@
                         $.get(url1, function(dt){
 
                             var temp=Handlebars.compile($("#article-template").html());                        
-                            $("#maincontent #row").html(temp(dt.content));
+                            $("#article-contents").html(temp(dt.content));
+                            
+                            
+                            console.log(dt.content);
                             
                             
                             
-                            $("#row").find("a").on("click",function(e){
-                            
-                                e.preventDefault();
-                                var val=$(this).attr("rel");  
-                                
+                            $(".meta-data ").find("input").on("click",function(e){
+            
+                                var x=$(this);
                                 var id=$(this).attr("id");
+                                var val=$(this).attr("data");
                                 
-                                var upvoteDiv=$(this).parent().find("#upvotes");   
-                                var downvoteDiv=$(this).parent().find("#downvotes");
-                                var anchor=$(this);
+                                console.log(id);
+                                console.log(val);
                                 
-                                console.log(anchor);
-                                                                                                
-                                if(id==="addtofavourites")
+                                if(id==="addtofav")
                                 {
                                     var url="ArticleController?action=addtofavourites&articleid=";
                                     var url1=url.concat(val);
                                     
                                     $.post(url1,function(dt){
                                         
-                                        console.log(dt.content);
-                                        anchor.html(dt.content.status);
+                                        x.attr('disabled','disabled');
+                                        x.val('in favourites');
                                         
                                     },"json");
                                     
                                 }
-                                else if(id==="readitlater")
+                                else if(id==="readlater")
                                 {
                                     var url="ArticleController?action=readitlater&articleid=";
                                     var url1=url.concat(val);
                                     
                                     $.post(url1,function(dt){
                                         
-                                        console.log(dt.content);
-                                        anchor.html(dt.content.status);
+                                        x.attr('disabled','disabled');
+                                        x.val('in readlater');
                                         
                                     },"json");
                                 }
-                                else if(id==="down")
+                                
+                            });
+                            
+                            
+                            $(".like-dislike").find("a").on("click",function(e){
+                            
+                                e.preventDefault();
+                                var val=$(this).attr("rel");  
+                                
+                                var id=$(this).attr("id");
+                                
+                                var upvote=$(this).parent().find(".counter-up");   
+                                var downvote=$(this).parent().find(".counter-down");
+                                                                                                                               
+                                if(id==="down")
                                 {
                                     var url="ArticleController?action=downvote&articleid=";
                                     var url1=url.concat(val);
                                 
                                     $.post(url1,function(dt)
                                     {
-                                        downvoteDiv.html("<label>" + dt.content[0].downvote + "</label>");   
-                                        upvoteDiv.html("<label>" + dt.content[1].upvote + "</label>");
+                                        downvote.html("<label>" + dt.content[0].downvote + "</label>");   
+                                        upvote.html("<label>" + dt.content[1].upvote + "</label>");
                                     },"json");
                                 }
                                 else
@@ -410,11 +340,11 @@
                                         console.log(dt.content[0].upvote);
                                         console.log(dt.content[1].downvote);
                                         
-                                        console.log(upvoteDiv);
-                                        console.log(downvoteDiv);
+                                        console.log(upvote);
+                                        console.log(downvote);
                                         
-                                        upvoteDiv.html("<label>" + dt.content[0].upvote + "</label>");                                        
-                                        downvoteDiv.html("<label>" + dt.content[1].downvote + "</label>");   
+                                        upvote.html("<label>" + dt.content[0].upvote + "</label>");                                        
+                                        downvote.html("<label>" + dt.content[1].downvote + "</label>");   
                                     
                                     },"json");
                                 }                                
