@@ -34,7 +34,7 @@ public class UserHistoryDAOImpl implements UserHistoryDAO{
     }
 
     @Override
-    public Integer saveOrUpdate(UserHistory entity) throws SQLException {
+    public UserHistoryPK saveOrUpdate(UserHistory entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

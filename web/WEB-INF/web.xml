@@ -95,6 +95,10 @@
         <servlet-name>VerifyEmail</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.VerifyEmail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SuggestionsController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.SuggestionsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -174,6 +178,10 @@
     <servlet-mapping>
         <servlet-name>VerifyEmail</servlet-name>
         <url-pattern>/client/VerifyEmail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SuggestionsController</servlet-name>
+        <url-pattern>/SuggestionsController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

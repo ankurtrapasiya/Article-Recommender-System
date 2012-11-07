@@ -68,10 +68,10 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public Integer saveOrUpdate(Role entity) throws SQLException {
+    public String saveOrUpdate(Role entity) throws SQLException {
 
         ResultSet rs = null;
-        Integer retval = null;
+        String retval = null;
 
         try {
 
@@ -89,14 +89,7 @@ public class RoleDAOImpl implements RoleDAO {
                 cstmt.setString("p_rolename", entity.getRolename());
                 cstmt.setString("p_description", entity.getDescription());
 
-                rs = con.saveOrUpdate(cstmt);
-                String sql = "select last_insert_id()";
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-                    retval = rs.getInt(1);
-                }
+                rs = con.saveOrUpdate(cstmt);                
 
             }
 
@@ -109,7 +102,7 @@ public class RoleDAOImpl implements RoleDAO {
             con.disconnect();
         }
 
-        return retval;
+        return entity.getRolename();
     }
 
     @Override

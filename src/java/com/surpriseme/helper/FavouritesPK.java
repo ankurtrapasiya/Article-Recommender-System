@@ -15,6 +15,11 @@ public class FavouritesPK implements Serializable{
     private Integer userId;
     private Integer articleId;
 
+    public FavouritesPK(Integer userId, Integer articleId) {
+        this.userId=userId;
+        this.articleId=articleId;
+    }
+
     public Integer getUserId() {
         return userId;
     }

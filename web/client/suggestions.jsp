@@ -12,6 +12,37 @@
         <title>Suggestions</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-    </body>
+    <c:if test="${requestScope.status eq 'true'}"> 
+
+        <h3>Suggestions :</h3>
+        <table>
+            <tr>
+                <td>
+                    <table>   
+                        <c:forEach var="user" items="${requestScope.user}">  
+                            <tr>
+                                <td> <c:out value="${user.username}"></c:out> has has suggested you an article </td>
+                            <table>   
+                                </tr>
+                        </c:forEach>
+                    </table>      
+
+
+                </td>       
+                <td>
+
+                    <table>
+
+                        <c:forEach var="links" items="${requestScope.links}">  
+                            <tr>
+                                <td> <a href="<c:out value="${links.articleurl}"></c:out>">click here</a></td>  
+                            </tr>
+                        </c:forEach>  
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </c:if>
+
+</body>
 </html>

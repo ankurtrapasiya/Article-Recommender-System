@@ -26,8 +26,47 @@ public class FavouritesDAOImpl implements FavouritesDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public Integer saveOrUpdate(Favourites entity) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public FavouritesPK saveOrUpdate(Favourites entity) throws SQLException {
+        ResultSet rs = null;
+        FavouritesPK retval = null;
+        Favourites isUpdate = null;
+
+        try {
+
+            isUpdate = findById(new FavouritesPK(entity.getUserid(), entity.getArticleid()));
+
+            con = new DBConnection();
+            if (con.connect()) {
+
+                if (isUpdate != null) {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_favourites(?,?,?,?)}");
+                } else {
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_favourites(?,?,?,?)}");
+                }
+
+                System.out.println("entity" + entity);
+                cstmt.setInt("p_userid", entity.getUserid());
+                cstmt.setInt("p_articleid", entity.getArticleid());
+                cstmt.setBoolean("p_readlater", entity.isReadlater());
+                cstmt.setBoolean("p_isfav", entity.isIsfav());
+
+                rs = con.saveOrUpdate(cstmt);
+
+            }
+
+            retval = new FavouritesPK(entity.getUserid(), entity.getArticleid());
+
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            cstmt.close();
+            con.disconnect();
+        }
+
+        return retval;
     }
 
     @Override
@@ -37,7 +76,36 @@ public class FavouritesDAOImpl implements FavouritesDAO {
 
     @Override
     public Favourites findById(FavouritesPK key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        Favourites fav = null;
+
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String sql = "select * from favourites where articleid=" + key.getArticleId() + " and userid=" + key.getUserId();
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    fav = new Favourites();
+                    fav.setArticleid(key.getArticleId());
+                    fav.setUserid(key.getUserId());
+                    fav.setReadlater(rs.getBoolean("readlater"));
+                    fav.setIsfav(rs.getBoolean("isfav"));
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return fav;
     }
 
     @Override
@@ -55,144 +123,4 @@ public class FavouritesDAOImpl implements FavouritesDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public boolean addArticleToFavourites(Favourites entity) throws SQLException {
-        ResultSet rs = null;
-        boolean retval = false;
-        boolean isUpdate = false;
-
-        try {
-
-            isUpdate = checkIfEntryExists(entity.getUserid(), entity.getArticleid());
-
-            con = new DBConnection();
-            if (con.connect()) {
-
-                if (isUpdate) {
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_favourites(?,?,?,?)}");
-                } else {
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_favourites(?,?,?,?)}");
-                }
-
-                System.out.println("entity" + entity);
-                cstmt.setInt("p_userid", entity.getUserid());
-                cstmt.setInt("p_articleid", entity.getArticleid());
-                cstmt.setBoolean("p_readlater", entity.isReadlater());
-                cstmt.setBoolean("p_isfav", entity.isIsfav());
-
-                rs = con.saveOrUpdate(cstmt);
-
-            }
-
-            retval = true;
-
-
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            cstmt.close();
-            con.disconnect();
-        }
-
-        return retval;
-    }
-
-    /**
-     *
-     * @param userid
-     * @param articleId
-     * @return
-     * @throws SQLException
-     */
-    @Override
-    public boolean checkIfEntryExists(Integer userid, Integer articleId) throws SQLException {
-        boolean retval = false;
-
-        ResultSet rs = null;
-        try {
-            con = new DBConnection();
-            if (con.connect()) {
-
-                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid;
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-                    retval = true;
-                }
-
-            }
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            con.disconnect();
-        }
-
-        return retval;
-
-    }
-
-    @Override
-    public boolean checkIfExistInFavourites(Integer userid, Integer articleId) throws SQLException {
-        boolean retval = false;
-
-        ResultSet rs = null;
-        try {
-            con = new DBConnection();
-            if (con.connect()) {
-
-                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid + " and isfav=" + true;
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-                    retval = true;
-                }
-
-            }
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            con.disconnect();
-        }
-
-        return retval;
-
-    }
-
-    @Override
-    public boolean checkIfExistInReadLater(Integer userid, Integer articleId) throws SQLException {
-        boolean retval = false;
-
-        ResultSet rs = null;
-        try {
-            con = new DBConnection();
-            if (con.connect()) {
-
-                String sql = "select * from favourites where articleid=" + articleId + " and userid=" + userid + " and readlater=" + true;
-
-                rs = con.customQuery(sql);
-
-                while (rs.next()) {
-                    retval = true;
-                }
-
-            }
-        } catch (ClassNotFoundException ex) {
-            logger.log(Priority.ERROR, ex.toString());
-        } catch (SQLException ex) {
-            throw ex;
-        } finally {
-            con.disconnect();
-        }
-
-        return retval;
-
-    }
 }

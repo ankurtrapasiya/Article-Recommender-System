@@ -30,7 +30,7 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public Integer saveOrUpdate(BlockedUsers entity) throws SQLException {
+    public BlockedUserPK saveOrUpdate(BlockedUsers entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

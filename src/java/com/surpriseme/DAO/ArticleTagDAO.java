@@ -5,16 +5,16 @@
 package com.surpriseme.DAO;
 
 import com.surpriseme.entities.ArticleTag;
+import com.surpriseme.entities.Tag;
 import com.surpriseme.helper.ArticleTagPK;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author ankur
  */
 public interface ArticleTagDAO extends GenericDAO<ArticleTag, ArticleTagPK> {
-
-    boolean addTagToArticle(Integer tagId, Integer ArticleId) throws SQLException;
-
-    boolean removeTagFromArticle(Integer tagId, Integer ArticleId) throws SQLException;
+    
+    List<Tag> getAllTagsOfArticle(Integer articleId) throws SQLException;
 }

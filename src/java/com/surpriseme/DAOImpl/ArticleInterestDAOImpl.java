@@ -17,7 +17,7 @@ import java.util.List;
 public class ArticleInterestDAOImpl implements ArticleInterestDAO{
 
     @Override
-    public Integer saveOrUpdate(ArticleInterest entity) throws SQLException {
+    public ArticleInterestPK saveOrUpdate(ArticleInterest entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

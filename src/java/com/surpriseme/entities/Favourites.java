@@ -7,6 +7,10 @@ public class Favourites {
     private boolean readlater;
     private boolean isfav;
 
+    public Favourites() {
+        
+    }
+
     public boolean isReadlater() {
         return readlater;
     }

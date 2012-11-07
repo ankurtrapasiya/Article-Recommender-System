@@ -13,11 +13,4 @@ import java.sql.SQLException;
  * @author ankur
  */
 public interface FavouritesDAO extends GenericDAO<Favourites, FavouritesPK> {
-    boolean addArticleToFavourites(Favourites fav) throws SQLException;
-
-    boolean checkIfExistInFavourites(Integer userid, Integer articleId) throws SQLException;
-
-    boolean checkIfExistInReadLater(Integer userid, Integer articleId) throws SQLException;
-    
-    boolean checkIfEntryExists(Integer userid, Integer articleId) throws SQLException;
 }

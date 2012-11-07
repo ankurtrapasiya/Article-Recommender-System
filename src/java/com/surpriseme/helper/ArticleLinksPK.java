@@ -10,10 +10,15 @@ import java.io.Serializable;
  *
  * @author ankur
  */
-public class ArticleLinksPK implements Serializable{
+public class ArticleLinksPK implements Serializable {
 
     private Integer articleId;
     private Integer sourceId;
+
+    public ArticleLinksPK(Integer articleId, Integer sourceId) {
+        this.articleId = articleId;
+        this.sourceId = sourceId;
+    }
 
     public Integer getArticleId() {
         return articleId;

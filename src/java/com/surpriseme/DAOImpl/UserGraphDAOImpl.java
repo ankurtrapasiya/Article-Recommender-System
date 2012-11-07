@@ -29,7 +29,7 @@ public class UserGraphDAOImpl implements UserGraphDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public Integer saveOrUpdate(UserGraph entity) throws SQLException {
+    public UserGraphPK saveOrUpdate(UserGraph entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

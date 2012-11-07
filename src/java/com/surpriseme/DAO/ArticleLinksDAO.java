@@ -7,11 +7,13 @@ package com.surpriseme.DAO;
 import com.surpriseme.entities.ArticleLinks;
 import com.surpriseme.helper.ArticleLinksPK;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author ankur
  */
 public interface ArticleLinksDAO extends GenericDAO<ArticleLinks, ArticleLinksPK> {
-    boolean addSourceToArticle(Integer articleid, String articleurl, Integer sourceid) throws SQLException;
+
+    List<ArticleLinks> getSourcesOfArticle(Integer articleId) throws SQLException;
 }

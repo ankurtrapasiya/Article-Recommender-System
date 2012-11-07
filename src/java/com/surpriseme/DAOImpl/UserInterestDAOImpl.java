@@ -35,7 +35,7 @@ public class UserInterestDAOImpl implements UserInterestDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public Integer saveOrUpdate(UserInterest entity) throws SQLException {
+    public UserInterestPK saveOrUpdate(UserInterest entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -132,6 +132,16 @@ public class UserInterestDAOImpl implements UserInterestDAO {
         return retval;
     }
 
+    
+    /**
+     * 
+     * @param userid
+     * @param include - specified whether to include other interest which are not of user or not
+     * true- only user interest
+     * false -all except user's interest
+     * @return
+     * @throws SQLException 
+     */
     @Override
     public List<Interest> getUserInterests(Integer userid, boolean include) throws SQLException {
         List<Interest> retval = new ArrayList<Interest>();

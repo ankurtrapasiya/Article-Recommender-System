@@ -173,7 +173,7 @@ public class HistoryDAOImpl implements UserHistoryDAO {
     }
 
     @Override
-    public Integer saveOrUpdate(UserHistory entity) throws SQLException {
+    public UserHistoryPK saveOrUpdate(UserHistory entity) throws SQLException {
         ResultSet rs = null;
         Integer retval = null;
         boolean isUpdate = false;

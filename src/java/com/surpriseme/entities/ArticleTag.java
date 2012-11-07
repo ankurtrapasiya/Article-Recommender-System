@@ -9,6 +9,13 @@ public class ArticleTag {
     private Integer tagid;
     private Timestamp timestamp;
 
+    public ArticleTag(Integer articleid, Integer tagid, Timestamp timestamp) {
+        this.articleid = articleid;
+        this.tagid = tagid;
+        this.timestamp = timestamp;
+    }
+
+    
     public Integer getArticleid() {
         return articleid;
     }

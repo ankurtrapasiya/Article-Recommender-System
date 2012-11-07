@@ -17,7 +17,7 @@ import java.util.List;
 public class TagInterestDAOImpl implements TagInterestDAO{
 
     @Override
-    public Integer saveOrUpdate(TagInterest entity) throws SQLException {
+    public TagInterestPK saveOrUpdate(TagInterest entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

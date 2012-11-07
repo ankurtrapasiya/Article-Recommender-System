@@ -17,7 +17,7 @@ import java.util.List;
 public class UserRoleDAOImpl implements UserRoleDAO{
 
     @Override
-    public Integer saveOrUpdate(UserRole entity) throws SQLException {
+    public UserRolePK saveOrUpdate(UserRole entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

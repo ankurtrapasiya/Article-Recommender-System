@@ -6,6 +6,15 @@ public class ArticleLinks {
     private String articleurl;
     private Integer sourceid;
 
+    public ArticleLinks(Integer articleid, String articleurl, Integer sourceid) {
+        this.articleid = articleid;
+        this.articleurl = articleurl;
+        this.sourceid = sourceid;
+    }
+
+    public ArticleLinks() {
+    }
+
     public Integer getArticleid() {
         return articleid;
     }
