@@ -12,6 +12,10 @@
         <servlet-name>Client</servlet-name>
         <jsp-file>/client/index.jsp</jsp-file>
     </servlet>
+     <servlet>
+        <servlet-name>Admin</servlet-name>
+        <jsp-file>/admin/login.html</jsp-file>
+    </servlet>
     <servlet>
         <servlet-name>Interest</servlet-name>
         <jsp-file>/client/interests.jsp</jsp-file>
@@ -115,6 +119,14 @@
     <servlet>
         <servlet-name>SourceInsert</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.SourceInsert</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AuthenticateUser</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.AuthenticateUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Client</servlet-name>
@@ -223,6 +235,14 @@
     <servlet-mapping>
         <servlet-name>SourceInsert</servlet-name>
         <url-pattern>/admin/SourceInsert</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthenticateUser</servlet-name>
+        <url-pattern>/admin/AuthenticateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/admin/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -7,6 +7,7 @@ package com.surpriseme.DAOImpl;
 import com.surpriseme.DAO.RoleDAO;
 import com.surpriseme.entities.Role;
 import com.surpriseme.entities.Tag;
+import com.surpriseme.entities.UserRole;
 import com.surpriseme.utils.DBConnection;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -306,5 +307,50 @@ public class RoleDAOImpl implements RoleDAO {
             con.disconnect();
         }
         return retval;
+    }
+    
+    
+    public UserRole findUserRoleByUserId(int key) throws SQLException {
+
+        UserRole retval = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from userrole where userid=?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setInt(1, key);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    UserRole userrole = new UserRole();
+
+
+                    userrole.setRolename(rs.getString("rolename"));
+                    userrole.setUserid(rs.getInt("userid"));
+                    userrole.setUsername(rs.getString("username"));
+
+                    retval = userrole;
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
     }
 }
