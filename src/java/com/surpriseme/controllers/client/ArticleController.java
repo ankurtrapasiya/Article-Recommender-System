@@ -5,18 +5,24 @@
 package com.surpriseme.controllers.client;
 
 import com.surpriseme.DAO.ArticleDAO;
+import com.surpriseme.DAO.ArticleLinksDAO;
+import com.surpriseme.DAO.ArticleTagDAO;
 import com.surpriseme.DAO.FavouritesDAO;
-import com.surpriseme.DAO.UserDAO;
 import com.surpriseme.DAO.UserInterestDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
+import com.surpriseme.DAOImpl.ArticleLinksDAOImpl;
+import com.surpriseme.DAOImpl.ArticleTagDAOImpl;
 import com.surpriseme.DAOImpl.FavouritesDAOImpl;
 import com.surpriseme.DAOImpl.HistoryDAOImpl;
-import com.surpriseme.DAOImpl.UserDAOImpl;
+import com.surpriseme.DAOImpl.SourceDAOImpl;
 import com.surpriseme.DAOImpl.UserInterestDAOImpl;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.ArticleLinks;
 import com.surpriseme.entities.Favourites;
 import com.surpriseme.entities.Interest;
+import com.surpriseme.entities.Tag;
 import com.surpriseme.entities.UserHistory;
+import com.surpriseme.helper.FavouritesPK;
 import com.surpriseme.helper.UserHistoryPK;
 import com.surpriseme.utils.Category;
 import com.surpriseme.utils.Utilities;
@@ -26,6 +32,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,9 +59,12 @@ public class ArticleController extends HttpServlet {
 
         JSONArray jArr = new JSONArray();
         JSONObject jObj = new JSONObject();
+        JSONArray tArr = new JSONArray();
 
         ArticleDAO articleDao = null;
+        ArticleTagDAO articleTagDao = new ArticleTagDAOImpl();
         UserInterestDAO suggestions = new UserInterestDAOImpl();
+        ArticleLinksDAO articleLinksDao = new ArticleLinksDAOImpl();
 
         Integer userId = null;
         Integer intereseId = null;
@@ -65,14 +75,25 @@ public class ArticleController extends HttpServlet {
             if (req.getParameter("interestid") != null) {
                 intereseId = Integer.parseInt(req.getParameter("interestid"));
             }
-            userId = 1;
             if (req.getParameter("userid") != null) {
                 //userId = Integer.parseInt(session.getAttribute("userid").toString());
+            }
+            userId = 1;
+            if (req.getParameter("freq") != null) {
+                try {
+                    System.out.println(new UserInterestDAOImpl().getUserInterests(userId, true));
+                    intereseId = new UserInterestDAOImpl().getUserInterests(userId, true).get(0).getInterestid();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             if (intereseId != null && userId != null) {
 
                 articleDao = new ArticleDAOImpl();
+                List<Tag> tags = null;
+                List<ArticleLinks> sources = null;
+
                 try {
 
                     articlesSuggestions = suggestions.suggestArticle(userId, intereseId);
@@ -99,7 +120,48 @@ public class ArticleController extends HttpServlet {
                         jObj.put("publicationdate", date);
                         articles.remove(i);
 
+                        tags = articleTagDao.getAllTagsOfArticle(a.getArticleid());
+
+
+
+                        Iterator<Tag> iterator = tags.iterator();
+                        tArr = new JSONArray();
+                        while (iterator.hasNext()) {
+                            Tag tag = iterator.next();
+
+                            JSONObject jObj1 = new JSONObject();
+
+                            jObj1.put("tagid", tag.getTagid());
+                            jObj1.put("name", tag.getName());
+                            jObj1.put("icon", tag.getIcon());
+                            jObj1.put("description", tag.getDescription());
+
+                            tArr.add(jObj1);
+                        }
+                        jObj.put("tags", tArr);
+
+                        sources = articleLinksDao.getSourcesOfArticle(a.getArticleid());
+
+
+                        Iterator<ArticleLinks> iterator1 = sources.iterator();
+
+                        tArr = new JSONArray();
+
+                        while (iterator1.hasNext()) {
+                            ArticleLinks al = iterator1.next();
+
+                            JSONObject jObj1 = new JSONObject();
+
+                            jObj1.put("source", al.getArticleurl());
+
+                            tArr.add(jObj1);
+                        }
+
+                        jObj.put("sources", tArr);
+
+
                         jArr.add(jObj);
+
 
                         i++;
                     }
@@ -247,17 +309,21 @@ public class ArticleController extends HttpServlet {
                 try {
 
                     FavouritesDAO favDao = new FavouritesDAOImpl();
+                    Favourites fav = favDao.findById(new FavouritesPK(userId, articleId));
 
-                    if (!favDao.checkIfExistInFavourites(userId, articleId)) {
+                    if (fav != null && !fav.isIsfav()) {
 
-                        Favourites fav = new Favourites(userId, articleId, false, true);
+                        fav = new Favourites(userId, articleId, fav.isReadlater(), true);
 
-                        favDao.addArticleToFavourites(fav);
-
-                        jObj = new JSONObject();
-                        jObj.put("status", "true");
-                        jArr.add(jObj);
+                    } else {
+                        fav = new Favourites(userId, articleId, false, true);
                     }
+                    favDao.saveOrUpdate(fav);
+
+                    jObj = new JSONObject();
+                    jObj.put("status", "true");
+                    jArr.add(jObj);
+
                     jObj = new JSONObject();
                     jObj.put("status", "false");
                     jArr.add(jObj);
@@ -269,15 +335,23 @@ public class ArticleController extends HttpServlet {
                 try {
 
                     FavouritesDAO favDao = new FavouritesDAOImpl();
-                    if (!favDao.checkIfExistInReadLater(userId, articleId)) {
-                        Favourites fav = new Favourites(userId, articleId, true, false);
+                    Favourites fav = favDao.findById(new FavouritesPK(userId, articleId));
 
-                        favDao.addArticleToFavourites(fav);
+                    if (fav != null && !fav.isReadlater()) {
 
-                        jObj = new JSONObject();
-                        jObj.put("status", "true");
-                        jArr.add(jObj);
+                        fav = new Favourites(userId, articleId, true, fav.isIsfav());
+
+                    } else {
+                        fav = new Favourites(userId, articleId, true, false);
                     }
+
+
+                    favDao.saveOrUpdate(fav);
+
+                    jObj = new JSONObject();
+                    jObj.put("status", "true");
+                    jArr.add(jObj);
+
 
                     jObj = new JSONObject();
                     jObj.put("status", "false");
