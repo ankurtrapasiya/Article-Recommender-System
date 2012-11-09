@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<country>
+    <state id="1" name="Gujarat"></state>
+    <state id="2" name="Maharastra"></state>
+    <state id="3" name="Jammu And Kashmir"></state>
+    <state id="4" name="Rajasthan"></state>
+    <state id="5" name="Kerala"></state>
+    <state id="6" name="Karnataka"></state>
+    <state id="7" name="Andhra Pradesh"></state>
+    <state id="8" name="Delhi"></state>
+</country>

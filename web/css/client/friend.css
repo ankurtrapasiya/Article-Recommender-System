@@ -1,0 +1,24 @@
+#workarea #thumnails{
+	
+	margin:20px 20px 20px 20px;
+	width:150px;
+	height:150px;
+	background:#c9ebff;
+	float:left;
+	position: relative;
+
+}
+#thumnails #name{
+	font-size:18px;
+	margin-top:20px;
+	text-align: center;
+	width:150px;
+	float:left;
+	background-color: #c9ebff;
+
+}
+#workarea{
+	width:80%;
+	
+	background-color: blue;
+}

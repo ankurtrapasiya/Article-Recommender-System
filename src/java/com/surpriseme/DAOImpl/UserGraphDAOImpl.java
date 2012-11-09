@@ -74,7 +74,7 @@ public class UserGraphDAOImpl implements UserGraphDAO {
 
                 cstmt.setInt("p_friendid", friendId);
                 cstmt.setInt("p_userid", userId);
-                cstmt.setBoolean("p_isnotifitied", false);
+                cstmt.setBoolean("p_isnotified", false);
 
                 rs = con.saveOrUpdate(cstmt);
 

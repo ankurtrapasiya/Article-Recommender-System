@@ -10,6 +10,12 @@ public class BlockedUsers {
     private String reason;
     private boolean isActive;
 
+    public BlockedUsers() {
+    }
+
+    
+    
+    
     public Integer getUserid() {
         return userid;
     }
@@ -88,9 +94,16 @@ public class BlockedUsers {
         return true;
     }
 
+    public BlockedUsers(Integer userid, Integer blockerid, Timestamp timestamp, String reason, boolean isActive) {
+        this.userid = userid;
+        this.blockerid = blockerid;
+        this.timestamp = timestamp;
+        this.reason = reason;
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
         return "BlockedUsers{" + "userid=" + userid + ", blockerid=" + blockerid + ", timestamp=" + timestamp + ", reason=" + reason + ", isActive=" + isActive + '}';
     }
-    
 }

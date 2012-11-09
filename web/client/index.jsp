@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>AdminPanel</title>
-    <link media="all" rel="stylesheet" type="text/css" href="../client/css/style.css" />
+    <title>Surprise Me</title>
+    <link media="all" rel="stylesheet" type="text/css" href="../css/client/style.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="../js/jquery-1.8.2.min.js"><\/script>');</script>
     <script type="text/javascript" src="../js/jquery.main.js"></script>
+    <script type="text/javascript" src="../js/handlebars.js"></script>
+
+
+
     <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 
     <script type="text/javascript">
@@ -20,7 +24,7 @@
             });
             
             $("#profile").click(function(){                
-                $.get("profile.jsp",function(data){
+                $.get("UserProfileController",function(data){
                     $("#main").html(data);
                 },"html");
             });       
@@ -43,6 +47,11 @@
                 },"html");
             });                           
                         
+            $("#usergraph").click(function(){                
+                $.get("usergraph.jsp",function(data){
+                    $("#main").html(data);
+                },"html");
+            });    
         });
     </script>
 
@@ -88,10 +97,14 @@
                 <li>
                     <a href="#tab-1" class="ico2" id="profile"><span>Profile</span><em></em></a>
                     <span class="tooltip"><span>Profile</span></span>
-                </li>                 
+                </li>
                 <li>
                     <a href="#tab-1" class="ico3" id="interest"><span>Interests</span><em></em></a>
                     <span class="tooltip"><span>Interests</span></span>
+                </li>
+                <li>
+                    <a href="#tab-1" class="ico3" id="usergraph"><span>My graph</span><em></em></a>
+                    <span class="tooltip"><span>My graph</span></span>
                 </li>
                 <li>
                     <a href="#tab-1" class="ico4" id="favourite"><span>Favourites</span><em></em></a>

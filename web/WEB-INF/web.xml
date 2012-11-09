@@ -99,6 +99,26 @@
         <servlet-name>SuggestionsController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.SuggestionsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddToGraphController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.AddToGraphController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlockClientUserController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.BlockClientUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFromGraphController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.RemoveFromGraphController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchUserController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.SearchUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserGraphController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UserGraphController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -137,7 +157,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
-        <url-pattern>/UserProfileController</url-pattern>
+        <url-pattern>/client/UserProfileController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
@@ -182,6 +202,26 @@
     <servlet-mapping>
         <servlet-name>SuggestionsController</servlet-name>
         <url-pattern>/SuggestionsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToGraphController</servlet-name>
+        <url-pattern>/AddToGraphController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockClientUserController</servlet-name>
+        <url-pattern>/BlockClientUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFromGraphController</servlet-name>
+        <url-pattern>/RemoveFromGraphController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchUserController</servlet-name>
+        <url-pattern>/SearchUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserGraphController</servlet-name>
+        <url-pattern>/UserGraphController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

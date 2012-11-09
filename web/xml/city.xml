@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<state>
+    <city id="1" name="Surat"></city>
+    <city id="1" name="Ahmedabad"></city>           
+    <city id="1" name="Vadodara"></city>
+    <city id="1" name="Nagpur"></city>
+    <city id="1" name="Mumbai"></city>
+    <city id="1" name="Jaipur"></city>
+    <city id="1" name="Bangaluru"></city>
+    <city id="1" name="Manglore"></city>
+    <city id="1" name="Delhi"></city>
+</state>

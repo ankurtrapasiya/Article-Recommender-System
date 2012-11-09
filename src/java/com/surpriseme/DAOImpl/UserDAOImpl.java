@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
 
     @Override
-    public List<User> searchUser(String firstName, String lastName, String email) throws SQLException {
+    public List<User> searchUser(String name, Integer userid) throws SQLException {
         List<User> retval = new ArrayList<User>();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
@@ -42,17 +42,20 @@ public class UserDAOImpl implements UserDAO {
 
             if (con.connect()) {
 
-                String sql = "select * from user where firstname like ? and lastname like ?";
+                String sql = "select * from user where username like ? or firstname like ? or lastname like ? and userid != ?";
                 pstmt = con.getConnection().prepareStatement(sql);
-                pstmt.setString(1, "%" + firstName + "%");
-                pstmt.setString(2, "%" + lastName + "%");
+                pstmt.setString(1, "%" + name + "%");
+                pstmt.setString(2, "%" + name + "%");
+                pstmt.setString(3, "%" + name + "%");
+                pstmt.setInt(4, userid);
+
                 rs = con.customQuery(pstmt);
 
                 while (rs.next()) {
 
                     User user = new User();
 
-                    user.setUsername(rs.getString("userid"));
+                    user.setUserid(rs.getInt("userid"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                     user.setEmail(rs.getString("email"));
@@ -457,13 +460,6 @@ public class UserDAOImpl implements UserDAO {
         return retval;
     }
 
-   
-    
-   
-
-    
-
-    
     @Override
     public User isValidUser(String username, String password) throws SQLException {
         PreparedStatement pstmt = null;

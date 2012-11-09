@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<world>
+    <country id="1" name="India"></country>
+    <country id="2" name="Pakistan"></country>
+    <country id="3" name="Sri Lanka"></country>
+    <country id="4" name="Kenya"></country>
+    <country id="5" name="UK"></country>
+    <country id="6" name="USA"></country>
+    <country id="7" name="China"></country>
+</world>

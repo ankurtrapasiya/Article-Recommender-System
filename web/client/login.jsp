@@ -15,24 +15,16 @@ Author     : ankur
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
             <!--STYLESHEETS-->
-            <link href="client/css/login.css" rel="stylesheet" type="text/css" />
-            <link href="client/css/nivo-slider.css" rel="stylesheet" type="text/css" />
-
-
-
-            <!--SCRIPTS-->
-            <script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
+            <link href="css/client/login.css" rel="stylesheet" type="text/css" />
+            <link href="css/client/nivo-slider.css" rel="stylesheet" type="text/css" />
 
             <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-            <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js/jquery-1.8.2.min.js"><\/script>');</script>
+            <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="./js/jquery-1.8.2.min.js"><\/script>');</script>
 
 
             <!--Slider-in icons-->
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $(window).load(function() {
-                        $('#slider').carousel();
-                    });
                     $(".username").focus(function() {
                         $(".user-icon").css("left","-48px");
                     });
@@ -53,16 +45,9 @@ Author     : ankur
         </head>
         <body>
 
-            <div class="slider-wrapper theme-default">
-                <div id="slider" class="nivoSlider">
-                    <img src="images/img_vs/toystory.png" data-thumb="images/img_vs/toystory.jpg" alt="" />
-                    <a href="#"><img src="images/img_vs/up.jpg" data-thumb="images/img_vs/up.jpg" alt="" title="This is an example of a caption" /></a>
-                    <img src="images/img_vs/walle.jpg" data-thumb="images/img_vs/walle.jpg" alt="" data-transition="slideInLeft" />
-                    <img src="images/img_vs/nemo.jpg" data-thumb="images/img_vs/nemo.jpg" alt="" title="#htmlcaption" />
-                </div>
-
+            <div id="image">
+                <img src="./images/surprise.jpg"/>
             </div>
-
 
             <!--WRAPPER-->
             <div id="wrapper">
@@ -83,8 +68,9 @@ Author     : ankur
 
                     <!--CONTENT-->
                     <div class="content">
-                        <!--USERNAME--><input name="username" type="text" class="input username" value="Username" onfocus="this.value=''" /><!--END USERNAME-->
-                        <!--PASSWORD--><input name="password" type="password" class="input password" value="Password" onfocus="this.value=''" /><!--END PASSWORD-->
+                        <!--USERNAME--><input name="username" type="text" class="input username" value="Username" onfocus="this.value=''" placeholder="Username...."/><!--END USERNAME-->
+                        <!--PASSWORD--><input name="password" type="password" class="input password" value="Password" onfocus="this.value=''" placeholder="Password...."/><!--END PASSWORD--><br/><br/>
+                        <!--forgot password--><a href="#">Forgot password</a>
                     </div>
                     <!--END CONTENT-->
 

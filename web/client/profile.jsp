@@ -3,120 +3,94 @@
     Created on : 27 Oct, 2012, 7:07:47 AM
     Author     : rinku
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib  prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
-    <head
-        <meta charset="utf-8">
-        <title>surprise.me</title>
-        <link media="all" rel="stylesheet" type="text/css" href="client/css/style.css" />        
-        <script src="js/jquery.main.js" type="text/javascript"></script>
-        <link rel="shortcut icon" href="images/webico.ico">
+    <head>
+        <meta charset="utf-8" />
+        <title>jQuery UI Datepicker - Default functionality</title>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+        <script src="../js/jquery-1.8.2.min.js"></script>
+        <script src="../js/jquery-ui.js"></script>
+        <link href="css/profile.css" rel="stylesheet" type="text/css"/>
+        <script>
+            $(function() {
+                $("#datepicker").datepicker();
+            });
+            $(function() {
+                $( "#tabs" ).tabs();
+            });
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.8.2.min.js"><\/script>')</script>
-        <script type="text/javascript">
-        $(document).ready(function(e)
-        {
-         $("#btnEdit").submit(function(e) 
-         {       var btn=$("#btnEdit").val();  
-                $.post("../UserProfileServlet",function(data){
-                      alert("Updation done Successfully");
-                });
-                
-         });  
-          e.preventDefault();
-        });  
         </script>
 
+
+
     </head>
-    <body>
-        <form name="form" method="post">
-        <div id="wrapper">
-            <div id="content">
-                <div class="c1">
-                    <div class="controls">
-                        <nav class="links">
-                            <ul>
-                                <li><a href="client/suggestions.jsp" class="ico1">Suggestions <span class="num">26</span></a></li>
-                                <li><a href="client/notifications.jsp" class="ico2">Notifications <span class="num">5</span></a></li>
-                                <li><a href="client/popular.jsp" class="ico3">Popular <span class="num">3</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="profile-box">
-                            <span class="profile">
-                                <a href="Logout" class="section">
-                                    <img class="image" src="images/user.png" width="26" height="26" />
-                                    <span class="text-box">
-                                        Welcome
-                                        <strong class="name">Rinku</strong>
-                                    </span>
-                                </a>
-                                <a href="#" class="opener">opener</a>
-                            </span>
-                            <a href="#" class="btn-on">On</a>
-                        </div>
-                    </div>
-                    <div class="tabs">
-                        <div id="tab-1" class="tab">
-                            <article>
-                                <div class="text-section">
-                                    <h1>Profile Page<h1>
-                                            <p>     
-                                               <c:if test="${requestScope.status eq 'true'}"> 
-                                                <div>  User Id  </div> <div>  <input type=text name=id id="id" value=${user.userid}></div>
-	                                        <div>  First name</div> <div>  <input type="text" name="Fname" value=${user.firstname}></div>
-                                                <div>  Last name</div> <div>   <input type="text" name="Lname" value=${user.lastname}></div>
-	                                        <div>  Email ID </div> <div>   <input type="text" name="Email" value=${user.email}></div>
-	                                        <div>  DOB    </div> <div>     <input type="text" name="Dob" value=${user.dob}></div>
-	                                        <div>  City    </div> <div>    <input type="text" name="City" value=${user.city}></div>
-	                                        <div>  State   </div> <div>    <input type="text" name="State" value=${user.state}></div>
-	                                        <div>  Country </div> <div>    <input type="text" name="Country" value=${user.country}></div>
-                                                <div>  <input type="submit" value='Edit' name="btnEdit" /></div>
-                                               </c:if>
-                                            </p> 
-                                  </div>
-                                <ul class="states">
-                                    <li class="error">Error : This is an error placed text message.</li>
-                                    <li class="warning">Warning: This is a warning placed text message.</li>
-                                    <li class="succes">Succes : This is a succes placed text message.</li>
-                                </ul>
-                            </article>
-                        </div>                   
-                    </div>
-                </div>
+    <body class='default'>
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Profile</a></li>
+                <li><a href="#tabs-2">Change Password</a></li>
+
+            </ul>
+            <div id="tabs-1">
+                <form id="myform">
+                    <h3>Username</h3><input type="text" required="required" id="username"/>
+                    <h3>First Name</h3><input type="text" required="required" id="firstname"/>
+                    <h3>Last Name</h3><input type="text" required="required" id="lastname"/>
+                    <h3>Email</h3><input type="email" required="required" id="email"/>
+                    <h3>Add Image to Profile</h3>
+                    <input type="file" id="upload" name="upload"/>
+                    <h3>Date of Birth</h3>
+                    <input type="text" id="datepicker" /><br/>
+                    
+                    <c:import url="../xml/country.xml" var="document"/>
+                    <x:parse doc="${document}" var="myXml"></x:parse>
+                    <h3>Country</h3>
+                    <select id="country">
+                        <option value="0">--Select--</option>
+                        <x:forEach select="$myXml/world/country" var="var">
+                            <option value="<x:out select="@id"></x:out>"> <x:out select="@name"></x:out></option>
+                        </x:forEach>
+                    </select>
+                    
+                    <c:import url="../xml/state.xml" var="document"/>
+                    <x:parse doc="${document}" var="myXml"></x:parse>
+                    <h3>State</h3>
+                    <select id="state">
+                        <option value="0">--Select--</option>
+                        <x:forEach select="$myXml/country/state" var="var">
+                            <option value="<x:out select="@id"></x:out>"> <x:out select="@name"></x:out></option>
+                        </x:forEach>
+                    </select>
+                    
+                    <c:import url="../xml/city.xml" var="document"/>
+                    <x:parse doc="${document}" var="myXml"></x:parse>
+                    <h3>City</h3>
+                    <select id="city">
+                        <option value="0">--Select--</option>
+                        <x:forEach select="$myXml/state/city" var="var">
+                            <option value="<x:out select="@id"></x:out>"> <x:out select="@name"></x:out></option>
+                        </x:forEach>
+                    </select>
+                    <button type="submit" id="submit" name="submit" value="submit" class="bton">Submit</input>
+                </form>
             </div>
-            <aside id="sidebar">
-                <strong class="logo"><a href="#">lg</a></strong>
-                <ul class="tabset buttons">
-                    <li class="active">
-                        <a href="client/index.jsp" class="ico1"><span>Home</span><em></em></a>
-                        <span class="tooltip"><span>Dashboard</span></span>
-                    </li>
-                    <li>
-                        <a href="/UserProfileServlet.java" class="ico2"><span>Profile</span><em></em></a>
-                        <span class="tooltip"><span>Profile</span></span>
-                    </li>                
-                    <li>
-                        <a href="client/interests.jsp" class="ico3"><span>Interests</span><em></em></a>
-                        <span class="tooltip"><span>Interests</span></span>
-                    </li>   
-                    <li>
-                        <a href="client/favourites.jsp" class="ico4"><span>Favourites</span><em></em></a>
-                        <span class="tooltip"><span>Favourites</span></span>
-                    </li>  
-                    <li>
-                        <a href="client/history.jsp" class="ico5"><span>History</span><em></em></a>
-                        <span class="tooltip"><span>History</span></span>
-                    </li>  
-                </ul>
-                <span class="shadow"></span>
-            </aside>
+            <div id="tabs-2">
+                <form>
+                    <h3>Current Password</h3><input type="password" required="required" id="current"/>
+                    <h3>New Password</h3><input type="password" required="required" id="newpass"/>
+                    <h3>Confirm Passwordd</h3><input type="password" required="required" id="confirmpass"/><br/>
+                    <button type="submit" id="submit" name="submit" value="submit" class="bton">Save</input>
+                </form>
+            </div>
+
         </div>
-        </form>
     </body>
+</body>
 </html>
 
 

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface UserDAO extends GenericDAO<User, Integer> {
            
-    List<User> searchUser(String firstName, String lastName, String email) throws SQLException;
+    List<User> searchUser(String name, Integer userid) throws SQLException;
 
     User findByUsername(String username) throws SQLException;
 

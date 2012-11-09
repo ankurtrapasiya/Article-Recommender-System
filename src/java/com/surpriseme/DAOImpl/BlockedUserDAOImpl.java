@@ -78,8 +78,6 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
                 cstmt.setInt("p_blockerid", entity.getBlockerid());
                 cstmt.setTimestamp("p_timestamp", entity.getTimestamp());
                 cstmt.setString("p_reason", entity.getReason());
-
-                // has to be true
                 cstmt.setBoolean("p_isactive", entity.isIsActive());
 
                 rs = con.saveOrUpdate(cstmt);
@@ -109,7 +107,7 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_blockedusers(?,?,?,?,?)}");
 
                 Timestamp stamp = new Timestamp(new Date().getTime());
 
@@ -117,9 +115,9 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
                 cstmt.setInt("p_blockerid", blockerid);
                 cstmt.setTimestamp("p_timestamp", new java.sql.Timestamp(stamp.getTime()));
                 cstmt.setString("p_reason", "");
-                cstmt.setBoolean("p_isactive", false);
+                cstmt.setBoolean("p_isactive", true);
 
-                rs = con.customQuery(cstmt);
+                rs = con.saveOrUpdate(cstmt);
 
             }
 
@@ -170,7 +168,7 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
 
     @Override
     public List<BlockedUsers> getBlockedUsers() throws SQLException {
-        List<BlockedUsers> retval = null;
+        List<BlockedUsers> retval = new ArrayList<BlockedUsers>();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
 
@@ -180,9 +178,9 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
 
             if (con.connect()) {
 
-                String sql = "select * from blockedusers where isactive=?";
+                String sql = "select * from blockedusers";
                 pstmt = con.getConnection().prepareStatement(sql);
-                pstmt.setBoolean(1, true);
+                //pstmt.setBoolean(1, false);
 
                 rs = con.customQuery(pstmt);
 

@@ -8,19 +8,21 @@ import com.surpriseme.DAO.ArticleDAO;
 import com.surpriseme.DAO.ArticleLinksDAO;
 import com.surpriseme.DAO.ArticleTagDAO;
 import com.surpriseme.DAO.FavouritesDAO;
+import com.surpriseme.DAO.UserGraphDAO;
 import com.surpriseme.DAO.UserInterestDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.ArticleLinksDAOImpl;
 import com.surpriseme.DAOImpl.ArticleTagDAOImpl;
 import com.surpriseme.DAOImpl.FavouritesDAOImpl;
 import com.surpriseme.DAOImpl.HistoryDAOImpl;
-import com.surpriseme.DAOImpl.SourceDAOImpl;
+import com.surpriseme.DAOImpl.UserGraphDAOImpl;
 import com.surpriseme.DAOImpl.UserInterestDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.ArticleLinks;
 import com.surpriseme.entities.Favourites;
 import com.surpriseme.entities.Interest;
 import com.surpriseme.entities.Tag;
+import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserHistory;
 import com.surpriseme.helper.FavouritesPK;
 import com.surpriseme.helper.UserHistoryPK;
@@ -43,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import sun.text.normalizer.CharTrie;
 
 /**
  *
@@ -81,7 +84,6 @@ public class ArticleController extends HttpServlet {
             userId = 1;
             if (req.getParameter("freq") != null) {
                 try {
-                    System.out.println(new UserInterestDAOImpl().getUserInterests(userId, true));
                     intereseId = new UserInterestDAOImpl().getUserInterests(userId, true).get(0).getInterestid();
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
@@ -300,11 +302,11 @@ public class ArticleController extends HttpServlet {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("suggest")) {
-                /*try {
-                 articleDao.suggestArticle(userId, friendId, articleId);
-                 } catch (SQLException ex) {
-                 Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
-                 }*/
+               /* try {
+                    articleDao.suggestArticle(userId, friendId, articleId);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }*/
             } else if (action.equals("addtofavourites")) {
                 try {
 
