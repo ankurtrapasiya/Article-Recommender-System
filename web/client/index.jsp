@@ -42,7 +42,7 @@
             });
             
             $("#history").click(function(){                
-                $.get("history.jsp",function(data){
+                $.get("UserHistoryDisp",function(data){
                     $("#main").html(data);
                 },"html");
             });                           

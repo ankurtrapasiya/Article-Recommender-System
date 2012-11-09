@@ -33,7 +33,7 @@ public class HistoryDAOImpl implements UserHistoryDAO {
 
     @Override
     public List<UserHistory> getAllHistory(Integer userid) throws SQLException {
-        List<UserHistory> retval = null;
+        List<UserHistory> retval = new ArrayList<UserHistory>();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
 
@@ -360,7 +360,7 @@ public class HistoryDAOImpl implements UserHistoryDAO {
 
                 cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_userhistory(?,?)}");
                 cstmt.setInt(1, key.getUserid());
-                cstmt.setInt(1, key.getArticleid());
+                cstmt.setInt(2, key.getArticleid());
 
                 con.customQuery(cstmt);
 
