@@ -119,6 +119,10 @@
         <servlet-name>UserGraphController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserGraphController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetAllFriends</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.GetAllFriends</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -222,6 +226,10 @@
     <servlet-mapping>
         <servlet-name>UserGraphController</servlet-name>
         <url-pattern>/UserGraphController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAllFriends</servlet-name>
+        <url-pattern>/client/GetAllFriends</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

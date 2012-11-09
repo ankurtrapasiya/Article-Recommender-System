@@ -209,25 +209,32 @@ public class ArticleController extends HttpServlet {
 
         JSONArray jArr = new JSONArray();
         JSONObject jObj = null;
-
-        Integer articleId = Integer.parseInt(req.getParameter("articleid"));
-        //Integer userId = Integer.parseInt(req.getParameter("userId"));
-        Integer userId = 1;
-        // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
-        boolean flag = true;
-
-
         String action = req.getParameter("action");
         ArticleDAOImpl articleDao = new ArticleDAOImpl();
         HistoryDAOImpl historyDao = new HistoryDAOImpl();
         UserHistory history = null;
+        Integer articleId = null;
+        Integer userId = 1;
 
-
-        try {
-            history = historyDao.findById(new UserHistoryPK(userId, articleId));
-        } catch (SQLException ex) {
-            Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+        if (req.getParameter("userId") != null) {
+            userId = Integer.parseInt(req.getParameter("userId"));
         }
+        // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
+
+        if (req.getParameter("articleid") != null) {
+            articleId = Integer.parseInt(req.getParameter("articleid"));
+
+            try {
+                history = historyDao.findById(new UserHistoryPK(userId, articleId));
+            } catch (SQLException ex) {
+                Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        //Integer userId = Integer.parseInt(req.getParameter("userId"));
+        //Integer userId = 1;
+        // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
+        boolean flag = true;
 
         Article article = null;
 
@@ -302,11 +309,11 @@ public class ArticleController extends HttpServlet {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("suggest")) {
-               /* try {
-                    articleDao.suggestArticle(userId, friendId, articleId);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                /* try {
+                 articleDao.suggestArticle(userId, friendId, articleId);
+                 } catch (SQLException ex) {
+                 Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                 }*/
             } else if (action.equals("addtofavourites")) {
                 try {
 
@@ -361,13 +368,39 @@ public class ArticleController extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-        }
-        jObj = new JSONObject();
-        jObj.put("content", jArr);
+            } else if (action.equals("givemefriends")) {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().println(jObj);
+
+                UserGraphDAO userGraphDao = new UserGraphDAOImpl();
+                List<User> friends = null;
+                try {
+                    //friends = userGraphDao.getAllFriends(u.getUserid());
+                    friends = userGraphDao.getAllFriends(1);
+                } catch (SQLException ex) {
+                }
+
+                if (friends != null) {
+                    Iterator<User> iterator = friends.iterator();
+
+                    while (iterator.hasNext()) {
+                        User user = iterator.next();
+                        jObj = new JSONObject();
+
+                        jObj.put("id", user.getUserid());
+                        jObj.put("name", user.getFirstname() + " " + user.getLastname());
+
+                        jArr.add(jObj);
+
+                    }
+
+                }
+            }
+            jObj = new JSONObject();
+            jObj.put("content", jArr);
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().println(jObj);
+        }        
     }
 }

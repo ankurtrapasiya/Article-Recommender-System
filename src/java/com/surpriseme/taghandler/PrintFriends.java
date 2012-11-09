@@ -59,8 +59,8 @@ public class PrintFriends extends SimpleTagSupport {
                 User user = iterator.next();
                 jObj = new JSONObject();
 
+                jObj.put("id", user.getUserid());
                 jObj.put("name", user.getFirstname() + " " + user.getLastname());
-                jObj.put("userid", user.getUserid());
 
                 jArr.add(jObj);
 
