@@ -43,11 +43,11 @@ public class InterestDAOImpl implements InterestDAO {
 
                 if (entity.getInterestid() != null) {
 
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_interest(?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_interest(?,?,?,?,?)}");
                     cstmt.setInt("p_interestid", entity.getInterestid());
 
                 } else {
-                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_interest(?,?,?,?,?)}");
+                    cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_interest(?,?,?,?)}");
                 }
 
 

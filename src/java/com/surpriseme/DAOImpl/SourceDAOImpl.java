@@ -224,11 +224,13 @@ public class SourceDAOImpl implements SourceDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_source(?)}");
+                //cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_del_source(?)}");
 
-                cstmt.setInt(1, key);
-
-                rs = con.customQuery(cstmt);
+                //cstmt.setInt(1, key);
+                String sql="Delete from interestsources where sourceid="+key;
+                con.executeQuery(sql);
+                sql="Delete from source where sourceid="+key;
+                con.executeQuery(sql);
 
             }
 
@@ -315,6 +317,51 @@ public class SourceDAOImpl implements SourceDAO {
                     source.setIsactive(rs.getBoolean("isactive"));
 
                     retval = source;
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+
+    }
+    
+     public List<Source> findFeedUrlBySource(String key) throws SQLException {
+        List<Source> retval = new ArrayList<Source>();
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                String sql = "select * from source where name= ?";
+                pstmt = con.getConnection().prepareStatement(sql);
+                pstmt.setString(1, key);
+
+                rs = con.customQuery(pstmt);
+
+                while (rs.next()) {
+
+                    Source source = new Source();
+
+                    source.setSourceid(rs.getInt("sourceid"));
+                    source.setName(rs.getString("name"));
+                    source.setUrl(rs.getString("url"));
+                    source.setFeedurl(rs.getString("feedurl"));
+                    source.setIcon(rs.getString("icon"));
+                    source.setIsactive(rs.getBoolean("isactive"));
+
+                    retval.add(source);
                 }
 
             }

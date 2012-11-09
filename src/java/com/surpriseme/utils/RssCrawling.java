@@ -41,13 +41,14 @@ import org.apache.log4j.Priority;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+
 /**
  *
  * @author udit
  */
 public class RssCrawling {
 
-    CallableStatement cstmt;
+  CallableStatement cstmt;
     DBConnection con;
     ArrayList<Tag> tags;
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
@@ -93,7 +94,7 @@ public class RssCrawling {
                 for (SyndCategoryImpl category : (List<SyndCategoryImpl>) entry.getCategories()) {
                     tag = new Tag();
                     tag.setName(category.getName().toLowerCase());
-                    tag.setIcon("");
+                    tag.setIcon("icn_tags.png");
                     tag.setDescription("");
                     tags.add(tag);
 

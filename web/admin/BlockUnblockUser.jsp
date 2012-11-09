@@ -12,20 +12,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-    
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Block Unblock User</title>
-         <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
-
+        <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/datatable.css" type="text/css" media="screen" />
         <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
         <script src="../js/hideshow.js" type="text/javascript"></script>
+        <script src="../js/jquery.dataTables.nightly.js" type="text/javascript"></script>
         <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
         <script type="text/javascript">
             $(document).ready(function() 
             { 
-                $(".tablesorter").tablesorter(); 
+                $(".tablesorter").tablesorter();
+                
+                $('#request').dataTable({});
+                $('#block').dataTable({});
+	
             } 
+            
         );
             $(document).ready(function() {
 
@@ -45,6 +51,18 @@
                     $(activeTab).fadeIn(); //Fade in the active ID content
                     return false;
                 });
+                           $("#edit_article").click(function(){                
+                    $.get("editarticle.jsp",function(data){
+                        $("#main").html(data);
+                    });
+                });
+                 $("#manage_crawling").click(function(){                
+                    $.get("managecrawling.jsp",function(data){
+                        $("#main").html(data);
+                    });
+                });
+                 
+                
 
             });
         </script>
@@ -53,19 +71,22 @@
                 $('.column').equalHeight();
             });
         </script>
+
     </head>
+
+
     <body>
-     
-         <header id="header">
+
+        <header id="header">
             <hgroup>
-                <h1 class="site_title"><a href="index.html">Website Admin</a></h1>
-                <h2 class="section_title">Dashboard</h2><div class="btn_view_site"><a href="http://www.medialoot.com">View Site</a></div>
+                <h1 class="site_title"><a href="index.html">Surpriseme</a></h1>
+                <h2 class="section_title">Dashboard</h2>
             </hgroup>
         </header> <!-- end of header bar -->
 
         <section id="secondary_bar">
             <div class="user">
-                <p>John Doe (<a href="#">3 Messages</a>)</p>
+                <p>Udit (<a href="#">3 Messages</a>)</p>
                 <!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
             </div>
             <div class="breadcrumbs_container">
@@ -78,59 +99,54 @@
                 <input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
             </form>
             <hr/>
-            <h3>Content</h3>
-            <ul class="toggle">
-                <li class="icn_new_article"><a href="#">New Article</a></li>
-                <li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-                <li class="icn_categories"><a href="#">Categories</a></li>
-                <li class="icn_tags"><a href="#">Tags</a></li>
-            </ul>
             <h3>Users</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a href="#">Add New User</a></li>
-              <li class="icn_block_user"><a href="../BlockUnblockUserServlet">Block Users</a></li>
-                <li class="icn_view_users"><a href="#">View Users</a></li>
-                <li class="icn_profile"><a href="#">Your Profile</a></li>
+                <li class="icn_add_user"><a id="blockuser" href="BlockUnblockUserServlet">Block User</a></li>
             </ul>
-            <h3>Media</h3>
+            <h3>Article</h3>
             <ul class="toggle">
-                <li class="icn_folder"><a href="#">File Manager</a></li>
-                <li class="icn_photo"><a href="#">Gallery</a></li>
-                <li class="icn_audio"><a href="#">Audio</a></li>
-                <li class="icn_video"><a href="#">Video</a></li>
+                <li class="icn_edit_article"><a id="edit_article" href="#">Edit Articles</a></li>
+                <li class="icn_tags"><a id="manage_tags" href="tagAddUpdateDeleteServlet">Manage Tags</a></li>
             </ul>
-            <h3>Admin</h3>
+            <h3>Interests</h3>
             <ul class="toggle">
-                <li class="icn_settings"><a href="#">Options</a></li>
-                <li class="icn_security"><a href="#">Security</a></li>
+                <li class="icn_new_article"><a href="InterestController">Manage Interest</a></li>
+            </ul>
+            <h3>Sources</h3>
+            <ul class="toggle">
+                <li class="icn_folder"><a href="SourceController">Manage Sources</a></li>
+                </ul>
+            <h3>Schedule</h3>
+            <ul class="toggle">
+                <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
+            </ul>
+            <ul>
                 <li class="icn_jump_back"><a href="#">Logout</a></li>
             </ul>
 
             <footer>
                 <hr />
-                <p><strong>Copyright &copy; 2011 Website Admin</strong></p>
-                <p>Theme by <a href="http://www.medialoot.com">MediaLoot</a></p>
+                <p><strong>Copyright &copy; 2012 Website Admin</strong></p>
             </footer>
         </aside><!-- end of sidebar -->
-
         <section id="main" class="column">
 
             <article class="module width_full">    
-              <header><h3 class="tabs_involved">Block \ Unblock Users</h3>
+                <header><h3 class="tabs_involved">Block \ Unblock Users</h3>
                     <ul class="tabs">
                         <li><a href="#tab1">Request</a></li>
                         <li><a href="#tab2">Blocked</a></li>
                     </ul>
                 </header>
-                
-                
+
+
                 <div class="tab_container">
-                   
+
                     <div id="tab1" class="tab_content">
-                        <table class="tablesorter" cellspacing="0"> 
+                        <table class="tablesorter" cellspacing="0" id="request"> 
                             <thead> 
                                 <tr> 
-                                    
+
                                     <th>User Name</th> 
                                     <th>Blocker Name</th> 
                                     <th>Requested On</th> 
@@ -138,34 +154,34 @@
                                     <th>Action</th>
                                 </tr> 
                             </thead> 
-                            
+
                             <tbody>
-                                 <c:forEach var="bloc" items="${sessionScope.data}">
-                                     <c:if test="${bloc.bu.isActive}">
-                                <tr> 
-                                   
-                                    <td><c:out value="${bloc.user}"/></td> 
-                                    <td><c:out value="${bloc.blocker}"/> </td> 
-                                   <td><c:out value="${bloc.bu.timestamp}"/></td> 
-                                    <td><c:out value="${bloc.bu.reason}"/> </td>
-                                    <td><form action="../BlockUnblockUserServlet" method="post">
-                                            <input type="hidden" name="userid" value="<c:out value="${bloc.bu.userid}"/>">
-                                            <input type="hidden" name="blockerid" value="<c:out value="${bloc.bu.blockerid}"/>">
-                                            <input type="submit" title="Block" name="toggle" value="Block"></form></td> 
-                                
-                                   </tr> 
-                                   </c:if>
-                                 </c:forEach>
-                                
+                                <c:forEach var="bloc" items="${sessionScope.data}">
+                                    <c:if test="${bloc.bu.isActive}">
+                                        <tr> 
+
+                                            <td><c:out value="${bloc.user}"/></td> 
+                                            <td><c:out value="${bloc.blocker}"/> </td> 
+                                            <td><c:out value="${bloc.bu.timestamp}"/></td> 
+                                            <td><c:out value="${bloc.bu.reason}"/> </td>
+                                            <td><form action="BlockUnblockUserServlet" method="post">
+                                                    <input type="hidden" name="userid" value="<c:out value="${bloc.bu.userid}"/>">
+                                                    <input type="hidden" name="blockerid" value="<c:out value="${bloc.bu.blockerid}"/>">
+                                                    <input type="submit" title="Block" name="toggle" value="Block"></form></td> 
+
+                                        </tr> 
+                                    </c:if>
+                                </c:forEach>
+
                             </tbody> 
                         </table>
                     </div><!-- end of #tab1 -->
 
                     <div id="tab2" class="tab_content">
-                        <table class="tablesorter" cellspacing="0"> 
+                        <table class="tablesorter" cellspacing="0" id="block"> 
                             <thead> 
                                 <tr> 
-                                     <th>User Name</th> 
+                                    <th>User Name</th> 
                                     <th>Blocker Name</th> 
                                     <th>Blocked On</th> 
                                     <th>Reason</th>
@@ -173,35 +189,35 @@
                                 </tr> 
                             </thead> 
                             <tbody> 
-                                 <c:forEach var="bloc" items="${sessionScope.data}">
+                                <c:forEach var="bloc" items="${sessionScope.data}">
                                     <c:if test="${!bloc.bu.isActive}">
-                                <tr> 
-                                   
-                                    <td><c:out value="${bloc.user}"/></td> 
-                                    <td><c:out value="${bloc.blocker}"/> </td> 
-                                   <td><c:out value="${bloc.bu.timestamp}"/></td> 
-                                    <td><c:out value="${bloc.bu.reason}"/> </td>
-                                    <td><form action="../BlockUnblockUserServlet" method="post">
-                                            <input type="hidden" name="userid" value="<c:out value="${bloc.bu.userid}"/>">
-                                            <input type="hidden" name="blockerid" value="<c:out value="${bloc.bu.blockerid}"/>">
-                                            <input type="submit" title="UnBlock" name="toggle" value="Unblock"></form></td> 
-                                
-                                   </tr> 
-                                   </c:if>
-                                 </c:forEach>
+                                        <tr> 
+
+                                            <td><c:out value="${bloc.user}"/></td> 
+                                            <td><c:out value="${bloc.blocker}"/> </td> 
+                                            <td><c:out value="${bloc.bu.timestamp}"/></td> 
+                                            <td><c:out value="${bloc.bu.reason}"/> </td>
+                                            <td><form action="BlockUnblockUserServlet" method="post">
+                                                    <input type="hidden" name="userid" value="<c:out value="${bloc.bu.userid}"/>">
+                                                    <input type="hidden" name="blockerid" value="<c:out value="${bloc.bu.blockerid}"/>">
+                                                    <input type="submit" title="UnBlock" name="toggle" value="Unblock"></form></td> 
+
+                                        </tr> 
+                                    </c:if>
+                                </c:forEach>
                             </tbody> 
                         </table>
 
                     </div><!-- end of #tab2 -->
-                   
+
                 </div><!-- end of .tab_container -->
-            
+
             </article><!-- end of article -->
-           
+
         </section>
 
 
-        
-        
+
+
     </body>
 </html>

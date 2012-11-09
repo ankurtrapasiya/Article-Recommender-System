@@ -116,7 +116,7 @@ public class BlockUnblockUserServlet extends HttpServlet {
         //RequestDispatcher rd = request.getReqat com.surpriseme.adminCotrollers.BlockUnblockUserServlet.doGet(BlockUnblockUserServlet.java:81)uestDispatcher("admin/BlockUnblockUser.jsp");
         //rd.forward(request, response);
 
-        response.sendRedirect("admin/BlockUnblockUser.jsp");
+        response.sendRedirect("BlockUnblockUser.jsp");
 
 
     }

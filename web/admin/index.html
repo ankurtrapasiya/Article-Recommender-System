@@ -35,6 +35,19 @@
                     $(activeTab).fadeIn(); //Fade in the active ID content
                     return false;
                 });
+                //Sidebar clicks
+                 $("#edit_article").click(function(){                
+                    $.get("editarticle.jsp",function(data){
+                        $("#main").html(data);
+                    });
+                });
+                 $("#manage_crawling").click(function(){                
+                    $.get("managecrawling.jsp",function(data){
+                        $("#main").html(data);
+                    });
+                });
+                 
+                
 
             });
         </script>
@@ -73,33 +86,32 @@
             <hr/>
             <h3>Users</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a href="#">Block User</a></li>
+                <li class="icn_add_user"><a id="blockuser" href="BlockUnblockUserServlet">Block User</a></li>
             </ul>
             <h3>Article</h3>
             <ul class="toggle">
-                <li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-                <li class="icn_tags"><a href="#">Manage Tags</a></li>
+                <li class="icn_edit_article"><a id="edit_article" href="#">Edit Articles</a></li>
+                <li class="icn_tags"><a id="manage_tags" href="tagAddUpdateDeleteServlet">Manage Tags</a></li>
             </ul>
             <h3>Interests</h3>
             <ul class="toggle">
-                <li class="icn_new_article"><a href="#">Manage Interest</a></li>
+                <li class="icn_new_article"><a href="InterestController">Manage Interest</a></li>
             </ul>
             <h3>Sources</h3>
             <ul class="toggle">
-                <li class="icn_folder"><a href="#">Manage Sources</a></li>
+                <li class="icn_folder"><a href="SourceController">Manage Sources</a></li>
                 </ul>
             <h3>Schedule</h3>
             <ul class="toggle">
-                <li class="icn_settings"><a href="#">Manage Crawling</a></li>
+                <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
             </ul>
             <ul>
-                <li class="icn_jump_back"><a href="#">Logout</a></li>
+                <li class="icn_jump_back"><a href="LogoutServlet">Logout</a></li>
             </ul>
 
             <footer>
                 <hr />
-                <p><strong>Copyright &copy; 2011 Website Admin</strong></p>
-                <p>Theme by <a href="http://www.medialoot.com">MediaLoot</a></p>
+                <p><strong>Copyright &copy; 2012 Website Admin</strong></p>
             </footer>
         </aside><!-- end of sidebar -->
 
