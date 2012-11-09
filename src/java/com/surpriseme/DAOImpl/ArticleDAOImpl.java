@@ -418,4 +418,50 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         return retval;
     }
+    
+    public List<Article> getRelevantArticles(String keyword) throws SQLException {
+        List<Article> retval = new ArrayList<Article>();
+        ResultSet rs = null;
+        
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call getSearchArticles(?)}");
+                cstmt.setString(1, keyword);
+                rs = con.customQuery(cstmt);
+
+                while (rs.next()) {
+
+                    Article article = new Article();
+
+                    article.setArticleid(rs.getInt("articleid"));
+                    article.setTitle(rs.getString("title"));
+                    article.setBody(rs.getString("body"));
+                    article.setUpvote(rs.getInt("upvote"));
+                    article.setDownvote(rs.getInt("downvote"));
+                    article.setViewed(rs.getInt("viewed"));
+                    //article.setTimestamp(rs.getTimestamp("timestamp"));
+                    //article.setPopularityscore(rs.getFloat("popularityscore"));
+                    //article.setPublicationdate(rs.getTimestamp("publicationdate"));
+
+                    retval.add(article);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
+
+    
 }

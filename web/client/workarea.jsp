@@ -426,42 +426,44 @@
                 
                 $(".modalbox").fancybox();
                 $("#suggestionform").submit(function() { return false; });
-//                                
-//                $("#send").on("click", function(){
-//                    var msgval  = $("#demo-input-local").val();
-//                    var msglen    = msgval.length;			
-//			
-//                    alert(msgval);
-//                        
-//                    if(msglen <= 0) {
-//                        $("#demo-input-local").addClass("error");
-//                    }
-//                    else
-//                    {
-//                        $("#demo-input-local").removeClass("error");        
-//                    }
-//                            
-//			
-//                    if(msglen >= 4) {
-//                        // if both validate we attempt to send the e-mail
-//                        // first we hide the submit btn so the user doesnt click twice
-//                        $("#send").replaceWith("<em>sending...</em>");
-//				
-//                        $.ajax({
-//                            type: 'POST',
-//                            url: 'ArticleController?suggest',
-//                            data: $("#contact").serialize(),
-//                            success: function(data) {
-//                                if(data == "true") {
-//                                    $("#contact").fadeOut("fast", function(){
-//                                        $(this).before("<p><strong>Success! Your feedback has been sent, thanks :)</strong></p>");
-//                                        setTimeout("$.fancybox.close()", 1000);
-//                                    });
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
+                                
+                $("#send").on("click", function(){
+                    
+                    alert($(this).siblings("input[type=text]").val());
+                    var msgval  = $("#demo-input-local").val();
+                    var msglen    = msgval.length;			
+			
+                    alert(msgval);
+                        
+                    if(msglen <= 0) {
+                        $("#demo-input-local").addClass("error");
+                    }
+                    else
+                    {
+                        $("#demo-input-local").removeClass("error");        
+                    }
+                            
+			
+                    if(msglen >= 4) {
+                        // if both validate we attempt to send the e-mail
+                        // first we hide the submit btn so the user doesnt click twice
+                        $("#send").replaceWith("<em>sending...</em>");
+				
+                        $.ajax({
+                            type: 'POST',
+                            url: 'ArticleController?suggest',
+                            data: $("#contact").serialize(),
+                            success: function(data) {
+                                if(data == "true") {
+                                    $("#contact").fadeOut("fast", function(){
+                                        $(this).before("<p><strong>Success! Your feedback has been sent, thanks :)</strong></p>");
+                                        setTimeout("$.fancybox.close()", 1000);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
 
             })();
         </script>        

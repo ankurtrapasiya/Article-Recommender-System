@@ -131,6 +131,14 @@
         <servlet-name>UserHistoryDel</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserHistoryDel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.Search</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PrintArticle</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.PrintArticle</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
         <url-pattern>/Interest</url-pattern>
@@ -246,6 +254,14 @@
     <servlet-mapping>
         <servlet-name>UserHistoryDel</servlet-name>
         <url-pattern>/client/UserHistoryDel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrintArticle</servlet-name>
+        <url-pattern>/PrintArticle</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
