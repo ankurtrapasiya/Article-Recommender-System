@@ -385,7 +385,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Search</servlet-name>
-        <url-pattern>/Search</url-pattern>
+        <url-pattern>/client/Search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PrintArticle</servlet-name>

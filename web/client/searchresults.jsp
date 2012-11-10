@@ -1,6 +1,6 @@
 <%-- 
-    Document   : searchresults
-    Created on : Nov 9, 2012, 10:57:34 AM
+    Document   : demo
+    Created on : Nov 10, 2012, 3:16:35 AM
     Author     : Harmish
 --%>
 
@@ -10,138 +10,122 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script src="../js/jquery-1.8.2.min.js"></script>
+        <script src="../js/jquery-ui.js"></script>
+        
+        
+        
+        <style>
+            #workarea{
+                width:100%;
+                height:100px;
+            }
+            
+            #row{
+                width:100%;
+            }
+            #a {
+                width:80%;
+                margin:5px;
+                padding:5px;
+                float:left;
+            }
+            .even{
+                background-color: #F5F5F5;
+            }
+            .odd{
+                background-color: #FFFFFF;
+            }
+            #row #details{
+                width:60%;
+                float:left;
+                word-wrap:break-word;
+            }
 
-        <script src="js/jquery-1.8.2.min.js"></script>
-
-        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<!--
+table{
+    border-spacing: 0px;
+    border-collapse: collapse;
+    width: 250px;
+}
+th {
+    text-align: center;
+    font-weight: bold;
+    padding: 2px;
+    border: 2px solid #FFFFFF;
+    background: #4a70aa;
+    color: #FFFFFF;
+}
+td {
+    text-align: center;
+    padding: 2px;
+    border: 2px solid #FFFFFF;
+    background: #e3f0f7;
+}
+ 
+-->
+           
+        </style>
+        
+        
+        
         <script>
-          
             
-            
-            function ajaxcall(articleid) {
-              
-                $.get("PrintArticle?articleid=", { article: articleid },
-                function(data){
-                    alert("Data Loaded: " + data);
+            function fetchArticle(articleid) {
+
+                $.get("../PrintArticle?articleid="+articleid,function(data){
+                    $("#viewpane").html(data);
                 });
             }
             
         </script>
-
-
-        <script>
-            
-            
-            
-            function getXMLObject()  //XML OBJECT
-            {
-                var xmlHttp = false;
-                try {
-                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP")  // For Old Microsoft Browsers
-                }
-                catch (e) {
-                    try {
-                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP")  // For Microsoft IE 6.0+
-                    }
-                    catch (e2) {
-                        xmlHttp = false   // No Browser accepts the XMLHTTP Object then false
-                    }
-                }
-                if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-                    xmlHttp = new XMLHttpRequest();        //For Mozilla, Opera Browsers
-                }
-                return xmlHttp;  // Mandatory Statement returning the ajax object created
-            }
-            
-            var xmlhttp = new getXMLObject();	//xmlhttp holds the ajax object
-            
-            
-            
-            
-            function fetchArticle(articleid) {
-             
-                // alert(articleid);
-                console.log(articleid);
-                if(xmlhttp) {
-                    xmlhttp.open("GET","PrintArticle?articleid=" + articleid,true);
-                    xmlhttp.onreadystatechange  = handleServerResponse;
-                    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xmlhttp.send(null);
-                }
-            }
-            
-            
-            
-            function handleServerResponse() {
-                if (xmlhttp.readyState == 4) {
-                    if(xmlhttp.status == 200) {
-                         
-                        var x = xmlhttp.responseText;
-                        alert(x);
-                        console.log(x);
-
-                        var element=document.getElementById("articlebody");
-                        element.innerHTML=x;
-                        //  $("#articlebody").append(x);
-                        //  $("#articlebody").html(x);
-                    } else {
-                            
-                    }
-                }
-                else {
-                    alert("Error during AJAX call. Please try again");
-                }
-                
-            }
-            
-            
-            
-        </script>
+        
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     </head>
     <body>
+        
+        <div id="articlelist" style="width: 889px; height: 274px; overflow-y:scroll">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th style="width: 30%">
+                            Title
+                        </th>
+                        <th>
+                            Upvotes
+                        </th>
+                        <th>
+                            Downvotes
+                        </th>
+                        <th>
+                            Viewed
+                        </th>
+                    </tr>
+                </thead>
+                <% 
+                    int i = 0;
+                    String cssclass = (((++i) % 2) == 0)?".even":".odd";
+                %>
+                    <c:forEach var="article" items="${articles}" >
 
-
-        Following results are found
-        <div style="width: 889px; height: 274px; overflow-y:scroll">
-
-            <span>
-
-                <table>
-                    <%
-                    %>
-                    <c:forEach var="article" items="${articles}">
-
-                        <tr>
+                        <tr onclick="javascript:fetchArticle(${article.articleid});" class="<%=(((++i) % 2) == 0)?".even":".odd" %>">
                             <td>
-                                <a href="" onclick="ajaxcall(${article.articleid})"><c:out value="${article.title}" /></a>
+                                <c:out value="${article.title}" />
                             </td>
-                            
+
                             <td><c:out value="${article.upvote}"/></td>
                             <td><c:out value="${article.downvote}"/></td>
                             <td><c:out value="${article.viewed}"/></td>
-                            
+                            <td style="width: 77px"></td>
                         </tr>
-                        <tr>
-                            <td colspan="4">
-                                <c:out value="${article.body}"/>
-                            </td>
-                        </tr>
+                        
                     </c:forEach>
-                </table>	
-            </span>
+                </table>
         </div>
         <br/>
         <br/>
-        <div id="viewpane" style="width: 889px; height: 317px; overflow-y:scroll">
-            <div id="articletitle">
-
-            </div>
-            <div id="articlebody">
-
-            </div>
+        <div id="viewpane" style="width: 889px; height: 274px; overflow-y:scroll">
+            
         </div>
-
     </body>
 </html>

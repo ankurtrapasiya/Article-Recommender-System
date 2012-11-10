@@ -6,6 +6,7 @@ package com.surpriseme.DAO;
 
 import com.surpriseme.entities.Article;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface ArticleDAO extends GenericDAO<Article, Integer> {
     Integer vote(Integer articleId, boolean up) throws SQLException;
 
     boolean checkIfArticleExist(String guid) throws SQLException;
+    
+    List<Article> getRelevantArticles(String keyword) throws SQLException;
 }

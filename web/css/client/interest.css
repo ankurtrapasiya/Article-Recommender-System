@@ -1,0 +1,17 @@
+#wrapper .content{margin:40px; width:400px; height:500px; padding:10px; overflow:auto; background:#EEEEEE;float:left;}
+.content .images_container{overflow:hidden; }
+.content .images_container img{display:block; float:left; margin:0 5px; border:5px solid #FFF;}
+a[rel='toggle-buttons-scroll-type'].off{opacity:0.5;}
+
+#wrapper .content #col{
+    float:left;
+    width:200px;
+    padding:10px;
+
+}		
+img{
+    padding:20px;
+}
+#wrapper{
+    width:100%;
+}

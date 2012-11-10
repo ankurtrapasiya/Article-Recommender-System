@@ -277,17 +277,17 @@
 
 
     </head>
-    <body>
+    <body  style=" background:url('../images/bg.png')">
 
         <b>
 
             <!--WRAPPER-->
-            <div id="wrapper" style="left: 0px; top: 0px; width: 1212px">
+            <div id="wrapper" style="left: 0px; top: 0px; width: 1212px; margin-left: 70px; margin-top: 70px" >
 
 
 
                 <!--LOGIN FORM-->
-                <div style="background-color: #F3F3F3">
+                <div style="background-color: #F3F3F3" >
 
                     &nbsp;<form method="post" action="SignUpController" name="signupform" style="left: -246px; top: -10px" onsubmit="return validate()">
                         &nbsp;<table cellpadding="5" style="font-family: serif; font-size: 20px; color: #414848; margin-left: 40px;">

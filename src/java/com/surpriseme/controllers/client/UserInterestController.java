@@ -20,65 +20,32 @@ import javax.servlet.http.HttpSession;
 public class UserInterestController extends javax.servlet.http.HttpServlet {
 
     static final long serialVersionUID = 1L;
-    Boolean retval = false;
-    int UserId;
-    int InterestId;
 
     public UserInterestController() {
         super();
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String interestIds[] = req.getParameterValues("interest");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // View all interest on interest page
 
-        UserInterestDAO userInterestDao = new UserInterestDAOImpl();
+        Boolean retval = false;
+        int UserId;
+        int InterestId;
 
-
-        HttpSession session = req.getSession();
-        User u = (User) session.getAttribute("user");
-        int id = u.getUserid();
-        
-        try {
-            for (int i = 0; i < interestIds.length; i++) {
-
-                //Ankur after you fix the problem of signupcontroller mentioned in email uncomment all the line in this 
-                //servlet and remove the statement at line 42
-
-                //UNCOMMENT THIS LINE
-                userInterestDao.addInterestToUser(Integer.parseInt(interestIds[i]), id);
-
-                //remove the belove line
-                //userInterestDao.addInterestToUser(Integer.parseInt(interestIds[i]), 1);
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        // HttpSession sid=request.getSession(true);
-        //String Id=(String)sid.getAttribute("userid");
-
-        UserId = 3;
-        String View = request.getParameter("btnView");
-        String Delete = request.getParameter("btnDelete");
-        String Add = request.getParameter("btnAdd");
+        HttpSession sid = request.getSession(false);
+        if (sid != null) {
+            UserId = ((User) sid.getAttribute("user")).getUserid();
 
 
-        UserInterestDAO userDao = null;
-        List<Interest> interestList = new ArrayList<Interest>();
-        List<Interest> notInterestList = null;
+            UserInterestDAO userDao = null;
+            List<Interest> interestList = new ArrayList<Interest>();
+            List<Interest> notInterestList = null;
 
-        if (View != null) {
             try {
                 userDao = new UserInterestDAOImpl();
-                interestList = userDao.getUserInterests(UserId, true);
-                notInterestList = userDao.getUserInterests(UserId, false);
+                interestList = userDao.getUserInterests(UserId, true); // interest wghich are in user account selected
+                notInterestList = userDao.getUserInterests(UserId, false); // interest which are not selected in user account
                 retval = true;
 
             } catch (Exception ex) {
@@ -88,11 +55,35 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);
             RequestDispatcher rd = request.getRequestDispatcher("client/interests.jsp");
+            // send redirect to interest.jsp page with interestlist
             rd.forward(request, response);
+
         }
 
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // HttpSession sid=request.getSession(true);
+        //String Id=(String)sid.getAttribute("userid");
+
+        Boolean retval = false;
+        int UserId;
+        int InterestId;
+
+        HttpSession sid = request.getSession(false);
+        UserId = ((User) sid.getAttribute("user")).getUserid();
+
+        String Delete = request.getParameter("btnDelete");
+        String Add = request.getParameter("btnAdd");
+
+        UserInterestDAO userDao = null;
+        List<Interest> interestList = new ArrayList<Interest>();
+        List<Interest> notInterestList = null;
 
         if (Delete != null) {
+            // delete all selected interest list from user account
             String hiddenId = request.getParameter("hdnInterestId");
             ArrayList<String> words = new ArrayList<String>();
             StringTokenizer st = new StringTokenizer(hiddenId, ",");
@@ -110,30 +101,34 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if ((interestList.size()) > (words.size())) {
+            if ((interestList.size()) > (words.size())) { // condition for checking 'at least one interest should be there in account 
                 for (int i = 0; i < words.size(); i++) {
                     try {
 
                         int id = Integer.parseInt(words.get(i));
                         userDao = new UserInterestDAOImpl();
-                        retval = userDao.removeInterestFromUser(id, UserId);
+                        retval = userDao.removeInterestFromUser(id, UserId); //delete interestList successfull
+                        request.setAttribute("status", retval);
                     } catch (Exception ex) {
                         Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             } else {
-                retval = false;
+
+                retval = false; // deletion unsuccessfull
+                request.setAttribute("status", retval);
             }
+            System.out.println("retvale " + retval);
             try {
                 userDao = new UserInterestDAOImpl();
-                interestList = userDao.getUserInterests(UserId, true);
-                notInterestList = userDao.getUserInterests(UserId, false);
+                interestList = userDao.getUserInterests(UserId, true); // interestList which are in user account
+                notInterestList = userDao.getUserInterests(UserId, false);// interestList which are not in account
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
 
-            request.setAttribute("status", retval);
+            // send redirect to interest.jsp page
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);
             RequestDispatcher rd = request.getRequestDispatcher("client/interests.jsp");
@@ -142,6 +137,7 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
 
 
         if (Add != null) {
+            // add selected interestList in account
             String hiddenId = request.getParameter("hdnInterestId");
             ArrayList<String> words = new ArrayList<String>();
             StringTokenizer st = new StringTokenizer(hiddenId, ",");
@@ -155,7 +151,7 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
                 try {
                     int id = Integer.parseInt(words.get(i));
                     userDao = new UserInterestDAOImpl();
-                    retval = userDao.addInterestToUser(id, UserId);
+                    retval = userDao.addInterestToUser(id, UserId); // add interest successfully
 
                 } catch (Exception ex) {
                     Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,12 +159,13 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             }
             try {
                 userDao = new UserInterestDAOImpl();
-                interestList = userDao.getUserInterests(UserId, true);
-                notInterestList = userDao.getUserInterests(UserId, false);
+                interestList = userDao.getUserInterests(UserId, true); // interestList which are in user account
+                notInterestList = userDao.getUserInterests(UserId, false);// Interestlist which are not in user Account
 
             } catch (SQLException ex) {
                 Logger.getLogger(UserInterestController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            // send redirect to interest.jsp page 
             request.setAttribute("status", retval);
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);

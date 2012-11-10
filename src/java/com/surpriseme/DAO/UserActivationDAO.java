@@ -12,6 +12,8 @@ import java.sql.SQLException;
  * @author ankur
  */
 public interface UserActivationDAO extends GenericDAO<UserActivation, Integer> {
-        public boolean verifyToken(String token) throws SQLException;
 
+    public boolean verifyToken(String token) throws SQLException;
+
+    boolean activateUser(String token) throws SQLException;
 }

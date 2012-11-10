@@ -56,10 +56,10 @@
             
         </script>
     </head>
-    <body>
+    <body style=" background:url('../images/bg.png')">
 
 
-        <div id="wrapper" style="left: 0px; top: 0px; width: 800px; margin-left: 250px;" align="center" >
+        <div id="wrapper" style="left: 0px; top: 0px; width: 800px; margin-left: 250px; margin-top: 70px" align="center" >
             <div style="background-color: #F3F3F3" style="margin-left: 30%">
                 <h1>Choose Your Interests</h1>
                 <p>

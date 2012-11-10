@@ -18,49 +18,56 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Harmish
  */
 public class Search extends HttpServlet {
-
-   
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String keyword = "des";
-               try {
-                        ArticleDAOImpl articledoa = new ArticleDAOImpl();
-                        List<Article> articlelist = articledoa.getRelevantArticles(keyword);
-                        int size = articlelist.size();
-                        
-                       // System.out.println(size);
-                        request.setAttribute("articles", articlelist);
-                        
-                        RequestDispatcher rd = request.getRequestDispatcher("client/searchresults.jsp");//request.getRequestDispatcher("../client/searchresults.jsp");
-                        rd.forward(request, response);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        //String keyword = request.getParameter("txtKeyword");
         
+        String keyword="naxals";
+        if (keyword != null) {
+            
+            keyword = keyword.trim();
+            
+            if (keyword != "") {
+                
+                try {
+                    ArticleDAOImpl articledoa = new ArticleDAOImpl();
+                    List<Article> articlelist = articledoa.getRelevantArticles(keyword);
+                    int size = articlelist.size();
+                    System.out.println(size);
+                    request.setAttribute("articles", articlelist);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("articles", articlelist);
+                    //RequestDispatcher rd;
+                    //rd = request.getRequestDispatcher("client/demo.jsp");
+                    //rd.forward(request, response);
+                    response.sendRedirect("searchresults.jsp");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("searchresults.jsp");
+            rd.forward(request, response);
+        }
     }
-
-  
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 }

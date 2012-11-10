@@ -24,7 +24,7 @@ Author     : ankur
 
 
             <!--Slider-in icons-->
-            <script type="text/javascript">
+            <script type="text/javascript"  language=”javascript” >
                 $(document).ready(function() {
                     
                     $("#username").focus();
@@ -49,6 +49,12 @@ Author     : ankur
                     });
 
                 });
+                
+                function register() {
+                    alert("you called.");
+                     window.navigate("registration.jsp");
+
+                }
             </script>
 
         </head>
@@ -86,6 +92,7 @@ Author     : ankur
                     <!--FOOTER-->
                     <div class="footer">
                         <!--LOGIN BUTTON--><input type="submit" name="btnLogin" id="btnLogin" value="Login" class="button" /><!--END LOGIN BUTTON-->
+                       
                         <!--REGISTER BUTTON--><input type="submit" name="btnRegister" value="Register" class="register" /><!--END REGISTER BUTTON-->
                     </div>
                     <!--END FOOTER-->

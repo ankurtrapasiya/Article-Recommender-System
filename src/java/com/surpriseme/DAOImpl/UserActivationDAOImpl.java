@@ -19,13 +19,12 @@ import org.apache.log4j.Priority;
  *
  * @author ankur
  */
-public class UserActivationDAOImpl implements UserActivationDAO{
+public class UserActivationDAOImpl implements UserActivationDAO {
 
-    
     CallableStatement cstmt;
     DBConnection con;
     private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
-    
+
     @Override
     public Integer saveOrUpdate(UserActivation entity) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -55,18 +54,16 @@ public class UserActivationDAOImpl implements UserActivationDAO{
     public boolean deleteAll(List<UserActivation> entities) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
-    
+
     @Override
     public boolean verifyToken(String token) throws SQLException {
-        
+
         UserActivation ua;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         boolean retval = false;
         try {
-             con = new DBConnection();
+            con = new DBConnection();
 
             if (con.connect()) {
 
@@ -75,24 +72,40 @@ public class UserActivationDAOImpl implements UserActivationDAO{
                 pstmt.setString(1, token);
 
                 rs = con.customQuery(pstmt);
-                if(rs.next()) {
+                if (rs.next()) {
                     retval = true;
-                    
-                }
-                else {
+
+                } else {
                     retval = false;
                 }
-        }
-        
-        
-    } catch (ClassNotFoundException e) {
-        logger.log(Priority.ERROR, e.toString());
-    } catch (SQLException ex) {
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            logger.log(Priority.ERROR, e.toString());
+        } catch (SQLException ex) {
             throw ex;
         } finally {
             con.disconnect();
             return retval;
         }
-    
-}
+
+    }
+
+    public boolean activateUser(String token) throws SQLException {
+        boolean retval = false;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+                String updatequery = "update surpriseme.useractivation set isactive = 1 where token = '" + token + "'";
+                retval = con.executeQuery(updatequery);
+
+            }
+
+        } catch (ClassNotFoundException e) {
+        }
+
+        return retval;
+
+    }
 }

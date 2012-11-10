@@ -125,6 +125,11 @@ input[type="password"]:focus{
 
 }	
 
+select{
+    margin:5px 0 10px 250px;
+
+}
+
 input[type="file"]{
     margin:5px 0 10px 250px;
     vertical-align: bottom;

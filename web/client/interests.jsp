@@ -5,30 +5,138 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Interests</title>
+        <script src="../js/jquery-1.8.2.min.js"></script>
+        <script src="../js/jquery-ui.js"></script>
+        <link href="../css/client/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+        <link href="../css/client/interest.css" rel="stylesheet" type="text/css"/>
 
-        <script src="js/jquery.main.js" type="text/javascript"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>
+            (function($){
+                $(window).load(function(){
+                    $("#content_1").mCustomScrollbar({
+                        horizontalScroll:true,
+                        scrollButtons:{
+                            enable:true,
+                            scrollType:"pixels",
+                            scrollAmount:116
+                        }
+                    });
+                    $("#content_2").mCustomScrollbar({
+                        horizontalScroll:true,
+                        scrollButtons:{
+                            enable:true,
+                            scrollType:"pixels",
+                            scrollAmount:116
+                        },
+                        callbacks:{
+                            onScroll:function(){
+                                snapScrollbar();
+                            }
+                        }
+                    });
+                    /* toggle buttons scroll type */
+                    $("a[rel='toggle-buttons-scroll-type']").click(function(e){
+                        e.preventDefault();
+                        var $this=$(this);
+                        var cont=$("#content_2");
+                        var scrollType;
+                        if(cont.data("scrollButtons-scrollType")==="pixels"){
+                            scrollType="continuous";
+                        }else{
+                            scrollType="pixels";
+                        }
+                        cont.data({"scrollButtons-scrollType":scrollType}).mCustomScrollbar("update");
+                        $this.toggleClass("off");
+                    });
+                    /* snap scrollbar fn */
+                    var snapTo=[];
+                    $("#content_2 .images_container img").each(function(){
+                        var $this=$(this);
+                        var thisX=$this.position().left;
+                        snapTo.push(thisX);
+                    });
+                    function snapScrollbar(){
+                        if(!$(document).data("mCS-is-touch-device")){ //no snapping for touch devices
+                            var posX=$("#content_2 .mCSB_container").position().left;
+                            var closestX=findClosest(Math.abs(posX),snapTo);
+                            if(closestX===0){
+                                $("#content_2").mCustomScrollbar("scrollTo","left",{
+                                    callback:false //scroll to is already a callback fn
+                                });
+                            }else{
+                                $("#content_2").mCustomScrollbar("scrollTo",closestX,{
+                                    callback:false //scroll to is already a callback fn
+                                });
+                            }
+                        }
+                    }
+                    function findClosest(num,arr){
+                        var curr=arr[0];
+                        var diff=Math.abs(num-curr);
+                        for(var val=0; val<arr.length; val++){
+                            var newdiff=Math.abs(num-arr[val]);
+                            if(newdiff<diff){
+                                diff=newdiff;
+                                curr=arr[val];
+                            }
+                        }
+                        return curr;
+                    }
+                });
+            })(jQuery);
+        </script>
 
         <script type="text/javascript">
-            
+            /*  function respo(data)
+             {
+                 var rs=data;
+               if(rs)
+                  {
+                      alert("Deletion done Successfully");
+                  }             
+                  else
+                      
+                      {
+                           console.log(rs);
+                           alert("At Least one interest should be there in you account ");
+                      }
+             }
+             */
             $(document).ready(function(e)
             {
-                $("#btnDelete").onclick(function(e) 
-                {           
-                    $.post("../UserInterestServlet",function(data){
-                        alert("Updation done Successfully");
-                    }); });
+                $("#formInterest").submit(function(e) 
+                {
+                
+                    var btn=$("#Delete").val(); 
+                    var hdn=$("#hdnInterestId").val();
+                    $.post("../UserInterestController",{"btnDelete":btn,"hdnInterestId":hdn},function(data){
+                        /*  respo(data.status);*/
+                        alert("Done");
+                        $.get("../UserInterestController",function(data){
+                            $("#main").html(data);
+                        },"html");
+                    });
+                    e.preventDefault();
+                }); 
             
-          
-                $("#btnAdd").onclick(function(e) 
-                {        
-                     
-                    $.post("../UserInterestServlet", {"btnAdd":"do"},function(data){
+                $("#formNInterest").submit(function(e) 
+                {
+                    
+                    var btn=$("#Add").val();  
+                    var hdn=$("#hdnInterestId").val();
+                    $.post("../UserInterestController", {"btnAdd":btn,"hdnInterestId":hdn},function(data){
                         alert("Addition done Successfully");
-                    });});
+                        $.get("../UserInterestController",function(data){
+                            $("#main").html(data);
+                        },"html");
+                    });
+                    e.preventDefault();
+              
+                });
                 e.preventDefault();
-                           
-            });  
+              
+            });
+              
             var x;
             function setValue(dt)
             {   x=document.getElementById("hdnInterestId");
@@ -40,59 +148,51 @@
     </head>
 
     <body>
-        <form name=form method="post">
+        <div class="wrapper">
+            <h1>Interests</h1>
+            <!-- content block -->
+            <div id="content_1" class="content">
+                <div class="images_container">
 
-            <h1> Interest List page here </h1>
+                    <form id=formInterest name="formInterest" method="post">
+                        <c:if test="${requestScope.status eq 'true'}"> 
+                            <h3>In Interest List :</h3>
 
+                            <c:forEach var="Interest" items="${requestScope.interest}">
+                                <div id="col">  
+                                    <img src=${Interest.iconpath} /> <br><br>
+                                    <input type=checkbox value="Remove" onclick="setValue('${Interest.interestid}')" > <c:out value="${Interest.name}"></c:out>
+                                    <c:out value="${Interest.description}"></c:out> 
+                                        <input type="hidden" id="hdnInterestId" value="" name="hdnInterestId"/>
+                                    </div>
+                            </c:forEach>
+                        </c:if>   
+                        <input type="submit" id="Delete" name="btnDelete" value="Remove" >          
+                    </form>
+                </div>
+            </div>
+            <div id="content_1" class="content">
 
-            <c:if test="${requestScope.status eq 'true'}"> 
+                <div class="images_container">
 
-                <h3>Interest List :</h3>
-                <table border=2>
-                    <th>Status</th><th>Interest Name</th><th>Interest Description</th>
-                    <c:forEach var="Interest" items="${requestScope.interest}">
-                        <tr>  
-                            <td><c:out value="${Interest.interestid}"> </c:out></td> 
-                            <td> <c:out value="${Interest.name}"></c:out></td>
-                            <td><input type="text" name="Descriptionname" value=${Interest.description}></td>
-                            <td><input type=checkbox value="Remove" onclick="setValue('${Interest.interestid}')" id="${Interest.interestid}"></td>
+                    <form id=formNInterest name="formNInterest" method="post">
+                        <c:if test="${requestScope.status eq 'true'}"> 
+                            <h3>Not in Interest List :</h3>
 
-                        </tr>
-                        <input type="hidden" id="hdnInterestId" value="" name="hdnInterestId"/>
-                    </c:forEach>	
-                </table>
+                            <c:forEach var="Ninterest" items="${requestScope.Ninterests}"> 
+                                <div id="col">  
+                                    <img  src=${Interest.iconpath} /> <br><br> 
+                                    <input type=checkbox value="Add" onclick="setValue('${Ninterest.interestid}')"><c:out value="${Ninterest.name}"></c:out>
+                                    <br><c:out value="${Ninterest.description}"></c:out>
+                                        <input type="hidden" id="hdnInterestId" value="" name="hdnInterestId"/>    
+                                    </div>   
+                            </c:forEach>                                         
+                        </c:if>
+                        <input type="submit" id="Add" name="btnAdd" value="Add" > 
+                    </form>
+                </div>
+            </div>
+        </div>
 
-
-                <input type="submit" name="btnDelete" value="Remove" >
-                <br><br>
-
-                <h3>Not Interest List :</h3>
-                <table border=2>
-
-                    <th>Status</th><th>Interest Name</th><th>Interest Description</th>
-                    <c:forEach var="Ninterest" items="${requestScope.Ninterests}">  
-                        <tr> 
-                            <td><c:out value="${Ninterest.interestid}"> </c:out></td> 
-                            <td> <c:out value="${Ninterest.name}"></c:out> </td>
-                            <td><input type="text" name="Descriptionname" value="${Ninterest.description}"></td>
-                            <td><input type=checkbox value="Add" onclick="setValue('${Ninterest.interestid}')" id="${Ninterest.interestid}"></td>
-                        </tr>    
-                    </c:forEach>
-                </table>
-
-                <input type="hidden" id="hdnInterestId" value="" name="hdnInterestId"/>
-                <input type="submit" name="btnAdd" value="Add Selected" > 
-
-            </c:if>
-
-            <c:if test="${requestScope.status eq 'Costrain'}">
-                <h1>  at least one interest sould be there </h1>
-            </c:if>
-
-            <c:if test="${requestScope.status eq 'false'}">
-                <h1> no data found  </h1>
-            </c:if>
-
-        </form>
     </body>
 </html>
