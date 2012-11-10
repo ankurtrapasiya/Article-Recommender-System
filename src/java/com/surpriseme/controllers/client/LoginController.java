@@ -4,7 +4,11 @@
  */
 package com.surpriseme.controllers.client;
 
+import com.surpriseme.DAO.UserGraphDAO;
+import com.surpriseme.DAO.UserSuggestionsDAO;
 import com.surpriseme.DAOImpl.UserDAOImpl;
+import com.surpriseme.DAOImpl.UserGraphDAOImpl;
+import com.surpriseme.DAOImpl.UserSuggestionsDAOImpl;
 import com.surpriseme.entities.User;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -62,6 +66,25 @@ public class LoginController extends HttpServlet {
             if (user != null) {
                 session.setAttribute("user", user);
                 session.setAttribute("islogged", "true");
+
+                UserSuggestionsDAO userSuggestions = new UserSuggestionsDAOImpl();
+                UserGraphDAO graphDao = new UserGraphDAOImpl();
+                try {
+                    Integer articleSuggestions = userSuggestions.getUserSuggestions(user.getUserid()).size();
+                    session.setAttribute("suggestions", articleSuggestions);
+
+                    System.out.println(articleSuggestions);
+
+                    Integer notificationCount = graphDao.getSuggestionCount(user.getUserid());
+                    session.setAttribute("notifications", articleSuggestions);
+
+                    System.out.println(notificationCount);
+
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 response.sendRedirect("index.jsp");
 
             } else {

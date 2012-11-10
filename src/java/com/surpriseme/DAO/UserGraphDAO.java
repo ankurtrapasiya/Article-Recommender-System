@@ -23,4 +23,6 @@ public interface UserGraphDAO extends GenericDAO<UserGraph, UserGraphPK> {
     List<User> updateUserGraph() throws SQLException;
 
     List<User> getAllFriends(Integer userid) throws SQLException;
+    
+    Integer getSuggestionCount(Integer userid) throws SQLException;
 }

@@ -63,9 +63,9 @@
                 <div class="controls">
                     <nav class="links">
                         <ul>
-                            <li><a href="#" class="ico1">Suggestions <span class="num">26</span></a></li>
-                            <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">5</span></a></li>
-                            <li><a href="#" class="ico3">Popular <span class="num">3</span></a></li>
+                            <li><a href="#" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
+                            <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">${sessionScope.notifications}</span></a></li>
+                            <li><a href="#" class="ico3">Popular</a></li>
                         </ul>
                     </nav>
                     <div class="profile-box">
@@ -74,7 +74,7 @@
                                 <img class="image" src="../images/user.png" alt="image description" width="26" height="26" />
                                 <span class="text-box">
                                     Welcome
-                                    <strong class="name">Ankur</strong>
+                                    <strong class="name">${sessionScope.user.firstname}</strong>
                                 </span>
                             </a>                            
                         </span>

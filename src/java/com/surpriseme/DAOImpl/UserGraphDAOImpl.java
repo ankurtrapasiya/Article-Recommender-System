@@ -232,4 +232,31 @@ public class UserGraphDAOImpl implements UserGraphDAO {
         return retval;
 
     }
+
+    @Override
+    public Integer getSuggestionCount(Integer userid) throws SQLException {
+        Integer retval = 0;
+        ResultSet rs = null;
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+                String sql = "select count(*) as COUNT from usergraph where friendid=" + userid +  " and isnotified=" + false;
+
+                rs = con.customQuery(sql);
+
+                while (rs.next()) {
+                    retval = rs.getInt("COUNT");
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return retval;
+    }
 }

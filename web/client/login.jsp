@@ -68,8 +68,8 @@ Author     : ankur
 
                     <!--CONTENT-->
                     <div class="content">
-                        <!--USERNAME--><input name="username" type="text" class="input username" value="Username" onfocus="this.value=''" placeholder="Username...."/><!--END USERNAME-->
-                        <!--PASSWORD--><input name="password" type="password" class="input password" value="Password" onfocus="this.value=''" placeholder="Password...."/><!--END PASSWORD--><br/><br/>
+                        <!--USERNAME--><input name="username" required="true" type="text" class="input username" value="Username" onfocus="this.value=''" placeholder="Username...."/><!--END USERNAME-->
+                        <!--PASSWORD--><input name="password" required="true" type="password" class="input password" value="Password" onfocus="this.value=''" placeholder="Password...."/><!--END PASSWORD--><br/><br/>
                         <!--forgot password--><a href="#">Forgot password</a>
                     </div>
                     <!--END CONTENT-->
