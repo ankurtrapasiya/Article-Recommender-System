@@ -203,6 +203,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FavouritesController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.FavouritesController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleTag</servlet-name>
         <url-pattern>/ArticleTag</url-pattern>
@@ -226,7 +230,7 @@
     <servlet-mapping>
         <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
         <url-pattern>/admin/tagAddUpdateDeleteServlet</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InsertImage</servlet-name>
         <url-pattern>/admin/InsertImage</url-pattern>
@@ -390,6 +394,10 @@
     <servlet-mapping>
         <servlet-name>AuthenticateUser</servlet-name>
         <url-pattern>/admin/AuthenticateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FavouritesController</servlet-name>
+        <url-pattern>/client/FavouritesController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

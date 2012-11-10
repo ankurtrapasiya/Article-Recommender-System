@@ -37,6 +37,7 @@
             
             $("#favourite").click(function(){                
                 $.get("favourite.jsp",function(data){
+                    alert("hey");
                     $("#main").html(data);
                 },"html");
             });
@@ -52,6 +53,7 @@
                     $("#main").html(data);
                 },"html");
             });    
+                       
         });
     </script>
 
@@ -62,9 +64,10 @@
             <div class="c1">
                 <div class="controls">
                     <nav class="links">
-                        <ul>
+                        <ul>                            
                             <li><a href="#" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
                             <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">${sessionScope.notifications}</span></a></li>
+                            <li><a id="favourite" href="#tab-1" class="ico3">Favorites</a></li>
                             <li><a href="#" class="ico3">Popular</a></li>
                         </ul>
                     </nav>
@@ -103,13 +106,13 @@
                     <span class="tooltip"><span>Interests</span></span>
                 </li>
                 <li>
-                    <a href="#tab-1" class="ico3" id="usergraph"><span>My graph</span><em></em></a>
+                    <a href="#tab-1" class="ico4" id="usergraph"><span>My graph</span><em></em></a>
                     <span class="tooltip"><span>My graph</span></span>
                 </li>
-                <li>
+<!--                <li>
                     <a href="#tab-1" class="ico4" id="favourite"><span>Favourites</span><em></em></a>
                     <span class="tooltip"><span>Favourites</span></span>
-                </li>
+                </li>-->
                 <li>
                     <a href="#tab-1" class="ico5" id="history"><span>History</span><em></em></a>
                     <span class="tooltip"><span>History</span></span>
