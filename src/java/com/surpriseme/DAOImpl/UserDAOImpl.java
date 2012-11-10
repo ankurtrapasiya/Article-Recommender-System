@@ -7,6 +7,7 @@ package com.surpriseme.DAOImpl;
 import com.surpriseme.DAO.UserDAO;
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserActivation;
+import com.surpriseme.helper.SuggesionsHelper;
 import com.surpriseme.utils.DBConnection;
 import com.surpriseme.utils.Utilities;
 import java.sql.CallableStatement;
@@ -556,5 +557,54 @@ public class UserDAOImpl implements UserDAO {
         } finally {
             return available;
         }
+    }
+
+    @Override
+    public List<SuggesionsHelper> getUserSuggestions() throws SQLException {
+
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        String query = null;
+        String query_update = null;
+        List<User> retval = null;
+        Boolean updated = false;
+        SuggesionsHelper suggest = null;
+        List<SuggesionsHelper> sugg = null;
+        try {
+
+            con = new DBConnection();
+
+            if (con.connect()) {
+                retval = new ArrayList<User>();
+                sugg = new ArrayList<SuggesionsHelper>();
+
+                query = "SELECT article.articleid, user.username, article.body, article.title, articlelinks.articleurl as url from user inner join usersuggestions on user.userid  = usersuggestions.friendid inner join article on article.articleid  = usersuggestions.articleid inner join articlelinks on articlelinks.articleid  = article.articleid where usersuggestions.isviewed =   0 and usersuggestions.friendid !=1";
+                pstmt = con.getConnection().prepareStatement(query);
+                rs = con.customQuery(pstmt);
+
+                //   query_update = "UPDATE usersuggestions SET isviewed=1 WHERE isviewed=0";
+
+                //     updated= con.executeQuery(query_update);
+                while (rs.next()) {
+
+                    suggest = new SuggesionsHelper();
+                    suggest.setBody(rs.getString("body"));
+                    suggest.setTitle(rs.getString("title"));
+                    suggest.setUrl(rs.getString("url"));
+                    suggest.setArticleid(rs.getInt("articleid"));
+                    suggest.setUser(rs.getString("username"));
+                    sugg.add(suggest);
+                }
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+        return sugg;
     }
 }

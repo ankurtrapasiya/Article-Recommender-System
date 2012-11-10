@@ -6,6 +6,7 @@ package com.surpriseme.DAO;
 
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserActivation;
+import com.surpriseme.helper.SuggesionsHelper;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface UserDAO extends GenericDAO<User, Integer> {
     boolean isEmailAvailable(String email) throws SQLException;
 
     boolean isUsernameAvailable(String username) throws SQLException;
+    
+    List<SuggesionsHelper> getUserSuggestions() throws SQLException;
 }
