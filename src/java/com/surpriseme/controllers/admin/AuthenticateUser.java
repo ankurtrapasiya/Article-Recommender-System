@@ -8,6 +8,7 @@ import com.surpriseme.DAOImpl.RoleDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.User;
 import com.surpriseme.entities.UserRole;
+import com.surpriseme.utils.Utilities;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class AuthenticateUser extends HttpServlet {
                 msg = "Invalid Username or Password.";
             } else {
                 
-                if (password.equals(user.getPassword())) {
+                if (Utilities.toMD5(password).equals(user.getPassword())) {
                     msg = "Valid User";
                     UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
                     if (userrole.getRolename().equals("Admin")) {

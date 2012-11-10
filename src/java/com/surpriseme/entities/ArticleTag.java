@@ -15,6 +15,9 @@ public class ArticleTag {
         this.timestamp = timestamp;
     }
 
+    public ArticleTag() {
+    }
+
     
     public Integer getArticleid() {
         return articleid;

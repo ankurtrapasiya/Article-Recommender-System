@@ -9,201 +9,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style type="text/css">
+        <script type="text/javascript">
+            
+            
+            function setid(id)
+            {
+                document.getElementById("hdnArticleId").value=id;
+            }
+            
+        </script>
 
-            #article-contents{
-
-                width:80%; 
-                float: left;
-            }
-            .sidebar{
-
-                width: 18%;
-                margin-left: 15px;
-                float: left;
-            }
-            .sidebar ul{
-
-                padding-left: 20px;
-            }
-            .sidebar ul li{
-                margin-bottom: 10px;
-                color: #4878b3;
-                list-style: none;
-                background: url(../images/1_bullet_triangle_blue.png) scroll 0 4px no-repeat;
-                padding-left: 15px;
-            }
-
-            .article-heading,.sidebar-title{
-                padding:5px 10px;
-                border:1px solid #c9ebff;
-                margin-bottom:2px;
-            }
-            .article-heading h3,.sidebar-title h3{
-                margin:0;
-                color:#6a84bf;
-            }	
-            .description,.sidebar-links{
-                border:1px solid #c9ebff;
-                background-color: #DFECEE;
-            }	
-            .article{
-
-                margin-bottom:10px;
-            }
-            .like-dislike{
-                text-align:center;
-                width:110px;
-                float:left;
-                padding:10px 0;
-            }	
-            .like-dislike img{
-                display:block;
-                margin:0 auto;
-            } 
-            .counter{
-                color:#778bb7;
-            }	
-            .views{
-                color:#778bb7;
-                margin-top:10px;
-                display:inline-block;
-            }			
-            .meta-data{
-                color:#6e6e6e;
-                padding:10px 10px;
-            }
-            .tags{
-                color:#1541a0;
-                margin-bottom:10px;
-                margin-top: 0px;
-            }	
-            a.source,.sidebar a,a.tag-link{
-                color:#4878b3;
-                text-decoration:none;
-            }	
-            a.source:hover,.sidebar a:hover,a.tag-link:hover{
-                text-decoration:underline;
-            }
-
-            .clearfix:after{clear:both;content:' ';display:block;font-size:0;line-height:0;visibility:hidden;width:0;height:0}* html .clearfix,*:first-child+html .clearfix{zoom:1}
-
-            .alignright, img.alignright {
-                display: inline;
-                float: right;
-                margin-left: 1.5em;
-            }
-
-            a.more-link{
-                text-decoration:none;
-                font-style:italic;
-                color:#4878b3!important;
-                display:inline-block;
-                font-size:11px;
-            }
-            a.more-link:hover{
-                text-decoration:underline;
-            }
-
-
-            input[type="submit"]{
-                background-color:#FFF;
-                border:1px solid #cacaca;
-                color:#3ca7c1;
-                padding:2px 5px;
-                cursor:pointer;
-            }
-
-            .meta-links{
-                margin-bottom: 10px;
-            }
-            .float-left{
-
-                float: left;
-            }
-            .counter-up{
-                color:#778bb7;
-            }
-            .counter-down{
-                color:#778bb7;
-            }   
-            #inline{
-                display: none; width: 600px;height: 150px;
-            }
-
-            #send { 
-                margin-top: 10px;
-                color: #dee5f0;
-                display: block;
-                cursor: pointer;
-                padding: 5px 11px;
-                font-size: 1.2em;
-                border: solid 1px #224983;
-                border-radius: 5px;
-                background: #1e4c99; 
-                background: -webkit-gradient(linear, left top, left bottom, from(#2f52b7), to(#0e3a7d)); 
-                background: -moz-linear-gradient(top, #2f52b7, #0e3a7d); 
-                background: -webkit-linear-gradient(top, #2f52b7, #0e3a7d);
-                background: -o-linear-gradient(top, #2f52b7, #0e3a7d);
-                background: -ms-linear-gradient(top, #2f52b7, #0e3a7d);
-                background: linear-gradient(top, #2f52b7, #0e3a7d);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f52b7', endColorstr='#0e3a7d'); 
-            }
-            #send:hover {
-                background: #183d80; 
-                background: -webkit-gradient(linear, left top, left bottom, from(#284f9d), to(#0c2b6b)); 
-                background: -moz-linear-gradient(top,  #284f9d, #0c2b6b); 
-                background: -webkit-linear-gradient(top, #284f9d, #0c2b6b);
-                background: -o-linear-gradient(top, #284f9d, #0c2b6b);
-                background: -ms-linear-gradient(top, #284f9d, #0c2b6b);
-                background: linear-gradient(top, #284f9d, #0c2b6b);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#284f9d', endColorstr='#0c2b6b');
-            }
-            #send:active {
-                color: #8c9dc0; 
-                background: -webkit-gradient(linear, left top, left bottom, from(#0e387d), to(#2f55b7)); 
-                background: -moz-linear-gradient(top,  #0e387d,  #2f55b7);
-                background: -webkit-linear-gradient(top, #0e387d, #2f55b7);
-                background: -o-linear-gradient(top, #0e387d, #2f55b7);
-                background: -ms-linear-gradient(top, #0e387d, #2f55b7);
-                background: linear-gradient(top, #0e387d, #2f55b7);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0e387d', endColorstr='#2f55b7');
-            }
-
-            .txt { 
-                display: inline-block; 
-                color: #676767;
-                width: 420px; 
-                font-family: Arial, Tahoma, sans-serif; 
-                margin-bottom: 10px; 
-                border: 1px dotted #ccc; 
-                padding: 5px 9px;
-                font-size: 1.2em;
-                line-height: 1.4em;
-            }
-
-            .txtarea { 
-                display: block; 
-                resize: none;
-                color: #676767;
-                font-family: Arial, Tahoma, sans-serif; 
-                margin-bottom: 10px; 
-                width: 500px; 
-                height: 150px;
-                border: 1px dotted #ccc;
-                padding: 5px 9px; 
-                font-size: 1.2em;
-                line-height: 1.4em;
-            }
-
-            .txt:focus, .txtarea:focus { border-style: solid; border-color: #bababa; color: #444; }
-
-            input.error, textarea.error { border-color: #973d3d; border-style: solid; background: #f0bebe; color: #a35959; }
-            input.error:focus, textarea.error:focus { border-color: #973d3d; color: #a35959; }
-
-            label { margin-right: 12px; margin-bottom: 9px; font-family: Georgia, serif; color: #646464; font-size: 1.2em; }
-
-        </style>
 
         <link rel="stylesheet" type="text/css" media="all" href="../css/popup/jquery.fancybox.css">
         <script type="text/javascript" src="../js/jquery.fancybox.js?v=2.0.6"></script>
@@ -211,17 +26,21 @@
 
         <link rel="stylesheet" href="../css/client/token-input.css" type="text/css" />
         <link rel="stylesheet" href="../css/client/token-input-facebook.css" type="text/css" />
+        <link rel="stylesheet" href="../css/client/artice-page-style.css" type="text/css" />
 
     </head>
     <body>
         <!-- hidden inline form -->
+
+        <input type="hidden" id="hdnArticleId" value="0"/>
         <div id="inline">
             <h2>Suggest A Friend</h2>
 
             <form id="suggestionform" name="suggestionform" action="#" method="post">
-                <label for="demo-input-local">Enter Friend Names</label>
+                <label class="label-popup" for="demo-input-local">Enter Friend Names</label>
                 <textarea id="demo-input-local" name="demo-input-local" cols="100" rows="1" /></textarea>
                 <br>
+                <div id="popup-message"></div>
                 <button id="send">Send Suggestions</button>
             </form>
         </div>
@@ -239,7 +58,7 @@
                     <br />
                     <label class="counter-down">{{downvote}}</label>
                     <a href="#" id="down" rel="{{articleid}}"><img src="../images/thumbs-down.png" alt="" /></a>
-                    <label class="views">{{viewed}} Views</label>
+                    <label class="views">{{viewed}} views</label>
                 </div>
 
                 <div class="meta-data">
@@ -253,16 +72,19 @@
                         {{/tags}}
                     </p>
                     <div  class="meta-links">
-                        <span>Source : <a href="#" class="source">{{#sources}}{{source}}{{/sources}}</a></span>
+                        <span>Source : {{#sources}} <a href="{{source}}" target="_blank" class="tag-link">{{source}}</a> {{/sources}}</span>
                         <span class="alignright">Posted On : {{publicationdate}}</span>
                     </div>
                     <div class="meta-links">
                         <span><input id="addtofav" type="submit" data="{{articleid}}" value="Add to Favorite" /></span>                        
-                        <span><a class="modalbox" href="#inline" data="{{articleid}}">suggest to a friend</a></span>
+                        <span><a class="modalbox special" href="#inline" onclick="setid({{articleid}});" >suggest to a friend</a></span>
                         <span class="alignright"><input id="readlater" data="{{articleid}}" type="submit" value="Read Later" /></span>
                     </div>
                     <div id="article_content">
                         {{body}}
+                        <div id="viewmore">
+                            <a href="#" class="more-link" name="slide">View More</a>
+                        </div>
                     </div>
                 </div>
 
@@ -302,170 +124,7 @@
         <div class="clearfix"></div>
 
 
-        <script type="text/javascript">            
-            
-            (function(){
-                $.getJSON("ArticleController?freq=true", function(dt){
-        
-                    var temp=Handlebars.compile($("#article-template").html());                        
-                    $("#article-contents").html(temp(dt.content));
-                                                                                            
-                });                                
-                
-                $.getJSON("ArticleController?action=getall", function(dt){
-                   
-                    var temp=Handlebars.compile($("#interest-template").html());                        
-                    $(".sidebar .sidebar-links").html(temp(dt.content));
-                   
-                    $(".sidebar-links").find("a").on("click",function(e){
-                        e.preventDefault();
-                        var linktype = $(this).attr("rel");    
-                        
-                        var url="ArticleController?interestid=";
-                        var url1=url.concat(linktype);
-                        
-                        $.get(url1, function(dt){
+        <script type="text/javascript" src="../js/articlescript.js"></script>
 
-                            var temp=Handlebars.compile($("#article-template").html());                        
-                            $("#article-contents").html(temp(dt.content));
-                            
-                            console.log(dt.content);
-                            
-                            console.log($(".meta-data").find("input"));
-                            
-                            $(".meta-data").find("input").on("click",function(e){
-            
-                                var x=$(this);
-                                var id=$(this).attr("id");
-                                var val=$(this).attr("data");
-                                
-                                console.log(id);
-                                console.log(val);
-                                
-                                if(id==="addtofav")
-                                {
-                                    var url="ArticleController?action=addtofavourites&articleid=";
-                                    var url1=url.concat(val);
-                                    
-                                    $.post(url1,function(dt){
-                                                                                
-                                        x.attr('disabled','disabled');
-                                        x.val('in favourites');
-                                        
-                                    },"json");
-                                    
-                                }
-                                else if(id==="readlater")
-                                {
-                                    var url="ArticleController?action=readitlater&articleid=";
-                                    var url1=url.concat(val);
-                                    
-                                    $.post(url1,function(dt){
-                                        
-                                        x.attr('disabled','disabled');
-                                        x.val('in readlater');
-                                        
-                                    },"json");
-                                }
-                                
-                            });
-                            
-                            
-                            $(".like-dislike").find("a").on("click",function(e){
-                            
-                                e.preventDefault();
-                                var val=$(this).attr("rel");  
-                                
-                                var id=$(this).attr("id");
-                                
-                                var upvote=$(this).parent().find(".counter-up");   
-                                var downvote=$(this).parent().find(".counter-down");
-                                                                                                                               
-                                if(id==="down")
-                                {
-                                    var url="ArticleController?action=downvote&articleid=";
-                                    var url1=url.concat(val);
-                                
-                                    $.post(url1,function(dt)
-                                    {
-                                        downvote.html("<label>" + dt.content[0].downvote + "</label>");   
-                                        upvote.html("<label>" + dt.content[1].upvote + "</label>");
-                                    },"json");
-                                }
-                                else
-                                {
-                                        
-                                    var url="ArticleController?action=upvote&articleid=";
-                                    var url1=url.concat(val);
-                                
-                                    $.post(url1,function(dt)
-                                    {
-                                     
-                                        console.log(dt.content[0].upvote);
-                                        console.log(dt.content[1].downvote);
-                                        
-                                        console.log(upvote);
-                                        console.log(downvote);
-                                        
-                                        upvote.html("<label>" + dt.content[0].upvote + "</label>");                                        
-                                        downvote.html("<label>" + dt.content[1].downvote + "</label>");   
-                                    
-                                    },"json");
-                                }                                
-                            });
-                            
-                        },"json");
-                        
-                    });                           
-                });  
-                
-                $.post("GetAllFriends?action=givemefriends", function(dt){
-                    $("#demo-input-local").tokenInput(dt.content,{theme:"facebook"});
-                }, "json");
-                
-                
-                $(".modalbox").fancybox();
-                $("#suggestionform").submit(function() { return false; });
-                                
-                $("#send").on("click", function(){
-                    
-                    alert($(this).siblings("input[type=text]").val());
-                    var msgval  = $("#demo-input-local").val();
-                    var msglen    = msgval.length;			
-			
-                    alert(msgval);
-                        
-                    if(msglen <= 0) {
-                        $("#demo-input-local").addClass("error");
-                    }
-                    else
-                    {
-                        $("#demo-input-local").removeClass("error");        
-                    }
-                            
-			
-                    if(msglen >= 4) {
-                        // if both validate we attempt to send the e-mail
-                        // first we hide the submit btn so the user doesnt click twice
-                        $("#send").replaceWith("<em>sending...</em>");
-				
-                        $.ajax({
-                            type: 'POST',
-                            url: 'ArticleController?suggest',
-                            data: $("#contact").serialize(),
-                            success: function(data) {
-                                if(data == "true") {
-                                    $("#contact").fadeOut("fast", function(){
-                                        $(this).before("<p><strong>Success! Your feedback has been sent, thanks :)</strong></p>");
-                                        setTimeout("$.fancybox.close()", 1000);
-                                    });
-                                }
-                            }
-                        });
-                    }
-                });
-
-            })();
-        </script>        
     </body>
 </html>

@@ -10,6 +10,7 @@ import com.surpriseme.DAO.ArticleTagDAO;
 import com.surpriseme.DAO.FavouritesDAO;
 import com.surpriseme.DAO.UserGraphDAO;
 import com.surpriseme.DAO.UserInterestDAO;
+import com.surpriseme.DAO.UserSuggestionsDAO;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.ArticleLinksDAOImpl;
 import com.surpriseme.DAOImpl.ArticleTagDAOImpl;
@@ -17,6 +18,7 @@ import com.surpriseme.DAOImpl.FavouritesDAOImpl;
 import com.surpriseme.DAOImpl.HistoryDAOImpl;
 import com.surpriseme.DAOImpl.UserGraphDAOImpl;
 import com.surpriseme.DAOImpl.UserInterestDAOImpl;
+import com.surpriseme.DAOImpl.UserSuggestionsDAOImpl;
 import com.surpriseme.entities.Article;
 import com.surpriseme.entities.ArticleLinks;
 import com.surpriseme.entities.Favourites;
@@ -215,10 +217,15 @@ public class ArticleController extends HttpServlet {
         UserHistory history = null;
         Integer articleId = null;
         Integer userId = 1;
+        HttpSession session = req.getSession(false);
 
-        if (req.getParameter("userId") != null) {
-            userId = Integer.parseInt(req.getParameter("userId"));
+        if (session != null) {
+            userId = ((User) session.getAttribute("user")).getUserid();
         }
+
+        /*if (req.getParameter("userId") != null) {
+         userId = Integer.parseInt(req.getParameter("userId"));
+         }*/
         // Integer friendId = Integer.parseInt(req.getParameter("friendId"));
 
         if (req.getParameter("articleid") != null) {
@@ -309,11 +316,22 @@ public class ArticleController extends HttpServlet {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (action.equals("suggest")) {
-                /* try {
-                 articleDao.suggestArticle(userId, friendId, articleId);
-                 } catch (SQLException ex) {
-                 Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
-                 }*/
+
+                String friendId = req.getParameter("friendid");
+
+                String[] ids = friendId.split(",");
+
+                UserSuggestionsDAO suggestionsDao = new UserSuggestionsDAOImpl();
+                try {
+                    for (int i = 0; i < ids.length; i++) {
+                        suggestionsDao.suggestArticle(userId, Integer.parseInt(ids[i]), articleId);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jObj = new JSONObject();
+                jObj.put("data", "true");
+                jArr.add(jObj);
             } else if (action.equals("addtofavourites")) {
                 try {
 
@@ -329,6 +347,11 @@ public class ArticleController extends HttpServlet {
                     }
                     favDao.saveOrUpdate(fav);
 
+
+                    if (history == null) {
+                        history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.FALSE, Boolean.FALSE);
+                        historyDao.saveOrUpdate(history);
+                    }
                     jObj = new JSONObject();
                     jObj.put("status", "true");
                     jArr.add(jObj);
@@ -357,6 +380,12 @@ public class ArticleController extends HttpServlet {
 
                     favDao.saveOrUpdate(fav);
 
+
+                    if (history == null) {
+                        history = new UserHistory(userId, articleId, new Timestamp(new java.util.Date().getTime()), Boolean.FALSE, Boolean.FALSE);
+                        historyDao.saveOrUpdate(history);
+                    }
+
                     jObj = new JSONObject();
                     jObj.put("status", "true");
                     jArr.add(jObj);
@@ -365,6 +394,8 @@ public class ArticleController extends HttpServlet {
                     jObj = new JSONObject();
                     jObj.put("status", "false");
                     jArr.add(jObj);
+
+
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -401,6 +432,6 @@ public class ArticleController extends HttpServlet {
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().println(jObj);
-        }        
+        }
     }
 }

@@ -113,7 +113,7 @@ public class UserSuggestionsDAOImpl implements UserSuggestionsDAO {
             con = new DBConnection();
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_usersuggestions(?,?,?,?,?,?,?,?,?)}");
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_usersuggestions(?,?,?,?,?)}");
 
                 cstmt.setInt("p_userid", userid);
                 cstmt.setInt("p_friendid", friendid);

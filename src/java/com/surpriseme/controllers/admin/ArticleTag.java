@@ -4,13 +4,10 @@
  */
 package com.surpriseme.controllers.admin;
 
-import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.TagDAOImpl;
-import com.surpriseme.entities.Article;
 import com.surpriseme.entities.Tag;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
