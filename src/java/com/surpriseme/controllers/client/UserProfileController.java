@@ -93,7 +93,7 @@ public class UserProfileController extends javax.servlet.http.HttpServlet {
                 request.setAttribute("status", retval);
                 request.setAttribute("user", user);
 
-                RequestDispatcher rd = request.getRequestDispatcher("client/profile.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
                 rd.forward(request, response);
             }
         }
@@ -121,7 +121,7 @@ public class UserProfileController extends javax.servlet.http.HttpServlet {
         }
         request.setAttribute("status", retval);
         request.setAttribute("user", user);
-        RequestDispatcher rd = request.getRequestDispatcher("client/profile.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("profile.jsp");
         // redirect to profile.jsp page
         rd.forward(request, response);
 

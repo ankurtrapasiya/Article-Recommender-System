@@ -59,7 +59,13 @@
                     alert("hello");
                     $("#main").html(data);
                 },"html");
-            });    
+            }); 
+            
+            $("#btnSearch").click(function(){                
+                $.get("./Search",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
                    
         });
     </script>
@@ -72,22 +78,21 @@
                 <div class="controls">
                     <nav class="links">
                         <ul>
-                            
+
                             <!-- -->
-<!--                            <li>
-                                
-                                <form method="get">
+                            <li>
+
+                                <form method="get" action="Search">
                                     <input type="text" style="height: 20px;" name="txtKeyword"/>
-                                    <input type="submit" style="height: 20px;" value="Search"/>
+                                    <input id="btnSearch" type="submit" style="height: 20px;" value="Search"/>
                                 </form>
-                            </li>-->
+                            </li>
                             <!-- -->
-                            
+
                             <li><a href="#" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
                             <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">${sessionScope.notifications}</span></a></li>
                             <li><a id="favourite" href="#tab-1" class="ico3">Favorites</a></li>
                             <li><a href="#" class="ico3">Popular</a></li>
-                            <li><a id="search" href="#tab-1" class="ico3">Search</a></li>
                         </ul>
                     </nav>
                     <div class="profile-box">

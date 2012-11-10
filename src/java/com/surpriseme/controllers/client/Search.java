@@ -29,9 +29,9 @@ public class Search extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //String keyword = request.getParameter("txtKeyword");
+        String keyword = request.getParameter("txtKeyword");
         
-        String keyword="naxals";
+        //String keyword="naxals";
         if (keyword != null) {
             
             keyword = keyword.trim();

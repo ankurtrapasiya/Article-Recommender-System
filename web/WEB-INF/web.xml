@@ -64,10 +64,6 @@
         <servlet-class>com.surpriseme.controllers.client.UserInterestController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserProfileController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.LoginController</servlet-class>
     </servlet>
@@ -207,6 +203,10 @@
         <servlet-name>FavouritesController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.FavouritesController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleTag</servlet-name>
         <url-pattern>/ArticleTag</url-pattern>
@@ -304,10 +304,6 @@
         <url-pattern>/NotificationsController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserProfileController</servlet-name>
-        <url-pattern>/client/UserProfileController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
         <url-pattern>/client/ArticleController</url-pattern>
     </servlet-mapping>
@@ -398,6 +394,10 @@
     <servlet-mapping>
         <servlet-name>FavouritesController</servlet-name>
         <url-pattern>/client/FavouritesController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfileController</servlet-name>
+        <url-pattern>/client/UserProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

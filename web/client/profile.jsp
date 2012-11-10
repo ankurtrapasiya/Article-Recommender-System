@@ -39,7 +39,7 @@
                     var st=$("#state").val();
                     var ct=$("#city").val();
                     // var newimg=$("#upload").val();
-                    $.post("../UserProfileController",{"id":btn,"Name":un,"Fname":fn,"Lname":ln,"Email":em,"Dob":dt,"City":ct,"State":st,"Country":cn},function(data){
+                    $.post("UserProfileController",{"id":btn,"Name":un,"Fname":fn,"Lname":ln,"Email":em,"Dob":dt,"City":ct,"State":st,"Country":cn},function(data){
                         alert("Updation done Successfully");
                     });
                     e.preventDefault();
@@ -108,7 +108,7 @@
                         </x:forEach>
                     </select> 
 
-                    <div><input type="submit" id="submit" value='Edit' name="btnEdit" /></div>   
+                    <div><input type="submit" id="submit" value='Save' name="btnEdit" /></div>   
                 </form>
             </div>
             <div id="tabs-2">
