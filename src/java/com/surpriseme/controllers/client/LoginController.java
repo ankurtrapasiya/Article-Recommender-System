@@ -85,7 +85,7 @@ public class LoginController extends HttpServlet {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("client/index.jsp");
 
             } else {
                 jObj = new JSONObject();

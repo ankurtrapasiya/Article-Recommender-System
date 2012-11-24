@@ -276,6 +276,9 @@ public class ArticleController extends HttpServlet {
                         jObj = new JSONObject();
                         jObj.put("downvote", a.getDownvote());
                         jArr.add(jObj);
+
+
+                        articleDao.updatePopularityScore(articleId);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,6 +313,8 @@ public class ArticleController extends HttpServlet {
                         jObj.put("upvote", a.getUpvote());
 
                         jArr.add(jObj);
+
+                        articleDao.updatePopularityScore(articleId);
                     }
 
                 } catch (SQLException ex) {
@@ -356,9 +361,7 @@ public class ArticleController extends HttpServlet {
                     jObj.put("status", "true");
                     jArr.add(jObj);
 
-                    jObj = new JSONObject();
-                    jObj.put("status", "false");
-                    jArr.add(jObj);
+
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class
                             .getName()).log(Level.SEVERE, null, ex);
@@ -390,12 +393,6 @@ public class ArticleController extends HttpServlet {
                     jObj.put("status", "true");
                     jArr.add(jObj);
 
-
-                    jObj = new JSONObject();
-                    jObj.put("status", "false");
-                    jArr.add(jObj);
-
-
                 } catch (SQLException ex) {
                     Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -425,6 +422,11 @@ public class ArticleController extends HttpServlet {
                     }
 
                 }
+            }
+            try {
+                articleDao.updateViews(articleId);
+            } catch (SQLException ex) {
+                Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
             }
             jObj = new JSONObject();
             jObj.put("content", jArr);

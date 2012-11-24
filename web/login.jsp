@@ -21,7 +21,7 @@ Author     : ankur
 
             <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
             <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-            <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="./js/jquery-1.8.2.min.js"><\/script>');</script>
+            <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js/jquery-1.8.2.min.js"><\/script>');</script>
 
 
             <!--Slider-in icons-->
@@ -62,7 +62,7 @@ Author     : ankur
         <body>
 
             <div id="image">
-                <img src="./images/surprise.jpg"/>
+                <img src="images/surprise.jpg"/>
             </div>
 
             <!--WRAPPER-->
@@ -74,7 +74,7 @@ Author     : ankur
                 <!--END SLIDE-IN ICONS-->
 
                 <!--LOGIN FORM-->
-                <form name="loginform" id="loginform" class="login-form" method="post"  action="client/LoginController">
+                <form name="loginform" id="loginform" class="login-form" method="post"  action="LoginController">
 
                     <!--HEADER-->
                     <div class="header">

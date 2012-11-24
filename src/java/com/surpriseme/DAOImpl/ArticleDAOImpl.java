@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -418,11 +420,11 @@ public class ArticleDAOImpl implements ArticleDAO {
 
         return retval;
     }
-    
+
     public List<Article> getRelevantArticles(String keyword) throws SQLException {
         List<Article> retval = new ArrayList<Article>();
         ResultSet rs = null;
-        
+
         try {
 
             con = new DBConnection();
@@ -463,5 +465,41 @@ public class ArticleDAOImpl implements ArticleDAO {
         return retval;
     }
 
-    
+    @Override
+    public Float updatePopularityScore(Integer articleId) throws SQLException {
+
+        ArticleDAO articleDao = new ArticleDAOImpl();
+        Article article = null;
+        Float popularityScore = null;
+
+        try {
+            con = new DBConnection();
+            if (con.connect()) {
+
+                String query = "select datediff(curdate(),timestamp) as days,upvote,downvote,viewed from article where articleid=" + articleId;
+                ResultSet rs = con.customQuery(query);
+
+                while (rs.next()) {
+                    Integer days = rs.getInt("days");
+                    Integer upvotes = rs.getInt("upvote");
+                    Integer downvotes = rs.getInt("downvote");
+                    Integer views = rs.getInt("viewed");
+
+                    popularityScore = (((upvotes - downvotes) - 0.5f * days) / (views * 1.0f));
+                }
+                query = "update article set popularityScore=" + popularityScore + " where articleId=" + articleId;
+                con.executeQuery(query);
+
+            }
+        } catch (ClassNotFoundException ex) {
+            logger.log(Priority.ERROR, ex.toString());
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            con.disconnect();
+        }
+
+        return popularityScore;
+
+    }
 }

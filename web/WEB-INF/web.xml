@@ -6,7 +6,7 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/user/*</url-pattern>
+        <url-pattern>/client/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
@@ -69,7 +69,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginPage</servlet-name>
-        <jsp-file>/client/login.jsp</jsp-file>
+        <jsp-file>/login.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>SignUp</servlet-name>
@@ -207,6 +207,10 @@
         <servlet-name>UserProfileController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrationInterestController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.RegistrationInterestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ArticleTag</servlet-name>
         <url-pattern>/ArticleTag</url-pattern>
@@ -309,11 +313,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/client/LoginController</url-pattern>
+        <url-pattern>/LoginController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginPage</servlet-name>
-        <url-pattern>/client/LoginPage</url-pattern>
+        <url-pattern>/LoginPage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
@@ -399,10 +403,14 @@
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/client/UserProfileController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationInterestController</servlet-name>
+        <url-pattern>/client/RegistrationInterestController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>client/LoginPage</welcome-file>
+        <welcome-file>/login.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

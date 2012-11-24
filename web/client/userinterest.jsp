@@ -69,10 +69,9 @@
                 </p>
 
 
-                <form method="get" name="interestform" action="UserInterestController" onsubmit="return validate()"/>
+                <form method="post" name="interestform" action="RegistrationInterestController" onsubmit="return validate()"/>
                 <table cellspacing ="15" cellpading ="10">
                     <c:forEach var="interests" items="${requestScope.interests}">
-
                         <tr>
                             <td rowspan="2">
                                 <!--<img src="${interests.iconpath}" height="100" width="100"/>-->
@@ -86,14 +85,16 @@
                             </td>
                         </tr>
                         <tr>
-
                             <td>
                                 ${interests.description}
                             </td>
-
                         </tr>
                     </c:forEach>
                 </table>
+                
+                
+                <input type="hidden" name="hdnUserId" value="${requestScope.userid}"/>
+                
                 <input type="submit" value="Finish" onclick="javascript:validate();" class="buttonstyle" />
                 <input type="reset" class="buttonstyle"/>
                 </form>

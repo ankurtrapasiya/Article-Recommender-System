@@ -9,7 +9,6 @@
     <script type="text/javascript" src="../js/handlebars.js"></script>
 
 
-
     <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 
     <script type="text/javascript">
@@ -80,13 +79,13 @@
                         <ul>
 
                             <!-- -->
-                            <li>
+<!--                            <li>
 
                                 <form method="get" action="Search">
                                     <input type="text" style="height: 20px;" name="txtKeyword"/>
                                     <input id="btnSearch" type="submit" style="height: 20px;" value="Search"/>
                                 </form>
-                            </li>
+                            </li>-->
                             <!-- -->
 
                             <li><a href="#" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
@@ -105,7 +104,7 @@
                                 </span>
                             </a>                            
                         </span>
-                        <a href="LoginController?signout=true" id="btnSignOut" class="btn-on">Sign Out</a>
+                        <a href="../LoginController?signout=true" id="btnSignOut" class="btn-on">Sign Out</a>
                     </div>
                 </div>                
                 <div id="at_workarea">

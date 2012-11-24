@@ -166,9 +166,9 @@ public class UserGraphDAOImpl implements UserGraphDAO {
                     user.setFirstname(rs.getString("firstname"));
                     user.setLastname(rs.getString("lastname"));
                     user.setDob(rs.getDate("dob"));
-                    user.setState(rs.getString("state"));
-                    user.setCity(rs.getString("city"));
-                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getInt("state"));
+                    user.setCity(rs.getInt("city"));
+                    user.setCountry(rs.getInt("country"));
                     user.setIsactive(rs.getBoolean("isactive"));
                     user.setTimeofregistration(rs.getDate("timeofregistration"));
                     user.setImage(rs.getString("image"));

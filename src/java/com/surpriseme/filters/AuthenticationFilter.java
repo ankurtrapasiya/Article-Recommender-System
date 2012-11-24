@@ -36,23 +36,19 @@ public class AuthenticationFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(true);
 
-        System.out.println(req.getServletPath());
+        if (session != null) {
 
-        if (!req.getServletPath().contains("/css/")) {
+            String islogged = (String) session.getAttribute("islogged");
 
-            if (session != null) {
+            if (islogged == null || islogged.equals("false")) {
 
-                String islogged = (String) session.getAttribute("islogged");
-
-                if (islogged==null || islogged.equals("false")) {
-
-                    res.sendRedirect("client/LoginPage");
-                }
-
-            }
+                res.sendRedirect("../login.jsp");
+            }            
         }
+        
+        chain.doFilter(request, response);
 
     }
 

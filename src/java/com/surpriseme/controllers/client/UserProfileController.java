@@ -65,9 +65,9 @@ public class UserProfileController extends javax.servlet.http.HttpServlet {
                     ex.printStackTrace();
                 }
                 user.setDob(new Date(d.getTime()));
-                user.setCity(request.getParameter("City"));
-                user.setState(request.getParameter("State"));
-                user.setCountry(request.getParameter("Country"));
+                user.setCity(Integer.parseInt(request.getParameter("City")));
+                user.setState(Integer.parseInt(request.getParameter("State")));
+                user.setCountry(Integer.parseInt(request.getParameter("Country")));
 
                 /* Collection<Part> parts = request.getParts();
       

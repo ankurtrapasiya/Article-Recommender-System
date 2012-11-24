@@ -101,7 +101,7 @@
             <hr/>
             <h3>Users</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a id="blockuser" href="BlockUnblockUserServlet">Block User</a></li>
+                <li class="icn_add_user"><a id="blockuser" href="BlockUser">Block User</a></li>
             </ul>
             <h3>Article</h3>
             <ul class="toggle">

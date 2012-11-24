@@ -45,13 +45,14 @@ public class AuthenticateUser extends HttpServlet {
                 
                 if (Utilities.toMD5(password).equals(user.getPassword())) {
                     msg = "Valid User";
-                    UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
-                    if (userrole.getRolename().equals("Admin")) {
+                    System.out.println("here");
+                   // UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
+                     //   if (userrole.getRolename().equals("admin")) {
                         msg = "ok";
                         session.setAttribute("user", user);
-                    } else {
-                        msg = "You dont have proper privileges to access this pages.";
-                    }
+                    //} else {
+                      //  msg = "You dont have proper privileges to access this pages.";
+                   // }
                 } else {
                     msg = "Invalid Username or Password.";
                 }

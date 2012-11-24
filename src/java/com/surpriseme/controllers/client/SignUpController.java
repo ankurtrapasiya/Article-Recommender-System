@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
@@ -58,8 +59,8 @@ public class SignUpController extends HttpServlet {
         }
 
         String country = req.getParameter("txtCountry");
-
-        User u = new User(username, password, email, firstName, lastName, dob, country, Boolean.TRUE, new Date());
+                
+        User u = new User(username, password, email, firstName, lastName, dob, Integer.parseInt(country), Boolean.TRUE, new Date());
         if (verifyCaptcha(req)) {
 
 
@@ -70,14 +71,14 @@ public class SignUpController extends HttpServlet {
                 //Error in the following method. For detailed comment check userdoaimpl
                 retval=userDao.saveOrUpdate(u);
             } catch (SQLException ex) {
-                Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
 
             String hashedtext = Utilities.toMD5(firstName + lastName + email);
             try {
                 u = userDao.findByUsername(u.getUsername());
             } catch (SQLException ex) {
-                Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
 
             String mailmessage = "Dear " + firstName + " " + lastName + "\n\nKindly click on the following link to verify your email id.\n\nhttp://localhost:8080/surpriseme/client/VerifyEmail?token=" + hashedtext;
@@ -92,13 +93,13 @@ public class SignUpController extends HttpServlet {
                     try {
                         userDao.insertIntoUserActivation(ua);
                     } catch (SQLException ex) {
-                        Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+                       ex.printStackTrace();
                     }
                 }
             }
             HttpSession session = req.getSession();
             session.setAttribute("user", u);
-            RequestDispatcher rd = req.getRequestDispatcher("../FetchInterestController");
+            RequestDispatcher rd = req.getRequestDispatcher("../FetchInterestController?userid="+retval);
             rd.forward(req, resp);
         } else {
             RequestDispatcher rd = req.getRequestDispatcher("../client/registration.jsp");

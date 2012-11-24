@@ -21,4 +21,7 @@ public interface ArticleDAO extends GenericDAO<Article, Integer> {
     boolean checkIfArticleExist(String guid) throws SQLException;
     
     List<Article> getRelevantArticles(String keyword) throws SQLException;
+    
+    Float updatePopularityScore(Integer articleId) throws SQLException;
+    
 }

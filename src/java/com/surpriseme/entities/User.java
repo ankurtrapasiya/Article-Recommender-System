@@ -11,9 +11,9 @@ public class User {
     private String firstname;
     private String lastname;
     private Date dob;
-    private String state;
-    private String city;
-    private String country;
+    private Integer state=0;
+    private Integer city=0;
+    private Integer country=0;
     private Boolean isactive;
     private Date timeofregistration;
     private String image;
@@ -34,7 +34,7 @@ public class User {
         this.username = username;
     }
 
-    public User(String username, String password, String email, String firstname, String lastname, Date dob, String country, Boolean isactive, Date timeofregistration) {
+    public User(String username, String password, String email, String firstname, String lastname, Date dob, Integer country, Boolean isactive, Date timeofregistration) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -97,30 +97,30 @@ public class User {
         this.dob = dob;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public String getCity() {
+    public Integer getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(Integer city) {
         this.city = city;
     }
 
-    public String getCountry() {
+    public Integer getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Integer country) {
         this.country = country;
     }
-
+   
     public Boolean getIsactive() {
         return isactive;
     }

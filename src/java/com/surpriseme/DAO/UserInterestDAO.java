@@ -28,4 +28,5 @@ public interface UserInterestDAO extends GenericDAO<UserInterest, UserInterestPK
     HashMap<Category, List<Article>> suggestArticle(int userid, int interestid) throws SQLException;
 
     List<Integer> getUsersOfInterest(Integer interestid) throws SQLException;
+    
 }

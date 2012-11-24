@@ -8,6 +8,8 @@
 <%@page import="net.tanesha.recaptcha.ReCaptcha"%>
 <%@page import="net.tanesha.recaptcha.ReCaptcha"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%-- 
     Document   : registration
     Created on : Nov 1, 2012, 4:40:20 AM
@@ -101,10 +103,10 @@
         </style>
 
         <!--  JQuery, Css for calendar control -->
-        <link rel="stylesheet" href="css/jquery-ui.css" />
+        <link rel="stylesheet" href="../css/client/jquery-ui.css" />
         <script src="../js/jquery-1.8.2.min.js"></script>
         <script src="../js/jquery-ui.js"></script>
-        <link rel="stylesheet" href="css/hs_style.css" />
+        <link rel="stylesheet" href="../css/client/hs_style.css" />
 
 
 
@@ -363,7 +365,7 @@
                                         </b>
                                     </td>
                                     <td>
-                                        <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" onblur="javascript:passwordmatch();" size ="50" class="style3"  style="height: 20px"/><b>
+                                        <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" onblur="javascript:passwordmatch();" placeholder="confirm password" size ="50" class="style3"  style="height: 20px"/><b>
                                     </td>
                                     <td>
                                         <div id="passwordmessage">
@@ -394,25 +396,21 @@
                                 </tr>
                                 <tr>
                                     <td colspan ="2">
-                                        <select name="txtCountry" Style="width:315px" class="style3"/>
-                                <option value="none" selected="selected">--Select 
-                                    Country--</option>
-                                <option value="India">India</option>
-                                <option value="China">China</option>
-                                <option value="United States of America">United States 
-                                    of America</option>
-                                <option value="Korea">Korea</option>
-                                <option value="United Arab Emirates">United Arab 
-                                    Emirates</option>
-                                <option value="United Kingdom">United Kingdom</option>
-                                </select><b>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            Enter captcha characters
-                                </b>
+                                        <c:import url="../xml/country.xml" var="document"/>
+                                <x:parse doc="${document}" var="myXml"></x:parse>
+                                <select id="txtCountry" name="txtCountry" class="style3">
+                                <x:forEach select="$myXml/world/country" var="var">
+                                <option value="<x:out select="@id"></x:out>"> 
+                                <x:out select="@name"></x:out></option>
+                                </x:forEach>
+                                </select>                                   
                                 </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Enter captcha characters
+                                        </b>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">

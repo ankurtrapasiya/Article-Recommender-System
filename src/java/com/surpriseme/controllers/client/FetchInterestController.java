@@ -62,6 +62,7 @@ public class FetchInterestController extends HttpServlet {
             List<Interest> interestlist =  idi.getAll();
             System.out.println("The size of interst list " + interestlist.size());
             request.setAttribute("interests", interestlist);
+            request.setAttribute("userid", request.getParameter("userid"));
             
             RequestDispatcher rd = request.getRequestDispatcher("client/userinterest.jsp");
             rd.forward(request, response);
