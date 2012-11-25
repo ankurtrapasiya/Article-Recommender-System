@@ -67,7 +67,7 @@
                         Tags : 
                         {{#tags}}
 
-                        <a href="#" class="tag-link">{{name}}</a>
+                        <a href="#" class="tag-link">{{name}},</a>
 
                         {{/tags}}
                     </p>

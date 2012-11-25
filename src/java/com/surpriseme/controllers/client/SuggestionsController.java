@@ -7,6 +7,7 @@ package com.surpriseme.controllers.client;
 import com.surpriseme.DAOImpl.ArticleDAOImpl;
 import com.surpriseme.DAOImpl.UserDAOImpl;
 import com.surpriseme.entities.Article;
+import com.surpriseme.entities.User;
 import com.surpriseme.helper.SuggesionsHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -28,7 +30,7 @@ import org.json.simple.JSONObject;
  *
  * @author spruic
  */
-@WebServlet(name = "suggestionsController", urlPatterns = {"/suggestionsController"})
+
 public class SuggestionsController extends HttpServlet {
 
     /**
@@ -123,13 +125,17 @@ public class SuggestionsController extends HttpServlet {
         boolean returl = false;
         System.out.println("Servlet");
         List<SuggesionsHelper> suglist = null;
+        
+        HttpSession session=request.getSession();
 
+        User user=(User) session.getAttribute("user");
+        
         UserDAOImpl userDao = new UserDAOImpl();
         //  userGraph = new UserGraph();
         try {
             suglist = new ArrayList<SuggesionsHelper>();
             // get links of suggested articles
-            suglist = userDao.getUserSuggestions();//get name user who suggested articles and update isviewed
+            suglist = userDao.getUserSuggestions(user.getUserid());//get name user who suggested articles and update isviewed
             // to include in method once a metod is called//   while (rs.next()) {
 
             //              UserGraph usergraph = new UserGraph();
@@ -139,14 +145,16 @@ public class SuggestionsController extends HttpServlet {
             retval = true;
         } catch (SQLException ex) {
 
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
 
         }
         request.setAttribute("status", retval);
 
         request.setAttribute("user", suglist);
+        
+        System.out.println("suglist" + suglist);
 
-        RequestDispatcher rd = request.getRequestDispatcher("client/suggestions.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("suggestions.jsp");
 
         rd.forward(request, response);
 

@@ -54,7 +54,7 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             request.setAttribute("status", retval);
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);
-            RequestDispatcher rd = request.getRequestDispatcher("client/interests.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("interests.jsp");
             // send redirect to interest.jsp page with interestlist
             rd.forward(request, response);
 
@@ -131,7 +131,7 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             // send redirect to interest.jsp page
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);
-            RequestDispatcher rd = request.getRequestDispatcher("client/interests.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("interests.jsp");
             rd.forward(request, response);
         }
 
@@ -169,7 +169,7 @@ public class UserInterestController extends javax.servlet.http.HttpServlet {
             request.setAttribute("status", retval);
             request.setAttribute("interest", interestList);
             request.setAttribute("Ninterests", notInterestList);
-            RequestDispatcher rd = request.getRequestDispatcher("client/interests.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("interests.jsp");
             rd.forward(request, response);
         }
 

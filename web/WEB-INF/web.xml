@@ -16,10 +16,6 @@
         <servlet-class>com.surpriseme.controllers.client.SignUpController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserInterestsControllers</servlet-name>
-        <servlet-class>com.surpriseme.controllers.client.UserInterestsControllers</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Interest</servlet-name>
         <jsp-file>/client/interests.jsp</jsp-file>
     </servlet>
@@ -50,10 +46,6 @@
     <servlet>
         <servlet-name>ArticleController</servlet-name>
         <servlet-class>com.surpriseme.controllers.client.ArticleController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BlockUser</servlet-name>
-        <servlet-class>com.surpriseme.controllers.admin.BlockUnblockUserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NotificationsController</servlet-name>
@@ -136,6 +128,22 @@
         <servlet-class>com.surpriseme.controllers.client.PrintArticle</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SaveTags</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.SaveTags</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FavouritesController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.FavouritesController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationInterestController</servlet-name>
+        <servlet-class>com.surpriseme.controllers.client.RegistrationInterestController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ArticleTag</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.ArticleTag</servlet-class>
     </servlet>
@@ -146,10 +154,6 @@
     <servlet>
         <servlet-name>ManageTags</servlet-name>
         <servlet-class>com.surpriseme.controllers.admin.ManageTags</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveTags</servlet-name>
-        <servlet-class>com.surpriseme.controllers.admin.SaveTags</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SchedularController</servlet-name>
@@ -200,16 +204,12 @@
         <servlet-class>com.surpriseme.controllers.admin.LogoutServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FavouritesController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.client.FavouritesController</servlet-class>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.BlockUnblockUserServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserProfileController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.client.UserProfileController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RegistrationInterestController</servlet-name>
-        <servlet-class>com.surpriseme.controllers.client.RegistrationInterestController</servlet-class>
+        <servlet-name>BlockUser</servlet-name>
+        <servlet-class>com.surpriseme.controllers.admin.BlockUnblockUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ArticleTag</servlet-name>
@@ -230,46 +230,6 @@
     <servlet-mapping>
         <servlet-name>SchedularController</servlet-name>
         <url-pattern>/SchedularController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
-        <url-pattern>/admin/tagAddUpdateDeleteServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InsertImage</servlet-name>
-        <url-pattern>/admin/InsertImage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InsertUpdateTagServlet</servlet-name>
-        <url-pattern>/admin/InsertUpdateTagServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InterestController</servlet-name>
-        <url-pattern>/admin/InterestController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InterestEdit</servlet-name>
-        <url-pattern>/admin/InterestEdit</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InterestInsert</servlet-name>
-        <url-pattern>/admin/InterestInsert</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SourceController</servlet-name>
-        <url-pattern>/admin/SourceController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SourceEdit</servlet-name>
-        <url-pattern>/admin/SourceEdit</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SourceInsert</servlet-name>
-        <url-pattern>/admin/SourceInsert</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/admin/LogoutServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Interest</servlet-name>
@@ -298,14 +258,6 @@
     <servlet-mapping>
         <servlet-name>Notifications</servlet-name>
         <url-pattern>/Notifications</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BlockUser</servlet-name>
-        <url-pattern>/admin/BlockUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NotificationsController</servlet-name>
-        <url-pattern>/NotificationsController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ArticleController</servlet-name>
@@ -348,10 +300,6 @@
         <url-pattern>/client/VerifyEmail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SuggestionsController</servlet-name>
-        <url-pattern>/SuggestionsController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AddToGraphController</servlet-name>
         <url-pattern>/AddToGraphController</url-pattern>
     </servlet-mapping>
@@ -392,10 +340,6 @@
         <url-pattern>/PrintArticle</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AuthenticateUser</servlet-name>
-        <url-pattern>/admin/AuthenticateUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>FavouritesController</servlet-name>
         <url-pattern>/client/FavouritesController</url-pattern>
     </servlet-mapping>
@@ -406,6 +350,66 @@
     <servlet-mapping>
         <servlet-name>RegistrationInterestController</servlet-name>
         <url-pattern>/client/RegistrationInterestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tagAddUpdateDeleteServlet</servlet-name>
+        <url-pattern>/admin/tagAddUpdateDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertImage</servlet-name>
+        <url-pattern>/admin/InsertImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertUpdateTagServlet</servlet-name>
+        <url-pattern>/admin/InsertUpdateTagServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestController</servlet-name>
+        <url-pattern>/admin/InterestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestEdit</servlet-name>
+        <url-pattern>/admin/InterestEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestInsert</servlet-name>
+        <url-pattern>/admin/InterestInsert</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceController</servlet-name>
+        <url-pattern>/admin/SourceController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceEdit</servlet-name>
+        <url-pattern>/admin/SourceEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SourceInsert</servlet-name>
+        <url-pattern>/admin/SourceInsert</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/admin/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthenticateUser</servlet-name>
+        <url-pattern>/admin/AuthenticateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockUnblockUserServlet</servlet-name>
+        <url-pattern>/admin/BlockUnblockUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockUser</servlet-name>
+        <url-pattern>/admin/BlockUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationsController</servlet-name>
+        <url-pattern>/client/NotificationsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SuggestionsController</servlet-name>
+        <url-pattern>/client/SuggestionsController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

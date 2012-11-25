@@ -1,14 +1,10 @@
-<%-- 
-    Document   : ThirdSourceForm
-    Created on : Oct 31, 2012, 12:35:37 PM
-    Author     : Priyank
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8"/>
+        <title>Admin Panel | Dashboard | Surpriseme</title>
+
         <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
 
         <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
@@ -39,17 +35,6 @@
                     $(activeTab).fadeIn(); //Fade in the active ID content
                     return false;
                 });
-
-            });
-        </script>
-        <script type="text/javascript">
-            function IconUpload(){
-                var t = document.getElementById("frm");
-                t.enctype="multipart/form-data";
-                t.action="InsertImage";
-                t.submit();
-            }
-            $(document).ready( function () {
                 //Sidebar clicks
                  $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
@@ -87,7 +72,7 @@
         <section id="secondary_bar">
             <div class="user">
                 <p>${sessionScope.user.firstname}</p>
-                <!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
+                <a class="logout_user" href="#" title="Logout">Logout</a>
             </div>
             <div class="breadcrumbs_container">
                 <article class="breadcrumbs"><a href="index.jsp">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
@@ -125,36 +110,27 @@
                 <p><strong>Copyright &copy; 2012 Website Admin</strong></p>
             </footer>
         </aside><!-- end of sidebar -->
-        <section id="main" class="column" >
-            <article class="module width_full">
-                <header><h3>SOURCES</h3><a href="SecondSourceForm.jsp">     <input type="button" value="Insert" style="float:  right"></header>
-                    </a>
-                    <div class="module_content">
-                        <form action="SourceEdit" method="post" id="frm">
 
+        <section id="main" class="column">
 
-                            Name:           <input type="text" name="txtname" value="<c:out value="${XYZ.name}"/>"><br>
-                            Url:              <input type="text" name="txturl" value="<c:out value="${XYZ.url}"/>"><br>
-                            Feedurl:        <input type="text" name="txtfeedurl" value="<c:out value="${XYZ.feedurl}"/>"><br>
-                            <input type="hidden" value="<c:out value="${XYZ.icon}"/>" name="Icon" /> <br><br>
+            <h4 class="alert_info">Welcome to the SURPRISEME Admin Panel.</h4>
 
-                            IsActive:          
-                            <c:if test="${XYZ.isactive}">
-                                <br><input type="radio" name="rbactive" value="True" checked="true"> True<br>
-                                <input type="radio" name="rbactive" value="False"> False
-                            </c:if>
-                            <c:if test="${XYZ.isactive != true}">
-                                <br> <input type="radio" name="rbactive" value="True"> True<br>
-                                <input type="radio" name="rbactive" value="False" checked="true"> False
-                            </c:if>
-                            <br/>
-                            <input type="hidden" name="sourceid" value="<c:out value="${XYZ.sourceid}"/>">
-                            <input type="submit" value="Submit" name="btnsubmit" >
+            
 
-                        </form>
-                    </div>
-            </article><!-- end of styles article -->
-            <div class="spacer"></div>
+            
+
+            
+
+            
+
+            
+
+            
+            
+            
         </section>
+
+
     </body>
+
 </html>

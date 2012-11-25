@@ -29,17 +29,29 @@
             });       
 
             $("#interest").click(function(){                
-                $.get("interests.jsp",function(data){
+                $.get("UserInterestController",function(data){
                     $("#main").html(data);
                 },"html");
             });
             
             $("#favourite").click(function(){                
                 $.get("favourite.jsp",function(data){
-                    alert("hey");
                     $("#main").html(data);
                 },"html");
             });
+            
+            $("#notification").click(function(){                
+                $.get("NotificationsController",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
+            $("#suggestion").click(function(){                
+                $.get("SuggestionsController",function(data){
+                    $("#main").html(data);
+                },"html");
+            });
+            
             
             $("#history").click(function(){                
                 $.get("UserHistoryDisp",function(data){
@@ -88,8 +100,8 @@
                             </li>-->
                             <!-- -->
 
-                            <li><a href="#" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
-                            <li><a href="NotificationsServlet" class="ico2">Notifications <span class="num">${sessionScope.notifications}</span></a></li>
+                            <li><a href="#tab-1" id="suggestion" class="ico1">Suggestions <span class="num">${sessionScope.suggestions}</span></a></li>
+                            <li><a href="#tab-1" id="notification" class="ico2">Notifications <span class="num">${sessionScope.notifications}</span></a></li>
                             <li><a id="favourite" href="#tab-1" class="ico3">Favorites</a></li>
                             <li><a href="#" class="ico3">Popular</a></li>
                         </ul>

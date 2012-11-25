@@ -560,7 +560,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<SuggesionsHelper> getUserSuggestions() throws SQLException {
+    public List<SuggesionsHelper> getUserSuggestions(Integer userid) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement pstmt = null;
@@ -578,7 +578,7 @@ public class UserDAOImpl implements UserDAO {
                 retval = new ArrayList<User>();
                 sugg = new ArrayList<SuggesionsHelper>();
 
-                query = "SELECT article.articleid, user.username, article.body, article.title, articlelinks.articleurl as url from user inner join usersuggestions on user.userid  = usersuggestions.friendid inner join article on article.articleid  = usersuggestions.articleid inner join articlelinks on articlelinks.articleid  = article.articleid where usersuggestions.isviewed =   0 and usersuggestions.friendid !=1";
+                query = "SELECT article.articleid, user.username, article.body, article.title, articlelinks.articleurl as url from user inner join usersuggestions on user.userid  = usersuggestions.friendid inner join article on article.articleid  = usersuggestions.articleid inner join articlelinks on articlelinks.articleid  = article.articleid where usersuggestions.isviewed =   0 and usersuggestions.friendid !="+userid;
                 pstmt = con.getConnection().prepareStatement(query);
                 rs = con.customQuery(pstmt);
 

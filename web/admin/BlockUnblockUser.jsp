@@ -22,6 +22,8 @@
         <script src="../js/jquery.dataTables.nightly.js" type="text/javascript"></script>
         <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
+        <script src="../js/jquery.tablesorter.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/jquery.equalHeight.js"></script>
         <script type="text/javascript">
             $(document).ready(function() 
             { 
@@ -51,7 +53,8 @@
                     $(activeTab).fadeIn(); //Fade in the active ID content
                     return false;
                 });
-                           $("#edit_article").click(function(){                
+                          //Sidebar clicks
+                 $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
                         $("#main").html(data);
                     });
@@ -79,26 +82,22 @@
 
         <header id="header">
             <hgroup>
-                <h1 class="site_title"><a href="index.html">Surpriseme</a></h1>
+                <h1 class="site_title"><a href="index.jsp">Surpriseme</a></h1>
                 <h2 class="section_title">Dashboard</h2>
             </hgroup>
         </header> <!-- end of header bar -->
 
         <section id="secondary_bar">
             <div class="user">
-                <p>Udit (<a href="#">3 Messages</a>)</p>
+                <p>${sessionScope.user.firstname}</p>
                 <!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
             </div>
             <div class="breadcrumbs_container">
-                <article class="breadcrumbs"><a href="index.html">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
+                <article class="breadcrumbs"><a href="index.jsp">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
             </div>
         </section><!-- end of secondary bar -->
 
         <aside id="sidebar" class="column">
-            <form class="quick_search">
-                <input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
-            </form>
-            <hr/>
             <h3>Users</h3>
             <ul class="toggle">
                 <li class="icn_add_user"><a id="blockuser" href="BlockUser">Block User</a></li>
@@ -121,7 +120,7 @@
                 <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
             </ul>
             <ul>
-                <li class="icn_jump_back"><a href="#">Logout</a></li>
+                <li class="icn_jump_back"><a href="LogoutServlet">Logout</a></li>
             </ul>
 
             <footer>

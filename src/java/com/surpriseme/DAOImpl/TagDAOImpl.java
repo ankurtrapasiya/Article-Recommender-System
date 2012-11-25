@@ -407,7 +407,7 @@ public class TagDAOImpl implements TagDAO {
                 
                 ArticleTagDAO articleTagDao = new ArticleTagDAOImpl();
                 
-                ArticleTag at = new ArticleTag(entities.get(i).getTagid(), entities.get(i).getArticleid(), new Timestamp(new Date().getTime()));
+                ArticleTag at = new ArticleTag(entities.get(i).getArticleid(), entities.get(i).getTagid(), new Timestamp(new Date().getTime()));
                 
                 articleTagDao.saveOrUpdate(at);
                 

@@ -109,10 +109,10 @@
                 
                     var btn=$("#Delete").val(); 
                     var hdn=$("#hdnInterestId").val();
-                    $.post("../UserInterestController",{"btnDelete":btn,"hdnInterestId":hdn},function(data){
+                    $.post("UserInterestController",{"btnDelete":btn,"hdnInterestId":hdn},function(data){
                         /*  respo(data.status);*/
                         alert("Done");
-                        $.get("../UserInterestController",function(data){
+                        $.get("UserInterestController",function(data){
                             $("#main").html(data);
                         },"html");
                     });
@@ -124,9 +124,9 @@
                     
                     var btn=$("#Add").val();  
                     var hdn=$("#hdnInterestId").val();
-                    $.post("../UserInterestController", {"btnAdd":btn,"hdnInterestId":hdn},function(data){
+                    $.post("UserInterestController", {"btnAdd":btn,"hdnInterestId":hdn},function(data){
                         alert("Addition done Successfully");
-                        $.get("../UserInterestController",function(data){
+                        $.get("UserInterestController",function(data){
                             $("#main").html(data);
                         },"html");
                     });

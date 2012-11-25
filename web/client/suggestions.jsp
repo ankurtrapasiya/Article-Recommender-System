@@ -11,13 +11,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Suggestions</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-        <script src="js/jquery-1.8.2.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
+        <script src="../js/jquery-1.8.2.min.js"></script>
+        <script src="../js/jquery-ui.js"></script>
 
 
-        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="../js/handlebars.js"></script>
         
-        <link rel="stylesheet" href="client/css/suggesstion.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/client/suggesstion.css" type="text/css"/>
         <script type="text/javascript">
             $.fx.speeds._default = 1000;
             $(function() {

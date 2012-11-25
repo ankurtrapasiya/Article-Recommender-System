@@ -137,7 +137,6 @@
                     var username = $("#searchuser").val();
   
                     $.trim(username);
-                    alert("uu"+username+"uu");
                     if(username!=""){
                 
                         $.getJSON("../SearchUserController?username="+username, function(dt){
@@ -151,7 +150,6 @@
                         e.preventDefault();
               
                         var add_id=$(this).attr("rel");
-                        alert(add_id);
                         var temp="userid="+add_id;
                         $.post("../AddToGraphController",temp,function(e){
                             alert ("Added to graph");

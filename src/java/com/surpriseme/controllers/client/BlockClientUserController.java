@@ -38,7 +38,7 @@ public class BlockClientUserController extends HttpServlet {
                 try {
                     int userid = Integer.parseInt(request.getParameter("userid"));
 
-                    BlockedUsers bu = new BlockedUsers(userid, blockerid, new Timestamp(new java.util.Date().getTime()), "xyz", false);
+                    BlockedUsers bu = new BlockedUsers(userid, blockerid, new Timestamp(new java.util.Date().getTime()), "Block Request.", true);
 
                     userDao.blockUserRequest(bu);
 

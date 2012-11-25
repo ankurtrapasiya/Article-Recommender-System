@@ -93,7 +93,7 @@ public class NotificationsController extends HttpServlet {
         request.setAttribute("status", retval);
 
         request.setAttribute("user", userlist);
-        RequestDispatcher rd = request.getRequestDispatcher("client/notifications.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("notifications.jsp");
 
         rd.forward(request, response);
 

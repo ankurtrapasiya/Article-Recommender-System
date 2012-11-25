@@ -13,8 +13,6 @@
     </head>
     <body>
 
-        <h1>Hello World!</h1>
-
         <c:if test="${requestScope.status eq 'true'}"> 
 
             <h3>Notifications :</h3>

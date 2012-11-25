@@ -107,7 +107,7 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
 
             if (con.connect()) {
 
-                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_ins_blockedusers(?,?,?,?,?)}");
+                cstmt = (CallableStatement) con.getConnection().prepareCall("{call sp_upd_blockedusers(?,?,?,?,?)}");
 
                 Timestamp stamp = new Timestamp(new Date().getTime());
 
@@ -115,7 +115,7 @@ public class BlockedUserDAOImpl implements BlockedUsersDAO {
                 cstmt.setInt("p_blockerid", blockerid);
                 cstmt.setTimestamp("p_timestamp", new java.sql.Timestamp(stamp.getTime()));
                 cstmt.setString("p_reason", "");
-                cstmt.setBoolean("p_isactive", true);
+                cstmt.setBoolean("p_isactive", false);
 
                 rs = con.saveOrUpdate(cstmt);
 

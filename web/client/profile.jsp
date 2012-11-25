@@ -78,10 +78,9 @@
                     <c:import url="../xml/city.xml" var="document"/>
                     <x:parse doc="${document}" var="myXml"></x:parse>
                     <h3>City</h3>
-                    <select id="city" style=" margin:5px 0 10px 250px;">
-                        <option value="${user.city}">${user.city}</option>
+                    <select id="city" name="city" style=" margin:5px 0 10px 250px;">
                         <x:forEach select="$myXml/state/city" var="var">
-                            <option value="<x:out select="@name"></x:out>"> 
+                            <option value="<x:out select="@id"></x:out>"> 
                             <x:out select="@name"></x:out></option>
                         </x:forEach>
                     </select>
@@ -89,10 +88,9 @@
                     <c:import url="../xml/state.xml" var="document"/>
                     <x:parse doc="${document}" var="myXml"></x:parse>
                     <h3>State</h3>
-                    <select id="state" style=" margin:5px 0 10px 250px;">
-                        <option value="${user.state}">${user.state}</option>
+                    <select id="state" name="state" style=" margin:5px 0 10px 250px;">
                         <x:forEach select="$myXml/country/state" var="var">
-                            <option value="<x:out select="@name"></x:out>"> 
+                            <option value="<x:out select="@id"></x:out>"> 
                             <x:out select="@name"></x:out></option>
                         </x:forEach>
                     </select> 
@@ -100,10 +98,9 @@
                     <c:import url="../xml/country.xml" var="document"/>
                     <x:parse doc="${document}" var="myXml"></x:parse>
                     <h3>Country</h3>
-                    <select id="country" style=" margin:5px 0 10px 250px;">
-                        <option value="${user.country}">${user.country}</option>
+                    <select id="country" name="country" style=" margin:5px 0 10px 250px;">
                         <x:forEach select="$myXml/world/country" var="var">
-                            <option value="<x:out select="@name"></x:out>"> 
+                            <option value="<x:out select="@id"></x:out>"> 
                             <x:out select="@name"></x:out></option>
                         </x:forEach>
                     </select> 

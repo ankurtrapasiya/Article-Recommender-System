@@ -38,21 +38,21 @@ public class AuthenticateUser extends HttpServlet {
             UserDAOImpl userdaoimpl = new UserDAOImpl();
             User user = userdaoimpl.findByUsername(username);
             RoleDAOImpl roledaoimpl = new RoleDAOImpl();
-            
+
             if (user == null) {
                 msg = "Invalid Username or Password.";
             } else {
-                
+
                 if (Utilities.toMD5(password).equals(user.getPassword())) {
                     msg = "Valid User";
-                    System.out.println("here");
-                   // UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
-                     //   if (userrole.getRolename().equals("admin")) {
-                        msg = "ok";
-                        session.setAttribute("user", user);
-                    //} else {
-                      //  msg = "You dont have proper privileges to access this pages.";
-                   // }
+//                    UserRole userrole = roledaoimpl.findUserRoleByUserId(user.getUserid());
+//                    if (userrole.getRolename().equals("Admin")) {
+                    msg = "ok";
+                    session.setAttribute("user", user);
+                    session.setAttribute("isLogged", true);
+//                    } else {
+//                        msg = "You dont have proper privileges to access this pages.";
+//                    }
                 } else {
                     msg = "Invalid Username or Password.";
                 }
@@ -61,7 +61,7 @@ public class AuthenticateUser extends HttpServlet {
             out.print(msg);
             out.close();
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
 
     }

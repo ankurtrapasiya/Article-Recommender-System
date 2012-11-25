@@ -28,5 +28,5 @@ public interface UserDAO extends GenericDAO<User, Integer> {
 
     boolean isUsernameAvailable(String username) throws SQLException;
     
-    List<SuggesionsHelper> getUserSuggestions() throws SQLException;
+    List<SuggesionsHelper> getUserSuggestions(Integer userid) throws SQLException;
 }

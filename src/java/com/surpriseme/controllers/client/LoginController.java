@@ -76,7 +76,7 @@ public class LoginController extends HttpServlet {
                     System.out.println(articleSuggestions);
 
                     Integer notificationCount = graphDao.getSuggestionCount(user.getUserid());
-                    session.setAttribute("notifications", articleSuggestions);
+                    session.setAttribute("notifications", notificationCount);
 
                     System.out.println(notificationCount);
 

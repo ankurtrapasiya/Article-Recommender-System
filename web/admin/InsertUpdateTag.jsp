@@ -76,22 +76,21 @@
          
             //Sidebar clicks
             $(document).ready( function () {
-                $("#edit_article").click(function(){                
+               //Sidebar clicks
+                 $("#edit_article").click(function(){                
                     $.get("editarticle.jsp",function(data){
                         $("#main").html(data);
                     });
                 });
-                $("#manage_crawling").click(function(){                
+                 $("#manage_crawling").click(function(){                
                     $.get("managecrawling.jsp",function(data){
                         $("#main").html(data);
                     });
                 });
-            }); 
-            
                  
                 
 
-        
+            });
         </script>
         <script type="text/javascript">
             $(function(){
@@ -106,29 +105,25 @@
 
         <header id="header">
             <hgroup>
-                <h1 class="site_title"><a href="index.html">Surpriseme</a></h1>
+                <h1 class="site_title"><a href="index.jsp">Surpriseme</a></h1>
                 <h2 class="section_title">Dashboard</h2>
             </hgroup>
         </header> <!-- end of header bar -->
 
         <section id="secondary_bar">
             <div class="user">
-                <p>Udit (<a href="#">3 Messages</a>)</p>
+                <p>${sessionScope.user.firstname}</p>
                 <!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
             </div>
             <div class="breadcrumbs_container">
-                <article class="breadcrumbs"><a href="index.html">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
+                <article class="breadcrumbs"><a href="index.jsp">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
             </div>
         </section><!-- end of secondary bar -->
 
         <aside id="sidebar" class="column">
-            <form class="quick_search">
-                <input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
-            </form>
-            <hr/>
             <h3>Users</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a id="blockuser" href="BlockUnblockUserServlet">Block User</a></li>
+                <li class="icn_add_user"><a id="blockuser" href="BlockUser">Block User</a></li>
             </ul>
             <h3>Article</h3>
             <ul class="toggle">
@@ -142,13 +137,13 @@
             <h3>Sources</h3>
             <ul class="toggle">
                 <li class="icn_folder"><a href="SourceController">Manage Sources</a></li>
-            </ul>
+                </ul>
             <h3>Schedule</h3>
             <ul class="toggle">
                 <li class="icn_settings"><a id="manage_crawling" href="#">Manage Crawling</a></li>
             </ul>
             <ul>
-                <li class="icn_jump_back"><a href="#">Logout</a></li>
+                <li class="icn_jump_back"><a href="LogoutServlet">Logout</a></li>
             </ul>
 
             <footer>

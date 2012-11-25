@@ -13,18 +13,15 @@
 }
 #main #title{
     background: #BBB;
-    width:15%;
+    width:90%;
     float: left;
     padding :5px;
-    word-wrap:break-word;
-}
-#main #body{
-    background:#CCC;
-    width:90%;
     
-    padding :5px;
-    word-wrap:break-word;
 }
+#tab1{
+    overflow: auto;
+}
+
 
 
 
@@ -48,10 +45,11 @@
     font-size: 18px;
     
 }
-#link{
-    margin-top:-2%;
+#main #link{
+    
     margin-right: 15px;
     float:right;
+    width: 10%;
 }
 .hr{
     background: red;
